@@ -18,10 +18,10 @@ export default function MobileMenu({ open, onClose, categories }) {
         open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div
-        className={`absolute top-0 right-0 h-full w-[80%] max-w-sm bg-secondary shadow-xl transition-transform duration-300 overflow-y-auto ${
-          open ? "translate-x-0" : "translate-x-full"
+        className={`absolute top-0 left-0 h-full w-[85%] max-w-[320px] bg-secondary border-r border-border shadow-xl transition-transform duration-300 overflow-y-auto ${
+          open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex justify-end p-4">

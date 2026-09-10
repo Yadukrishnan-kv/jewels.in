@@ -13,6 +13,15 @@ const FAQS = [
   { q: "Are the products tarnish-resistant?", a: "Yes, all our pieces use premium alloy with tarnish-resistant plating for everyday wear." },
 ];
 
+const CARD_ICON =
+  "w-20 h-20 mx-auto mb-6 rounded-full bg-accent/[0.08] text-accent flex items-center justify-center text-[2rem] transition-colors group-hover:bg-accent group-hover:text-white";
+const CARD =
+  "group bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.1)] hover:-translate-y-[5px] transition-all px-5 py-[30px] md:px-[30px] md:py-10 text-center";
+const CARD_LINK =
+  "inline-flex items-center gap-2 text-accent font-semibold text-[0.85rem] border border-accent/20 rounded-full px-5 py-2 hover:bg-accent hover:text-white transition-colors";
+const FORM_FIELD =
+  "w-full border border-border rounded-full px-5 py-[14px] text-[0.9rem] outline-none transition-[border-color,box-shadow] focus:border-accent focus:shadow-[0_0_0_3px_rgba(20,46,37,0.08)]";
+
 export default function ContactUs() {
   const { settings } = useSiteData();
   const { showToast } = useToast();
@@ -43,87 +52,131 @@ export default function ContactUs() {
     setSubmitting(false);
   }
 
+  const mapsLink = settings.address ? `https://maps.google.com/?q=${encodeURIComponent(settings.address)}` : undefined;
+  const mapEmbedSrc =
+    settings.mapEmbedUrl ||
+    `https://maps.google.com/maps?q=${encodeURIComponent(settings.address || "Calicut, Kerala, India")}&output=embed`;
+
   return (
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: "Contact Us" }]} />
-      <div className="max-w-container mx-auto px-4 md:px-8 pb-16">
+      <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
         <div className="text-center mb-10">
-          <h1 className="font-serif text-2xl md:text-3xl mb-2">Get In Touch</h1>
-          <p className="text-primary/60">We&apos;d love to hear from you</p>
+          <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] pb-4 mb-[15px]">
+            Get in Touch
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
+          </h1>
+          <div className="flex justify-center my-5">
+            <i className="fa-solid fa-gem text-accent" />
+          </div>
+          <p className="text-[#888] text-[0.9rem] max-w-[600px] mx-auto">
+            Have questions? We&apos;re here to help. Contact us through any of the channels below or send us a message.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-          <div className="bg-white border border-border rounded-2xl p-6 text-center">
-            <i className="fa-solid fa-location-dot text-2xl text-accent mb-3 block" />
-            <h3 className="font-semibold mb-1">Location</h3>
-            <p className="text-sm text-primary/60">{settings.address || "Calicut, Kerala"}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px] mb-[60px]">
+          <div className={CARD}>
+            <div className={CARD_ICON}>
+              <i className="fa-solid fa-map-marker-alt" />
+            </div>
+            <h3 className="font-serif text-[1.3rem] font-medium mb-[15px]">Our Location</h3>
+            <p className="text-[0.9rem] text-[#777] leading-[1.5] mb-5">{settings.address || "Calicut, Kerala"}</p>
+            {mapsLink && (
+              <a href={mapsLink} target="_blank" rel="noreferrer" className={CARD_LINK}>
+                <i className="fa-solid fa-arrow-up-right-from-square" /> View on Map
+              </a>
+            )}
           </div>
-          <div className="bg-white border border-border rounded-2xl p-6 text-center">
-            <i className="fa-solid fa-phone text-2xl text-accent mb-3 block" />
-            <h3 className="font-semibold mb-1">Call</h3>
-            <p className="text-sm text-primary/60">{settings.contactPhone}</p>
+          <div className={CARD}>
+            <div className={CARD_ICON}>
+              <i className="fa-solid fa-phone-alt" />
+            </div>
+            <h3 className="font-serif text-[1.3rem] font-medium mb-[15px]">Call Us</h3>
+            <p className="text-[0.9rem] text-[#777] leading-[1.5] mb-5">{settings.contactPhone}</p>
+            {settings.contactPhone && (
+              <a href={`tel:${settings.contactPhone}`} className={CARD_LINK}>
+                <i className="fa-solid fa-phone" /> Call Now
+              </a>
+            )}
           </div>
-          <div className="bg-white border border-border rounded-2xl p-6 text-center">
-            <i className="fa-solid fa-envelope text-2xl text-accent mb-3 block" />
-            <h3 className="font-semibold mb-1">Email</h3>
-            <p className="text-sm text-primary/60">{settings.contactEmail}</p>
+          <div className={CARD}>
+            <div className={CARD_ICON}>
+              <i className="fa-solid fa-envelope" />
+            </div>
+            <h3 className="font-serif text-[1.3rem] font-medium mb-[15px]">Email Us</h3>
+            <p className="text-[0.9rem] text-[#777] leading-[1.5] mb-5">{settings.contactEmail}</p>
+            {settings.contactEmail && (
+              <a href={`mailto:${settings.contactEmail}`} className={CARD_LINK}>
+                <i className="fa-solid fa-paper-plane" /> Send Email
+              </a>
+            )}
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-4 mb-16">
-          <input
-            required
-            placeholder="Your Full Name"
-            value={form.name}
-            onChange={(e) => set("name", e.target.value)}
-            className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
-          />
-          <input
-            placeholder="Your Phone Number (optional)"
-            value={form.phone}
-            onChange={(e) => set("phone", e.target.value)}
-            className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
-          />
-          <input
-            type="email"
-            placeholder="Your Email Address (optional)"
-            value={form.email}
-            onChange={(e) => set("email", e.target.value)}
-            className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
-          />
-          <textarea
-            required
-            rows={5}
-            placeholder="Your Message"
-            value={form.message}
-            onChange={(e) => set("message", e.target.value)}
-            className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
-          />
-          <button type="submit" disabled={submitting} className="w-full bg-[#25D366] text-white rounded-full py-3 font-medium flex items-center justify-center gap-2 hover:opacity-90">
-            <i className="fa-brands fa-whatsapp text-lg" /> Send via WhatsApp
-          </button>
-        </form>
+        <div className="bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] max-w-[800px] mx-auto px-5 py-[30px] md:p-[50px] mb-[60px]">
+          <h3 className="relative text-center font-serif text-[1.5rem] font-medium pb-4 mb-10">
+            Send us a Message
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[50px] h-[2px] bg-accent" />
+          </h3>
+          <form onSubmit={handleSubmit} className="space-y-[25px]">
+            <input
+              required
+              placeholder="Your Full Name"
+              value={form.name}
+              onChange={(e) => set("name", e.target.value)}
+              className={FORM_FIELD}
+            />
+            <input
+              placeholder="Your Phone Number (optional)"
+              value={form.phone}
+              onChange={(e) => set("phone", e.target.value)}
+              className={FORM_FIELD}
+            />
+            <input
+              type="email"
+              placeholder="Your Email Address (optional)"
+              value={form.email}
+              onChange={(e) => set("email", e.target.value)}
+              className={FORM_FIELD}
+            />
+            <textarea
+              required
+              rows={5}
+              placeholder="Your Message"
+              value={form.message}
+              onChange={(e) => set("message", e.target.value)}
+              className={`${FORM_FIELD} rounded-3xl resize-y min-h-[140px]`}
+            />
+            <button
+              type="submit"
+              disabled={submitting}
+              className="w-full bg-[#25D366] text-white rounded-full py-[14px] px-[30px] font-semibold text-[1rem] flex items-center justify-center gap-[10px] transition-all hover:bg-[#128C7E] hover:-translate-y-0.5"
+            >
+              <i className="fa-brands fa-whatsapp" /> Send via WhatsApp
+            </button>
+          </form>
+        </div>
 
-        {settings.mapEmbedUrl && (
-          <div className="mb-16 rounded-2xl overflow-hidden aspect-video max-w-3xl mx-auto">
-            <iframe src={settings.mapEmbedUrl} className="w-full h-full border-0" loading="lazy" title="Map" />
-          </div>
-        )}
+        <div className="rounded-3xl overflow-hidden shadow-[0_5px_20px_rgba(0,0,0,0.05)] border border-border mb-[60px] h-[300px] md:h-[400px]">
+          <iframe src={mapEmbedSrc} className="w-full h-full border-0" loading="lazy" title="Map" />
+        </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="mb-10">
           <h2 className="section-title">Frequently Asked Questions</h2>
-          <div className="space-y-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {FAQS.map((f, i) => (
-              <div key={i} className="border border-border rounded-xl overflow-hidden bg-white">
+              <div key={i} className="bg-white border border-border rounded-[20px] shadow-[0_5px_15px_rgba(0,0,0,0.05)] overflow-hidden">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full flex justify-between items-center px-4 py-3 text-left text-sm font-medium"
+                  className={`w-full flex justify-between items-center gap-4 px-6 py-5 text-left text-[0.95rem] font-semibold transition-colors ${
+                    openFaq === i ? "text-accent" : "text-primary"
+                  }`}
                 >
                   {f.q}
-                  <i className={`fa-solid fa-chevron-down text-xs transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
+                  <i className={`fa-solid fa-chevron-down text-xs shrink-0 transition-transform ${openFaq === i ? "rotate-180" : ""}`} />
                 </button>
-                <div className={`overflow-hidden transition-all ${openFaq === i ? "max-h-40" : "max-h-0"}`}>
-                  <p className="px-4 pb-4 text-sm text-primary/60">{f.a}</p>
+                <div className={`overflow-hidden px-6 transition-all ${openFaq === i ? "max-h-40 pb-5" : "max-h-0"}`}>
+                  <p className="text-[0.85rem] text-[#888] leading-[1.6]">{f.a}</p>
                 </div>
               </div>
             ))}

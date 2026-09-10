@@ -27,11 +27,56 @@
     @apply btn border border-primary text-primary hover:bg-primary hover:text-white;
   }
   .pill-button {
-    @apply inline-block bg-white/90 text-primary px-4 py-2 rounded-full text-sm font-medium hover:bg-white transition-colors;
+    @apply inline-block bg-accent text-white px-5 py-2 rounded-full text-[0.8rem] font-medium hover:bg-accent-light transition-colors;
   }
   .section-title {
-    @apply font-serif text-2xl md:text-3xl text-center font-semibold my-10;
+    @apply font-serif text-center font-normal tracking-[3px] relative;
+    font-size: 1.8rem;
+    margin: 60px 0 40px;
+    color: theme("colors.primary");
   }
+  .section-title::after {
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 2px;
+    background: theme("colors.accent");
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.5rem;
+    margin: 40px 0 30px;
+  }
+}
+
+/* Carousel nav arrows — circular buttons matching the site's product gallery */
+.gallery-swiper .swiper-button-next,
+.gallery-swiper .swiper-button-prev,
+.testimonial-swiper .swiper-button-next,
+.testimonial-swiper .swiper-button-prev {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.gallery-swiper .swiper-button-next::after,
+.gallery-swiper .swiper-button-prev::after,
+.testimonial-swiper .swiper-button-next::after,
+.testimonial-swiper .swiper-button-prev::after {
+  font-size: 16px;
+  color: #142e25;
+}
+.testimonial-swiper .swiper-button-next {
+  right: 4px;
+}
+.testimonial-swiper .swiper-button-prev {
+  left: 4px;
 }
 
 /* Swiper pagination brand override */

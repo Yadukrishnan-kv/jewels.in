@@ -24,10 +24,13 @@ export default function CategoryPage() {
   return (
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: category?.name?.toUpperCase() || slug.toUpperCase() }]} />
-      <div className="max-w-container mx-auto px-4 md:px-8 pb-16">
-        <div className="mb-6">
-          <h1 className="font-serif text-2xl md:text-3xl">{category?.name || slug}</h1>
-          {!loading && result && <p className="text-sm text-primary/60 mt-1">{result.total} Products Found</p>}
+      <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
+        <div className="text-center mb-10">
+          <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] uppercase pb-4 mb-[10px]">
+            {category?.name || slug}
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
+          </h1>
+          {!loading && result && <p className="text-[0.9rem] text-[#888]">{result.total} Products Found</p>}
         </div>
         {loading ? (
           <div className="text-center py-16 text-primary/60">Loading products...</div>

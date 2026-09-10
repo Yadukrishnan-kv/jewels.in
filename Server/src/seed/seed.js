@@ -150,7 +150,8 @@ export async function runSeedIfEmpty() {
       const hasDiscount = globalIdx % 5 === 0;
       const discountPrice = hasDiscount ? Math.round(price * 0.8) : 0;
       const stock = 2 + (globalIdx % 15);
-      const images = nextImages(1 + (globalIdx % 3));
+      // The real site always shows a 3-photo gallery per product (main swiper + thumbnail strip).
+      const images = nextImages(3);
 
       const assignedTags = [];
       if (globalIdx % 4 === 0) assignedTags.push(tagByName["For Minimal Girlies"]._id);
@@ -203,7 +204,7 @@ export async function runSeedIfEmpty() {
       name: pick.name,
       slug: slugify(pick.name),
       category: cat._id,
-      images: [`${RAW}/${pick.image}`],
+      images: [`${RAW}/${pick.image}`, ...nextImages(2)],
       specs: ["Premium alloy, tarnish-resistant plating", "Trending pick loved by our community"],
       description: `${pick.name} — one of our most-loved viral styles.`,
       variants: [{ label: "Rs.", price: 299, discountPrice: 0, stock: 12, sku: `HJ-VIRAL-${slugify(pick.name)}` }],

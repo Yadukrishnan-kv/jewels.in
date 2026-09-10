@@ -1,70 +1,83 @@
 import { Link } from "react-router-dom";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 
+const SOCIAL_ICONS = [
+  { key: "instagram", icon: "fa-brands fa-instagram" },
+  { key: "facebook", icon: "fa-brands fa-facebook-f" },
+  { key: "youtube", icon: "fa-brands fa-youtube" },
+];
+
 export default function Footer() {
   const { categories, settings } = useSiteData();
   const featuredCategories = categories.slice(0, 5);
 
   return (
-    <footer className="bg-primary text-white/90 mt-20 pb-24 md:pb-0">
-      <div className="max-w-container mx-auto px-6 md:px-12 py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+    <footer className="bg-accent text-[#e0e0e0] pt-[60px] pb-24 md:pb-[30px] mt-10">
+      <div className="max-w-container mx-auto px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
         <div>
-          <h3 className="font-serif text-2xl mb-2">{settings.siteName || "The Halla"}</h3>
-          <p className="text-sm text-white/60 mb-4">{settings.tagline}</p>
-          <div className="flex gap-4 text-lg">
-            {settings.socialLinks?.instagram && (
-              <a href={settings.socialLinks.instagram} target="_blank" rel="noreferrer" className="hover:text-white">
-                <i className="fa-brands fa-instagram" />
-              </a>
-            )}
-            {settings.socialLinks?.facebook && (
-              <a href={settings.socialLinks.facebook} target="_blank" rel="noreferrer" className="hover:text-white">
-                <i className="fa-brands fa-facebook" />
-              </a>
-            )}
-            {settings.socialLinks?.youtube && (
-              <a href={settings.socialLinks.youtube} target="_blank" rel="noreferrer" className="hover:text-white">
-                <i className="fa-brands fa-youtube" />
-              </a>
+          <Link to="/" className="inline-flex items-center">
+            <span className="font-serif font-semibold text-2xl text-white">{settings.siteName || "The Halla"}</span>
+          </Link>
+          <div className="flex gap-4 mt-5">
+            {SOCIAL_ICONS.map(
+              ({ key, icon }) =>
+                settings.socialLinks?.[key] && (
+                  <a
+                    key={key}
+                    href={settings.socialLinks[key]}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-10 h-10 rounded-full border border-[#2f5a49] text-[#ddddcc] flex items-center justify-center transition-colors hover:border-white hover:text-white"
+                  >
+                    <i className={icon} />
+                  </a>
+                )
             )}
           </div>
         </div>
 
         <div>
-          <h4 className="font-semibold mb-3 text-sm tracking-wide uppercase">Quick Links</h4>
-          <ul className="space-y-2 text-sm text-white/70">
-            <li><Link to="/contactus" className="hover:text-white">Contact Us</Link></li>
-            <li><Link to="/terms" className="hover:text-white">Terms and Condition</Link></li>
-            <li><Link to="/shipping" className="hover:text-white">Shipping Policy</Link></li>
-            <li><Link to="/privacy" className="hover:text-white">Privacy Policy</Link></li>
+          <h4 className="font-serif text-xl text-white tracking-wide mb-6">Quick Links</h4>
+          <ul className="space-y-3">
+            <li>
+              <Link to="/contactus" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
+                Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link to="/terms" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
+                Terms and condition
+              </Link>
+            </li>
+            <li>
+              <Link to="/shipping" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
+                Shipping Policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/privacy" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
+                Privacy Policy
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div>
-          <h4 className="font-semibold mb-3 text-sm tracking-wide uppercase">Collections</h4>
-          <ul className="space-y-2 text-sm text-white/70">
+          <h4 className="font-serif text-xl text-white tracking-wide mb-6">Collections</h4>
+          <ul className="space-y-3">
             {featuredCategories.map((c) => (
               <li key={c._id}>
-                <Link to={`/category/${c.slug}`} className="hover:text-white">
+                <Link to={`/category/${c.slug}`} className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
                   {c.name}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
-
-        <div>
-          <h4 className="font-semibold mb-3 text-sm tracking-wide uppercase">Get in touch</h4>
-          <ul className="space-y-2 text-sm text-white/70">
-            {settings.contactPhone && <li><i className="fa-solid fa-phone mr-2" />{settings.contactPhone}</li>}
-            {settings.contactEmail && <li><i className="fa-solid fa-envelope mr-2" />{settings.contactEmail}</li>}
-            {settings.address && <li className="max-w-xs"><i className="fa-solid fa-location-dot mr-2" />{settings.address}</li>}
-          </ul>
-        </div>
       </div>
 
-      <div className="border-t border-white/10 py-5 text-center text-xs text-white/50">
-        © {new Date().getFullYear() || 2026} {settings.siteName || "Hala Jewels"} · Cloned build for demonstration purposes
+      <div className="text-center pt-10 mt-10 border-t border-[#2f5a49] text-[0.8rem] text-[#b9c7bd]">
+        <p>© {new Date().getFullYear()} {settings.siteName || "Hala Jewels"}</p>
       </div>
     </footer>
   );

@@ -7,84 +7,183 @@ function formatPrice(n) {
   return `₹ ${Number(n).toFixed(2)}`;
 }
 
+const QTY_BTN = "w-8 h-8 rounded-full bg-[#f0ece6] flex items-center justify-center transition-colors hover:bg-accent hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#f0ece6] disabled:hover:text-primary";
+
 export default function CartPage() {
   const { items, updateQty, removeItem, subtotal } = useCart();
 
   return (
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: "Shopping Cart" }]} />
-      <div className="max-w-container mx-auto px-4 md:px-8 pb-16">
-        <h1 className="section-title">Shopping Cart</h1>
+      <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
+        <h1 className="section-title">Your Shopping Cart</h1>
 
         {items.length === 0 ? (
-          <div className="text-center py-16">
-            <i className="fa-solid fa-bag-shopping text-4xl text-primary/30 mb-4 block" />
-            <h3 className="text-lg font-semibold mb-2">Your cart is empty</h3>
-            <p className="text-primary/60 mb-6">Looks like you haven&apos;t added any items to your cart yet.</p>
-            <Link to="/search" className="btn-primary">
+          <div className="text-center bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] py-16 md:py-20 px-5">
+            <i className="fa-solid fa-bag-shopping text-[60px] xs:text-[80px] text-border mb-5 block" />
+            <h3 className="font-serif text-xl xs:text-2xl mb-3">Your cart is empty</h3>
+            <p className="text-[#888] mb-8">Looks like you haven&apos;t added any items to your cart yet.</p>
+            <Link
+              to="/search"
+              className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-8 py-3.5 font-semibold hover:bg-accent-light transition-colors"
+            >
               <i className="fa-solid fa-arrow-right" /> Start Shopping
             </Link>
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="flex-[2] space-y-4">
-              {items.map((item) => (
-                <div key={item.key} className="flex gap-4 border border-border rounded-xl p-4 bg-white">
-                  <Link to={`/product/${item.slug}`} className="w-20 h-20 rounded-lg overflow-hidden bg-secondary shrink-0">
-                    <img src={imageUrl(item.image)} alt={item.name} className="w-full h-full object-cover" />
-                  </Link>
-                  <div className="flex-1 min-w-0">
-                    <Link to={`/product/${item.slug}`} className="font-medium hover:text-accent truncate block">
-                      {item.name}
-                    </Link>
-                    <p className="text-xs text-primary/50">{item.variantLabel}</p>
-                    <p className="text-sm font-semibold mt-1">{formatPrice(item.price)}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <div className="flex items-center border border-border rounded-full overflow-hidden">
-                        <button
-                          onClick={() => updateQty(item.key, item.qty - 1)}
-                          className="w-7 h-7 flex items-center justify-center hover:bg-secondary text-sm"
-                        >
+          <div className="flex flex-col md:flex-row flex-wrap gap-10">
+            <div className="flex-[2] min-w-[300px]">
+              {/* Desktop / tablet: full table, matches the original site */}
+              <div className="hidden md:block bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] overflow-x-auto">
+                <table className="w-full min-w-[600px] border-collapse">
+                  <thead className="bg-accent text-white">
+                    <tr>
+                      <th className="text-left font-semibold text-[0.85rem] tracking-wide px-5 py-[18px]">Product</th>
+                      <th className="text-left font-semibold text-[0.85rem] tracking-wide px-5 py-[18px]">Price</th>
+                      <th className="text-left font-semibold text-[0.85rem] tracking-wide px-5 py-[18px]">Quantity</th>
+                      <th className="text-left font-semibold text-[0.85rem] tracking-wide px-5 py-[18px]">Total</th>
+                      <th className="px-5 py-[18px]" />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((item) => (
+                      <tr key={item.key} className="border-b border-border last:border-0">
+                        <td className="p-5">
+                          <div className="flex items-center gap-5">
+                            <Link
+                              to={`/product/${item.slug}`}
+                              className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden bg-[#f5f2ed] flex items-center justify-center"
+                            >
+                              <img src={imageUrl(item.image)} alt={item.name} className="w-full h-full object-contain" />
+                            </Link>
+                            <div>
+                              <Link to={`/product/${item.slug}`} className="font-semibold text-[1rem] hover:text-accent">
+                                {item.name}
+                              </Link>
+                              <p className="text-[0.75rem] text-[#888]">{item.variantLabel}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-5">
+                          <span className="font-semibold text-accent">{formatPrice(item.price)}</span>
+                        </td>
+                        <td className="p-5">
+                          <div className="inline-flex items-center gap-2">
+                            <button onClick={() => updateQty(item.key, item.qty - 1)} disabled={item.qty <= 1} className={QTY_BTN}>
+                              -
+                            </button>
+                            <input
+                              value={item.qty}
+                              readOnly
+                              className="w-[60px] text-center border border-border rounded-xl py-2 text-[0.9rem] font-medium"
+                            />
+                            <button
+                              onClick={() => updateQty(item.key, item.qty + 1)}
+                              disabled={item.qty >= item.stock}
+                              className={QTY_BTN}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </td>
+                        <td className="p-5 font-semibold">{formatPrice(item.price * item.qty)}</td>
+                        <td className="p-5">
+                          <button
+                            onClick={() => removeItem(item.key)}
+                            aria-label="Remove item"
+                            className="text-[#c00002] text-[1.1rem] transition-transform hover:text-[#ff0000] hover:scale-110"
+                          >
+                            <i className="fa-solid fa-trash" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile: stacked cards — a table can't lay out legibly at phone widths */}
+              <div className="md:hidden space-y-4">
+                {items.map((item) => (
+                  <div key={item.key} className="bg-white rounded-2xl border border-border shadow-[0_5px_20px_rgba(0,0,0,0.05)] p-4">
+                    <div className="flex gap-3">
+                      <Link
+                        to={`/product/${item.slug}`}
+                        className="w-[70px] h-[70px] shrink-0 rounded-2xl overflow-hidden bg-[#f5f2ed] flex items-center justify-center"
+                      >
+                        <img src={imageUrl(item.image)} alt={item.name} className="w-full h-full object-contain" />
+                      </Link>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <Link to={`/product/${item.slug}`} className="font-semibold text-[0.95rem] leading-snug hover:text-accent">
+                            {item.name}
+                          </Link>
+                          <button
+                            onClick={() => removeItem(item.key)}
+                            aria-label="Remove item"
+                            className="shrink-0 text-[#c00002] text-[1rem] transition-transform hover:text-[#ff0000] hover:scale-110"
+                          >
+                            <i className="fa-solid fa-trash" />
+                          </button>
+                        </div>
+                        <p className="text-[0.75rem] text-[#888]">{item.variantLabel}</p>
+                        <span className="font-semibold text-accent text-[0.9rem]">{formatPrice(item.price)}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+                      <div className="inline-flex items-center gap-2">
+                        <button onClick={() => updateQty(item.key, item.qty - 1)} disabled={item.qty <= 1} className={QTY_BTN}>
                           -
                         </button>
-                        <span className="w-8 text-center text-sm">{item.qty}</span>
+                        <input
+                          value={item.qty}
+                          readOnly
+                          className="w-12 text-center border border-border rounded-xl py-1.5 text-[0.9rem] font-medium"
+                        />
                         <button
                           onClick={() => updateQty(item.key, item.qty + 1)}
-                          className="w-7 h-7 flex items-center justify-center hover:bg-secondary text-sm"
+                          disabled={item.qty >= item.stock}
+                          className={QTY_BTN}
                         >
                           +
                         </button>
                       </div>
-                      <button onClick={() => removeItem(item.key)} className="text-xs text-red-600 hover:underline">
-                        <i className="fa-solid fa-trash" /> Remove
-                      </button>
+                      <span className="font-semibold text-[0.95rem]">{formatPrice(item.price * item.qty)}</span>
                     </div>
                   </div>
-                  <div className="text-right font-semibold text-sm shrink-0">{formatPrice(item.price * item.qty)}</div>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <div className="flex justify-between flex-wrap gap-4 mt-8">
+                <Link
+                  to="/search"
+                  className="inline-flex items-center gap-2.5 bg-white text-accent font-semibold rounded-full px-6 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all hover:gap-3.5"
+                >
+                  <i className="fa-solid fa-arrow-left" /> Continue Shopping
+                </Link>
+              </div>
             </div>
 
-            <div className="flex-1">
-              <div className="border border-border rounded-xl p-5 bg-white sticky top-24">
-                <h3 className="font-semibold mb-4">Order Summary</h3>
-                <div className="flex justify-between text-sm py-2">
-                  <span className="text-primary/60">Subtotal</span>
-                  <span>{formatPrice(subtotal)}</span>
+            <div className="flex-1 min-w-[280px]">
+              <div className="bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] p-5 xs:p-[30px] md:sticky md:top-[140px]">
+                <h3 className="font-serif text-[1.3rem] text-center mb-6">Order Summary</h3>
+                <div className="flex justify-between py-[15px] border-b border-border">
+                  <span className="text-[#777]">Subtotal</span>
+                  <span className="font-semibold">{formatPrice(subtotal)}</span>
                 </div>
-                <div className="flex justify-between text-sm py-2 border-b border-border">
-                  <span className="text-primary/60">Shipping</span>
-                  <span className="text-accent">Calculated at checkout</span>
+                <div className="flex justify-between py-[15px] border-b border-border">
+                  <span className="text-[#777]">Shipping</span>
+                  <span className="font-semibold text-accent">Calculated at checkout</span>
                 </div>
-                <div className="flex justify-between py-3 font-semibold text-base">
+                <div className="flex justify-between pt-5 font-bold text-[1.1rem]">
                   <span>Total</span>
-                  <span>{formatPrice(subtotal)}</span>
+                  <span className="text-accent text-[1.3rem]">{formatPrice(subtotal)}</span>
                 </div>
-                <Link to="/checkout" className="btn-primary w-full justify-center mt-2">
+                <Link
+                  to="/checkout"
+                  className="block text-center bg-accent text-white rounded-full py-4 font-semibold mt-[30px] transition-all hover:bg-accent-light hover:-translate-y-0.5"
+                >
                   Proceed to Checkout
-                </Link>
-                <Link to="/search" className="block text-center text-sm text-accent mt-4 hover:underline">
-                  Continue Shopping
                 </Link>
               </div>
             </div>

@@ -38,7 +38,7 @@ export function WishlistProvider({ children }) {
             productId: product._id,
             slug: product.slug,
             name: product.name,
-            image: product.images?.[0] || "",
+            image: product.images?.[0] || product.image || "",
             price: product.minPrice ?? product.price,
           },
         ];
