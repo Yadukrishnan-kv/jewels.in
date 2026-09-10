@@ -4,10 +4,7 @@ import { api, imageUrl } from "../../api/client.js";
 import { useCart } from "../../context/CartContext.jsx";
 import { useWishlist } from "../../context/WishlistContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
-
-function formatPrice(n) {
-  return `₹ ${Number(n).toFixed(2)}`;
-}
+import { formatPrice } from "../../utils/currency.js";
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();
@@ -66,7 +63,7 @@ export default function ProductCard({ product }) {
           src={imageUrl(product.image)}
           alt={product.name}
           loading="lazy"
-          onError={(e) => (e.currentTarget.src = "https://placehold.co/400x400/f5f2ed/1a1a1a?text=The+Halla")}
+          onError={(e) => (e.currentTarget.src = "https://placehold.co/400x400/f5f2ed/1a1a1a?text=No+Image")}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>

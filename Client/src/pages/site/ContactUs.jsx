@@ -20,7 +20,7 @@ const CARD =
 const CARD_LINK =
   "inline-flex items-center gap-2 text-accent font-semibold text-[0.85rem] border border-accent/20 rounded-full px-5 py-2 hover:bg-accent hover:text-white transition-colors";
 const FORM_FIELD =
-  "w-full border border-border rounded-full px-5 py-[14px] text-[0.9rem] outline-none transition-[border-color,box-shadow] focus:border-accent focus:shadow-[0_0_0_3px_rgba(20,46,37,0.08)]";
+  "w-full border border-border px-5 py-[14px] text-[0.9rem] outline-none transition-[border-color,box-shadow] focus:border-accent focus:shadow-[0_0_0_3px_rgba(20,46,37,0.08)]";
 
 export default function ContactUs() {
   const { settings } = useSiteData();
@@ -63,14 +63,15 @@ export default function ContactUs() {
       <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
         <div className="text-center mb-10">
           <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] pb-4 mb-[15px]">
-            Get in Touch
+            {settings.sectionTitles?.contactPageTitle || "Get in Touch"}
             <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
           </h1>
           <div className="flex justify-center my-5">
             <i className="fa-solid fa-gem text-accent" />
           </div>
           <p className="text-[#888] text-[0.9rem] max-w-[600px] mx-auto">
-            Have questions? We&apos;re here to help. Contact us through any of the channels below or send us a message.
+            {settings.sectionTitles?.contactPageSubtitle ||
+              "Have questions? We're here to help. Contact us through any of the channels below or send us a message."}
           </p>
         </div>
 
@@ -124,20 +125,20 @@ export default function ContactUs() {
               placeholder="Your Full Name"
               value={form.name}
               onChange={(e) => set("name", e.target.value)}
-              className={FORM_FIELD}
+              className={`${FORM_FIELD} rounded-full`}
             />
             <input
               placeholder="Your Phone Number (optional)"
               value={form.phone}
               onChange={(e) => set("phone", e.target.value)}
-              className={FORM_FIELD}
+              className={`${FORM_FIELD} rounded-full`}
             />
             <input
               type="email"
               placeholder="Your Email Address (optional)"
               value={form.email}
               onChange={(e) => set("email", e.target.value)}
-              className={FORM_FIELD}
+              className={`${FORM_FIELD} rounded-full`}
             />
             <textarea
               required

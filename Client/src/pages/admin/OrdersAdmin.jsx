@@ -3,12 +3,9 @@ import { adminApi } from "../../api/client.js";
 import { useAdminAuth } from "../../context/AdminAuthContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import Modal from "../../components/admin/Modal.jsx";
+import { formatPrice } from "../../utils/currency.js";
 
 const STATUSES = ["pending", "confirmed", "shipped", "delivered", "cancelled"];
-
-function formatPrice(n) {
-  return `₹ ${Number(n).toFixed(2)}`;
-}
 
 export default function OrdersAdmin() {
   const { token } = useAdminAuth();

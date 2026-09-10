@@ -5,10 +5,8 @@ import { useCart } from "../../context/CartContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import { api, imageUrl } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
-
-function formatPrice(n) {
-  return `₹ ${Number(n).toFixed(2)}`;
-}
+import { formatPrice } from "../../utils/currency.js";
+import { useSiteData } from "../../context/SiteDataContext.jsx";
 
 const INFO_ITEMS = [
   "Move any item to your cart in one click",
@@ -86,6 +84,7 @@ function WishlistCard({ item, onRemove }) {
 
 export default function WishlistPage() {
   const { items, remove } = useWishlist();
+  const { settings } = useSiteData();
 
   return (
     <div>
@@ -93,7 +92,7 @@ export default function WishlistPage() {
       <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
         <div className="text-center mb-10">
           <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] pb-4">
-            My Wishlist
+            {settings.sectionTitles?.wishlistPageTitle || "My Wishlist"}
             <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
           </h1>
         </div>

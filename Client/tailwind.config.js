@@ -7,11 +7,11 @@ export default {
         xs: "480px",
       },
       colors: {
-        primary: "#1a1a1a",
-        secondary: "#efede9",
-        border: "#d9cfbd",
-        accent: "#142e25",
-        "accent-light": "#1f4236",
+        primary: "rgb(var(--color-primary-rgb) / <alpha-value>)",
+        secondary: "rgb(var(--color-secondary-rgb) / <alpha-value>)",
+        border: "rgb(var(--color-border-rgb) / <alpha-value>)",
+        accent: "rgb(var(--color-accent-rgb) / <alpha-value>)",
+        "accent-light": "rgb(var(--color-accent-light-rgb) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],

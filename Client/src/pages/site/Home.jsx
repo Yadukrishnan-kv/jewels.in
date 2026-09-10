@@ -29,6 +29,7 @@ export default function Home() {
     return <div className="py-24 text-center text-primary/60">Loading...</div>;
   }
 
+  const titles = data.settings?.sectionTitles || {};
   const hero = bannersOf(data.banners, "hero")[0];
   const promoLarge = bannersOf(data.banners, "promo-large")[0];
   const promoSmall = bannersOf(data.banners, "promo-small");
@@ -52,7 +53,7 @@ export default function Home() {
       <div className="max-w-container mx-auto px-4 md:px-8">
         <div className="flex items-center gap-4 my-10">
           <div className="flex-1 h-px bg-border" />
-          <h2 className="font-serif text-2xl md:text-3xl text-center">Collections</h2>
+          <h2 className="font-serif text-2xl md:text-3xl text-center">{titles.collectionsTitle || "Collections"}</h2>
           <div className="flex-1 h-px bg-border" />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 xs:[column-gap:16px] xs:[row-gap:24px] md:[column-gap:24px] md:[row-gap:40px]">
@@ -76,7 +77,7 @@ export default function Home() {
       {/* Viral products */}
       {data.viralProducts?.length > 0 && (
         <div className="max-w-container mx-auto px-6 md:px-8 mt-16">
-          <h2 className="font-serif text-xl md:text-2xl mb-4">Virals You searching for</h2>
+          <h2 className="font-serif text-xl md:text-2xl mb-4">{titles.viralsTitle || "Virals You searching for"}</h2>
           <Swiper
             modules={[Autoplay, Pagination]}
             slidesPerView="auto"
@@ -137,7 +138,7 @@ export default function Home() {
       {/* For Minimal Girlies — heading only; the original site's grid here is empty
           (no products tagged) and the two promo boxes follow immediately */}
       <div className="max-w-container mx-auto px-6 md:px-8 mt-16">
-        <h2 className="section-title mb-0">For Minimal Girlies</h2>
+        <h2 className="section-title mb-0">{titles.minimalGirliesTitle || "For Minimal Girlies"}</h2>
       </div>
 
       {/* Mid promo: Elegance / Soft Sensual Stunning */}
@@ -166,7 +167,7 @@ export default function Home() {
       {data.testimonials?.length > 0 && (
         <div className="max-w-container mx-auto px-4 md:px-8 mt-16">
           <div className="bg-secondary rounded-[32px] p-5 md:p-8">
-            <h2 className="section-title">Our DMs Say It All</h2>
+            <h2 className="section-title">{titles.testimonialsTitle || "Our DMs Say It All"}</h2>
             <Swiper
               modules={[Autoplay, Navigation, Pagination]}
               slidesPerView={1}
@@ -208,7 +209,7 @@ export default function Home() {
       {story.length > 0 && (
         <div className="max-w-container mx-auto px-6 md:px-8 mt-10">
           <p className="text-center font-serif italic text-[1.6rem] font-medium text-accent tracking-[-0.5px] mb-5">
-            Slaying in the Style
+            {titles.storyTitle || "Slaying in the Style"}
           </p>
           <div className="flex flex-wrap justify-center gap-5">
             {story.map((s) => (

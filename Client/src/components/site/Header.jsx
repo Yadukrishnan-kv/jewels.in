@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 import { useCart } from "../../context/CartContext.jsx";
 import { useWishlist } from "../../context/WishlistContext.jsx";
+import { imageUrl } from "../../api/client.js";
 import MobileMenu from "./MobileMenu.jsx";
 
 const STATIC_LINKS = [
@@ -13,7 +14,7 @@ const STATIC_LINKS = [
 ];
 
 export default function Header() {
-  const { categories } = useSiteData();
+  const { categories, settings } = useSiteData();
   const { count: cartCount } = useCart();
   const { count: wishCount } = useWishlist();
   const [scrolled, setScrolled] = useState(false);
@@ -43,13 +44,21 @@ export default function Header() {
             {/* brand-logo-wrapper */}
             <div className="flex-1 flex justify-start md:justify-center">
               <Link to="/" className="inline-flex items-center px-2 py-1 rounded-full">
-                <span
-                  className={`font-serif font-semibold tracking-wide transition-all ${
-                    scrolled ? "text-xl" : "text-2xl md:text-3xl"
-                  }`}
-                >
-                  The Halla
-                </span>
+                {settings.logo ? (
+                  <img
+                    src={imageUrl(settings.logo)}
+                    alt={settings.siteName || "Store"}
+                    className={`w-auto object-contain transition-all ${scrolled ? "h-9" : "h-9 md:h-12"}`}
+                  />
+                ) : (
+                  <span
+                    className={`font-serif font-semibold tracking-wide transition-all ${
+                      scrolled ? "text-xl" : "text-2xl md:text-3xl"
+                    }`}
+                  >
+                    {settings.siteName || "Store"}
+                  </span>
+                )}
               </Link>
             </div>
 

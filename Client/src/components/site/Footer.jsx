@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
+import { imageUrl } from "../../api/client.js";
+
+const DEFAULT_SITE_NAME = "Store";
 
 const SOCIAL_ICONS = [
   { key: "instagram", icon: "fa-brands fa-instagram" },
@@ -16,7 +19,15 @@ export default function Footer() {
       <div className="max-w-container mx-auto px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
         <div>
           <Link to="/" className="inline-flex items-center">
-            <span className="font-serif font-semibold text-2xl text-white">{settings.siteName || "The Halla"}</span>
+            {settings.logo ? (
+              <img
+                src={imageUrl(settings.logo)}
+                alt={settings.siteName || DEFAULT_SITE_NAME}
+                className="h-9 w-auto object-contain brightness-0 invert"
+              />
+            ) : (
+              <span className="font-serif font-semibold text-2xl text-white">{settings.siteName || DEFAULT_SITE_NAME}</span>
+            )}
           </Link>
           <div className="flex gap-4 mt-5">
             {SOCIAL_ICONS.map(
@@ -77,7 +88,7 @@ export default function Footer() {
       </div>
 
       <div className="text-center pt-10 mt-10 border-t border-[#2f5a49] text-[0.8rem] text-[#b9c7bd]">
-        <p>© {new Date().getFullYear()} {settings.siteName || "Hala Jewels"}</p>
+        <p>© {new Date().getFullYear()} {settings.siteName || DEFAULT_SITE_NAME}</p>
       </div>
     </footer>
   );

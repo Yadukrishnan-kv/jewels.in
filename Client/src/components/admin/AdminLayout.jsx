@@ -1,5 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAdminAuth } from "../../context/AdminAuthContext.jsx";
+import { useSiteData } from "../../context/SiteDataContext.jsx";
+import { imageUrl } from "../../api/client.js";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: "fa-gauge", end: true },
@@ -15,6 +17,7 @@ const NAV = [
 
 export default function AdminLayout() {
   const { user, logout } = useAdminAuth();
+  const { settings } = useSiteData();
   const navigate = useNavigate();
 
   function handleLogout() {
@@ -26,8 +29,12 @@ export default function AdminLayout() {
     <div className="min-h-screen flex bg-secondary text-primary font-sans">
       <aside className="w-64 bg-primary text-white flex flex-col shrink-0">
         <div className="p-6 border-b border-white/10">
-          <span className="font-serif text-xl">The Halla</span>
-          <p className="text-xs text-white/50">Admin CMS</p>
+          {settings.logo ? (
+            <img src={imageUrl(settings.logo)} alt={settings.siteName || "Store"} className="h-8 w-auto object-contain brightness-0 invert" />
+          ) : (
+            <span className="font-serif text-xl">{settings.siteName || "Store"}</span>
+          )}
+          <p className="text-xs text-white/50 mt-1">Admin CMS</p>
         </div>
         <nav className="flex-1 py-4 overflow-y-auto">
           {NAV.map((item) => (

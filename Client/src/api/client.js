@@ -46,7 +46,7 @@ export const adminApi = {
 };
 
 export function imageUrl(path) {
-  if (!path) return "https://placehold.co/400x400/efede9/1a1a1a?text=The+Halla";
+  if (!path) return "https://placehold.co/400x400/efede9/1a1a1a?text=No+Image";
   if (path.startsWith("http")) return path;
   return path;
 }

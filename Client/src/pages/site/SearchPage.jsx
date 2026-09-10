@@ -3,15 +3,20 @@ import { useSearchParams } from "react-router-dom";
 import { api } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
 import ProductGrid from "../../components/site/ProductGrid.jsx";
+import { getCurrencySymbol } from "../../utils/currency.js";
+import { useSiteData } from "../../context/SiteDataContext.jsx";
 
-const PRICE_BUCKETS = [
-  { key: "0-100", label: "₹ 0 – ₹ 100" },
-  { key: "101-200", label: "₹ 101 – ₹ 200" },
-  { key: "201-300", label: "₹ 201 – ₹ 300" },
-  { key: "301-400", label: "₹ 301 – ₹ 400" },
-  { key: "401-500", label: "₹ 401 – ₹ 500" },
-  { key: "501-max", label: "Above ₹ 500" },
-];
+function buildPriceBuckets() {
+  const c = getCurrencySymbol();
+  return [
+    { key: "0-100", label: `${c} 0 – ${c} 100` },
+    { key: "101-200", label: `${c} 101 – ${c} 200` },
+    { key: "201-300", label: `${c} 201 – ${c} 300` },
+    { key: "301-400", label: `${c} 301 – ${c} 400` },
+    { key: "401-500", label: `${c} 401 – ${c} 500` },
+    { key: "501-max", label: `Above ${c} 500` },
+  ];
+}
 
 const DISCOUNTS = ["50", "30", "20", "10"];
 
@@ -34,6 +39,9 @@ const SORT_OPTIONS = [
 ];
 
 export default function SearchPage() {
+  const { settings } = useSiteData();
+  const titles = settings.sectionTitles || {};
+  const PRICE_BUCKETS = buildPriceBuckets();
   const [params, setParams] = useSearchParams();
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -144,10 +152,12 @@ export default function SearchPage() {
       <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
         <div className="text-center mb-10">
           <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] pb-4 mb-[10px]">
-            Our Collection
+            {titles.searchPageTitle || "Our Collection"}
             <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
           </h1>
-          <p className="text-[#888] text-[0.9rem]">Discover our exquisite collection of handcrafted jewelry</p>
+          <p className="text-[#888] text-[0.9rem]">
+            {titles.searchPageSubtitle || "Discover our exquisite collection of handcrafted jewelry"}
+          </p>
         </div>
 
         {search && (
@@ -179,12 +189,12 @@ export default function SearchPage() {
           </aside>
 
           <section className="bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] overflow-hidden">
-            <div className="flex flex-wrap gap-3 px-6 py-5 border-b border-border">
+            <div className="flex md:flex-wrap gap-3 px-6 py-5 border-b border-border overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide">
               {TAG_DEFS.map((t) => (
                 <button
                   key={t.slug}
                   onClick={() => updateParam("tag", t.slug)}
-                  className={`px-5 py-2 rounded-full text-[0.8rem] font-medium border transition-colors whitespace-nowrap ${
+                  className={`shrink-0 snap-start px-5 py-2 rounded-full text-[0.8rem] font-medium border transition-colors whitespace-nowrap ${
                     tag === t.slug
                       ? "bg-accent text-white border-accent"
                       : "border-border text-primary hover:border-accent hover:text-accent"

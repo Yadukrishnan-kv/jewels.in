@@ -3,6 +3,36 @@ import { adminApi } from "../../api/client.js";
 import { useAdminAuth } from "../../context/AdminAuthContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import ImageUploader from "../../components/admin/ImageUploader.jsx";
+import { applyThemeColors } from "../../utils/theme.js";
+import { setCurrencySymbol } from "../../utils/currency.js";
+
+const THEME_COLOR_FIELDS = [
+  { key: "primary", label: "Primary", hint: "Body text, dark buttons, admin sidebar", defaultHex: "#1a1a1a" },
+  { key: "secondary", label: "Secondary", hint: "Page background", defaultHex: "#efede9" },
+  { key: "accent", label: "Accent", hint: "Buttons, links, prices, highlights", defaultHex: "#142e25" },
+  { key: "accentLight", label: "Accent (hover)", hint: "Hover state for accent buttons/links", defaultHex: "#1f4236" },
+  { key: "border", label: "Border", hint: "Card borders and dividers", defaultHex: "#d9cfbd" },
+];
+
+const HOMEPAGE_TITLE_FIELDS = [
+  { key: "collectionsTitle", label: "Collections grid heading", defaultValue: "Collections" },
+  { key: "viralsTitle", label: "Viral products carousel heading", defaultValue: "Virals You searching for" },
+  { key: "minimalGirliesTitle", label: "Promo section heading", defaultValue: "For Minimal Girlies" },
+  { key: "testimonialsTitle", label: "Testimonials heading", defaultValue: "Our DMs Say It All" },
+  { key: "storyTitle", label: "Photo gallery heading", defaultValue: "Slaying in the Style" },
+];
+
+const PAGE_TITLE_FIELDS = [
+  { key: "searchPageTitle", label: "Shop page title" },
+  { key: "searchPageSubtitle", label: "Shop page subtitle", multiline: true },
+  { key: "contactPageTitle", label: "Contact page title" },
+  { key: "contactPageSubtitle", label: "Contact page subtitle", multiline: true },
+  { key: "trackPageTitle", label: "Track order page title" },
+  { key: "trackPageSubtitle", label: "Track order page subtitle", multiline: true },
+  { key: "cartPageTitle", label: "Cart page title" },
+  { key: "wishlistPageTitle", label: "Wishlist page title" },
+  { key: "relatedProductsTitle", label: 'Product page "related products" heading' },
+];
 
 export default function SettingsAdmin() {
   const { token } = useAdminAuth();
@@ -20,12 +50,20 @@ export default function SettingsAdmin() {
   function setSocial(field, value) {
     setForm((f) => ({ ...f, socialLinks: { ...f.socialLinks, [field]: value } }));
   }
+  function setThemeColor(field, value) {
+    setForm((f) => ({ ...f, themeColors: { ...f.themeColors, [field]: value } }));
+  }
+  function setSectionTitle(field, value) {
+    setForm((f) => ({ ...f, sectionTitles: { ...f.sectionTitles, [field]: value } }));
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setSaving(true);
     try {
       await adminApi.put("/settings", form, token);
+      applyThemeColors(form.themeColors);
+      setCurrencySymbol(form.currencySymbol);
       showToast("Settings saved");
     } catch (err) {
       showToast(err.message, "error");
@@ -46,6 +84,108 @@ export default function SettingsAdmin() {
           <input placeholder="Tagline" value={form.tagline} onChange={(e) => set("tagline", e.target.value)} className="w-full border border-border rounded-lg px-4 py-2.5 text-sm" />
           <ImageUploader value={form.logo} onChange={(url) => set("logo", url)} label="Logo" />
           <ImageUploader value={form.favicon} onChange={(url) => set("favicon", url)} label="Favicon" />
+        </div>
+
+        <div className="bg-white border border-border rounded-2xl p-6 space-y-4">
+          <div>
+            <h3 className="font-semibold">Theme Colors</h3>
+            <p className="text-xs text-primary/50 mt-1">
+              Rebrand the whole storefront and admin panel — no code changes or rebuild needed.
+            </p>
+          </div>
+          {THEME_COLOR_FIELDS.map((f) => {
+            const hex = form.themeColors?.[f.key] || f.defaultHex;
+            return (
+              <div key={f.key} className="flex items-center gap-3">
+                <input
+                  type="color"
+                  value={hex}
+                  onChange={(e) => setThemeColor(f.key, e.target.value)}
+                  className="w-11 h-11 shrink-0 rounded-lg border border-border cursor-pointer p-0.5"
+                  aria-label={f.label}
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium w-28 shrink-0">{f.label}</span>
+                    <input
+                      type="text"
+                      value={hex}
+                      onChange={(e) => setThemeColor(f.key, e.target.value)}
+                      className="flex-1 border border-border rounded-lg px-3 py-1.5 text-sm font-mono"
+                    />
+                  </div>
+                  <p className="text-xs text-primary/50 mt-1">{f.hint}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="bg-white border border-border rounded-2xl p-6 space-y-4">
+          <h3 className="font-semibold">Currency &amp; SEO</h3>
+          <div>
+            <label className="block text-xs text-primary/50 mb-1">Currency symbol (shown before every price)</label>
+            <input
+              placeholder="₹"
+              value={form.currencySymbol || ""}
+              onChange={(e) => set("currencySymbol", e.target.value)}
+              className="w-full border border-border rounded-lg px-4 py-2.5 text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-primary/50 mb-1">Meta description (search engine result snippet)</label>
+            <textarea
+              placeholder="Short description of the store for search engines"
+              rows={2}
+              value={form.metaDescription || ""}
+              onChange={(e) => set("metaDescription", e.target.value)}
+              className="w-full border border-border rounded-lg px-4 py-2.5 text-sm"
+            />
+          </div>
+        </div>
+
+        <div className="bg-white border border-border rounded-2xl p-6 space-y-4">
+          <div>
+            <h3 className="font-semibold">Homepage Section Titles</h3>
+            <p className="text-xs text-primary/50 mt-1">The headings shown above each homepage section.</p>
+          </div>
+          {HOMEPAGE_TITLE_FIELDS.map((f) => (
+            <div key={f.key}>
+              <label className="block text-xs text-primary/50 mb-1">{f.label}</label>
+              <input
+                placeholder={f.defaultValue}
+                value={form.sectionTitles?.[f.key] ?? ""}
+                onChange={(e) => setSectionTitle(f.key, e.target.value)}
+                className="w-full border border-border rounded-lg px-4 py-2.5 text-sm"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-white border border-border rounded-2xl p-6 space-y-4">
+          <div>
+            <h3 className="font-semibold">Page Titles &amp; Headings</h3>
+            <p className="text-xs text-primary/50 mt-1">Titles and subtitles shown on the shop, contact, track, cart, wishlist, and product pages.</p>
+          </div>
+          {PAGE_TITLE_FIELDS.map((f) => (
+            <div key={f.key}>
+              <label className="block text-xs text-primary/50 mb-1">{f.label}</label>
+              {f.multiline ? (
+                <textarea
+                  rows={2}
+                  value={form.sectionTitles?.[f.key] ?? ""}
+                  onChange={(e) => setSectionTitle(f.key, e.target.value)}
+                  className="w-full border border-border rounded-lg px-4 py-2.5 text-sm"
+                />
+              ) : (
+                <input
+                  value={form.sectionTitles?.[f.key] ?? ""}
+                  onChange={(e) => setSectionTitle(f.key, e.target.value)}
+                  className="w-full border border-border rounded-lg px-4 py-2.5 text-sm"
+                />
+              )}
+            </div>
+          ))}
         </div>
 
         <div className="bg-white border border-border rounded-2xl p-6 space-y-4">

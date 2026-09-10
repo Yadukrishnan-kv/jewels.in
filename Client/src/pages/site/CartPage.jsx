@@ -2,21 +2,20 @@ import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
 import { imageUrl } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
-
-function formatPrice(n) {
-  return `₹ ${Number(n).toFixed(2)}`;
-}
+import { formatPrice } from "../../utils/currency.js";
+import { useSiteData } from "../../context/SiteDataContext.jsx";
 
 const QTY_BTN = "w-8 h-8 rounded-full bg-[#f0ece6] flex items-center justify-center transition-colors hover:bg-accent hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#f0ece6] disabled:hover:text-primary";
 
 export default function CartPage() {
   const { items, updateQty, removeItem, subtotal } = useCart();
+  const { settings } = useSiteData();
 
   return (
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: "Shopping Cart" }]} />
       <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
-        <h1 className="section-title">Your Shopping Cart</h1>
+        <h1 className="section-title">{settings.sectionTitles?.cartPageTitle || "Your Shopping Cart"}</h1>
 
         {items.length === 0 ? (
           <div className="text-center bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] py-16 md:py-20 px-5">

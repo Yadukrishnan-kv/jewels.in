@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { api } from "../../api/client.js";
+import { formatPrice } from "../../utils/currency.js";
+import { useSiteData } from "../../context/SiteDataContext.jsx";
 
 const STATUS_STEPS = ["pending", "confirmed", "shipped", "delivered"];
 
-function formatPrice(n) {
-  return `₹ ${Number(n).toFixed(2)}`;
-}
-
 export default function TrackOrder() {
+  const { settings } = useSiteData();
+  const titles = settings.sectionTitles || {};
   const [params] = useSearchParams();
   const [orderNumber, setOrderNumber] = useState(params.get("orderNumber") || "");
   const [phone, setPhone] = useState("");
@@ -39,8 +39,12 @@ export default function TrackOrder() {
         <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-accent flex items-center justify-center">
           <i className="fa-solid fa-truck-fast text-white text-[1.6rem]" />
         </div>
-        <h2 className="font-serif text-[1.3rem] md:text-2xl lg:text-[1.8rem] font-normal mb-3">Track Your Package</h2>
-        <p className="text-[#666] text-[0.9rem] mb-8">Enter your order number and phone number to check your delivery status.</p>
+        <h2 className="font-serif text-[1.3rem] md:text-2xl lg:text-[1.8rem] font-normal mb-3">
+          {titles.trackPageTitle || "Track Your Package"}
+        </h2>
+        <p className="text-[#666] text-[0.9rem] mb-8">
+          {titles.trackPageSubtitle || "Enter your order number and phone number to check your delivery status."}
+        </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 text-left max-w-md mx-auto">
           <div className="flex flex-col gap-2">

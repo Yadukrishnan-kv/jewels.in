@@ -4,10 +4,7 @@ import { useCart } from "../../context/CartContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import { api, imageUrl } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
-
-function formatPrice(n) {
-  return `₹ ${Number(n).toFixed(2)}`;
-}
+import { formatPrice } from "../../utils/currency.js";
 
 const EMPTY_FORM = { name: "", phone: "", email: "", address: "", city: "", state: "", pincode: "" };
 

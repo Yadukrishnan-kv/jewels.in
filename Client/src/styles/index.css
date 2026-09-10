@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Brand theme colors, as "R G B" triplets for Tailwind's rgb(var(...) / <alpha-value>)
+     opacity support. Overridden at runtime from SiteSettings.themeColors — see
+     src/utils/theme.js — so a reseller can rebrand without a rebuild. These defaults
+     match the original site's palette exactly. */
+  --color-primary-rgb: 26 26 26;
+  --color-secondary-rgb: 239 237 233;
+  --color-accent-rgb: 20 46 37;
+  --color-accent-light-rgb: 31 66 54;
+  --color-border-rgb: 217 207 189;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -90,6 +102,14 @@
 .swiper-button-next,
 .swiper-button-prev {
   color: #142e25 !important;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes scrollText {

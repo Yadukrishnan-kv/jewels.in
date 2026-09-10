@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { adminApi } from "../../api/client.js";
 import { useAdminAuth } from "../../context/AdminAuthContext.jsx";
-
-function formatPrice(n) {
-  return `₹ ${Number(n || 0).toFixed(2)}`;
-}
+import { formatPrice } from "../../utils/currency.js";
 
 export default function Dashboard() {
   const { token } = useAdminAuth();

@@ -11,12 +11,11 @@ import { useWishlist } from "../../context/WishlistContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
 import ProductGrid from "../../components/site/ProductGrid.jsx";
-
-function formatPrice(n) {
-  return `₹ ${Number(n).toFixed(2)}`;
-}
+import { formatPrice } from "../../utils/currency.js";
+import { useSiteData } from "../../context/SiteDataContext.jsx";
 
 export default function ProductDetail() {
+  const { settings } = useSiteData();
   const { slug } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState(null);
@@ -100,7 +99,7 @@ export default function ProductDetail() {
                     src={imageUrl(img)}
                     alt={product.name}
                     onClick={() => setZoomIndex(i)}
-                    onError={(e) => (e.currentTarget.src = "https://placehold.co/600x600/f5f2ed/1a1a1a?text=The+Halla")}
+                    onError={(e) => (e.currentTarget.src = "https://placehold.co/600x600/f5f2ed/1a1a1a?text=No+Image")}
                     className="w-full h-full object-contain cursor-zoom-in"
                   />
                 </SwiperSlide>
@@ -273,7 +272,7 @@ export default function ProductDetail() {
 
       {data.related?.length > 0 && (
         <div className="max-w-container mx-auto px-3 md:px-8 pb-16">
-          <h2 className="section-title">YOU MAY ALSO LIKE</h2>
+          <h2 className="section-title">{settings.sectionTitles?.relatedProductsTitle || "YOU MAY ALSO LIKE"}</h2>
           <ProductGrid products={data.related} />
         </div>
       )}
