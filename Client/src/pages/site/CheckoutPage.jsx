@@ -4,9 +4,19 @@ import { useCart } from "../../context/CartContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import { api, imageUrl } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
+import Reveal from "../../components/site/Reveal.jsx";
 import { formatPrice } from "../../utils/currency.js";
 
 const EMPTY_FORM = { name: "", phone: "", email: "", address: "", city: "", state: "", pincode: "" };
+
+function Field({ error, children }) {
+  return (
+    <div>
+      {children}
+      {error && <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1"><i className="fa-solid fa-circle-exclamation" />{error}</p>}
+    </div>
+  );
+}
 
 export default function CheckoutPage() {
   const { items, subtotal, clearCart } = useCart();
@@ -69,9 +79,10 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-container mx-auto px-4 md:px-8 py-24 text-center">
-        <p className="text-primary/60 mb-6">Your cart is empty — add something before checking out.</p>
-        <Link to="/search" className="btn-primary">
+      <div className="max-w-container mx-auto px-4 md:px-8 py-28 text-center">
+        <i className="fa-solid fa-cart-arrow-down text-3xl mb-4 block text-primary/25" />
+        <p className="text-primary/55 mb-6">Your cart is empty — add something before checking out.</p>
+        <Link to="/search" className="btn-accent">
           Start Shopping
         </Link>
       </div>
@@ -84,73 +95,60 @@ export default function CheckoutPage() {
       <div className="max-w-container mx-auto px-4 md:px-8 pb-16">
         <h1 className="section-title">Checkout</h1>
         <div className="flex flex-col lg:flex-row gap-8">
-          <form onSubmit={handleSubmit} className="flex-[2] space-y-4">
-            <h3 className="font-semibold">Delivery Details</h3>
-            <div>
+          <Reveal direction="left" as="form" onSubmit={handleSubmit} className="flex-[2] surface-card p-6 md:p-8 space-y-5">
+            <h3 className="font-serif text-lg font-medium flex items-center gap-2">
+              <i className="fa-solid fa-truck text-accent text-sm" /> Delivery Details
+            </h3>
+            <Field error={errors.name}>
               <input
                 placeholder="Your Full Name"
                 value={form.name}
                 onChange={(e) => set("name", e.target.value)}
-                className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
+                className="w-full field"
               />
-              {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
-            </div>
+            </Field>
             <div className="grid grid-cols-2 gap-4">
-              <div>
+              <Field error={errors.phone}>
                 <input
                   placeholder="Phone Number"
                   value={form.phone}
                   onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
-                  className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
+                  className="field"
                 />
-                {errors.phone && <p className="text-xs text-red-600 mt-1">{errors.phone}</p>}
-              </div>
+              </Field>
               <input
                 placeholder="Email (optional)"
                 type="email"
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
-                className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
+                className="field"
               />
             </div>
-            <div>
+            <Field error={errors.address}>
               <textarea
                 placeholder="Full Address"
                 rows={3}
                 value={form.address}
                 onChange={(e) => set("address", e.target.value)}
-                className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
+                className="field resize-none"
               />
-              {errors.address && <p className="text-xs text-red-600 mt-1">{errors.address}</p>}
-            </div>
+            </Field>
             <div className="grid grid-cols-3 gap-4">
-              <div>
-                <input
-                  placeholder="City"
-                  value={form.city}
-                  onChange={(e) => set("city", e.target.value)}
-                  className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
-                />
-                {errors.city && <p className="text-xs text-red-600 mt-1">{errors.city}</p>}
-              </div>
-              <input
-                placeholder="State"
-                value={form.state}
-                onChange={(e) => set("state", e.target.value)}
-                className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
-              />
-              <div>
+              <Field error={errors.city}>
+                <input placeholder="City" value={form.city} onChange={(e) => set("city", e.target.value)} className="field" />
+              </Field>
+              <input placeholder="State" value={form.state} onChange={(e) => set("state", e.target.value)} className="field" />
+              <Field error={errors.pincode}>
                 <input
                   placeholder="Pincode"
                   value={form.pincode}
                   onChange={(e) => set("pincode", e.target.value.replace(/\D/g, "").slice(0, 6))}
-                  className="w-full border border-border rounded-lg px-4 py-3 text-sm outline-none focus:border-accent"
+                  className="field"
                 />
-                {errors.pincode && <p className="text-xs text-red-600 mt-1">{errors.pincode}</p>}
-              </div>
+              </Field>
             </div>
 
-            <div className="bg-secondary rounded-lg p-4 text-sm text-primary/70 flex gap-3 items-start">
+            <div className="bg-secondary rounded-2xl p-4 text-sm text-primary/70 flex gap-3 items-start">
               <i className="fa-brands fa-whatsapp text-[#25D366] text-lg mt-0.5" />
               <p>
                 We don&apos;t take payment on the website. After you place your order, a WhatsApp chat opens with your
@@ -158,32 +156,38 @@ export default function CheckoutPage() {
               </p>
             </div>
 
-            <button type="submit" disabled={submitting} className="btn-primary w-full justify-center">
-              {submitting ? "Placing order..." : "Place Order via WhatsApp"}
+            <button type="submit" disabled={submitting} className="btn-accent w-full justify-center">
+              {submitting ? (
+                <>
+                  <i className="fa-solid fa-spinner fa-spin" /> Placing order...
+                </>
+              ) : (
+                "Place Order via WhatsApp"
+              )}
             </button>
-          </form>
+          </Reveal>
 
-          <div className="flex-1">
-            <div className="border border-border rounded-xl p-5 bg-white sticky top-24">
-              <h3 className="font-semibold mb-4">Order Summary</h3>
-              <div className="space-y-3 max-h-72 overflow-y-auto">
+          <Reveal direction="right" className="flex-1">
+            <div className="surface-card p-5 md:p-6 sticky top-24">
+              <h3 className="font-serif text-lg font-medium mb-4">Order Summary</h3>
+              <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
                 {items.map((i) => (
                   <div key={i.key} className="flex gap-3 items-center text-sm">
-                    <img src={imageUrl(i.image)} className="w-12 h-12 rounded object-cover bg-secondary" alt="" />
+                    <img src={imageUrl(i.image)} className="w-12 h-12 rounded-xl object-cover bg-secondary" alt="" />
                     <div className="flex-1 min-w-0">
                       <p className="truncate">{i.name}</p>
                       <p className="text-xs text-primary/50">Qty {i.qty}</p>
                     </div>
-                    <span>{formatPrice(i.price * i.qty)}</span>
+                    <span className="font-medium">{formatPrice(i.price * i.qty)}</span>
                   </div>
                 ))}
               </div>
               <div className="flex justify-between py-3 mt-3 border-t border-border font-semibold">
                 <span>Total</span>
-                <span>{formatPrice(subtotal)}</span>
+                <span className="text-accent">{formatPrice(subtotal)}</span>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </div>

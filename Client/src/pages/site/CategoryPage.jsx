@@ -4,6 +4,8 @@ import { api } from "../../api/client.js";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
 import ProductGrid from "../../components/site/ProductGrid.jsx";
+import Reveal from "../../components/site/Reveal.jsx";
+import { ProductGridSkeleton } from "../../components/site/Skeletons.jsx";
 
 export default function CategoryPage() {
   const { slug } = useParams();
@@ -25,15 +27,13 @@ export default function CategoryPage() {
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: category?.name?.toUpperCase() || slug.toUpperCase() }]} />
       <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
-        <div className="text-center mb-10">
-          <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] uppercase pb-4 mb-[10px]">
-            {category?.name || slug}
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
-          </h1>
-          {!loading && result && <p className="text-[0.9rem] text-[#888]">{result.total} Products Found</p>}
-        </div>
+        <Reveal className="text-center mb-10">
+          <span className="eyebrow">Collection</span>
+          <h1 className="section-title mt-2 mb-5 uppercase">{category?.name || slug}</h1>
+          {!loading && result && <p className="text-[0.9rem] text-primary/45">{result.total} Products Found</p>}
+        </Reveal>
         {loading ? (
-          <div className="text-center py-16 text-primary/60">Loading products...</div>
+          <ProductGridSkeleton />
         ) : (
           <ProductGrid
             products={result?.products}

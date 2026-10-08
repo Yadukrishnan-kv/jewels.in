@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function SearchPanel({ open, onClose }) {
   const [query, setQuery] = useState("");
@@ -14,31 +15,40 @@ export default function SearchPanel({ open, onClose }) {
   }
 
   return (
-    <div
-      className={`fixed inset-0 z-[150] transition-opacity ${open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
-      aria-hidden={!open}
-    >
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div
-        className={`absolute top-0 left-0 right-0 bg-white p-6 shadow-xl transition-transform duration-300 ${
-          open ? "translate-y-0" : "-translate-y-full"
-        }`}
-      >
-        <form onSubmit={submit} className="max-w-container mx-auto flex items-center gap-3">
-          <i className="fa-solid fa-magnifying-glass text-lg text-primary/60" />
-          <input
-            autoFocus={open}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
-            placeholder="Search Products"
-            className="flex-1 border-b border-border py-2 text-lg outline-none focus:border-accent bg-transparent"
+    <AnimatePresence>
+      {open && (
+        <div className="fixed inset-0 z-[150]">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-primary/50 backdrop-blur-sm"
+            onClick={onClose}
           />
-          <button type="button" onClick={onClose} className="icon-btn text-xl" aria-label="Close search">
-            <i className="fa-solid fa-xmark" />
-          </button>
-        </form>
-      </div>
-    </div>
+          <motion.div
+            initial={{ y: "-100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "-100%" }}
+            transition={{ type: "spring", stiffness: 320, damping: 32 }}
+            className="absolute top-0 left-0 right-0 bg-white/95 backdrop-blur-xl p-6 shadow-elevated"
+          >
+            <form onSubmit={submit} className="max-w-container mx-auto flex items-center gap-4">
+              <i className="fa-solid fa-magnifying-glass text-lg text-accent" />
+              <input
+                autoFocus={open}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                type="text"
+                placeholder="Search for jewelry..."
+                className="flex-1 border-b-2 border-border py-2.5 text-lg outline-none focus:border-accent bg-transparent transition-colors"
+              />
+              <button type="button" onClick={onClose} className="icon-btn text-xl w-9 h-9" aria-label="Close search">
+                <i className="fa-solid fa-xmark" />
+              </button>
+            </form>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

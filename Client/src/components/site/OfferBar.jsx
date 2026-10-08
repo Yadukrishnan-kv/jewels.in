@@ -5,9 +5,9 @@ export default function OfferBar() {
   if (!settings.offerBarEnabled || !settings.offerBarText) return null;
 
   return (
-    <div className="bg-accent text-white text-center text-[0.75rem] font-medium py-2 px-4 overflow-hidden whitespace-nowrap">
-      <span className="inline-flex items-center gap-[6px]">
-        <i className="fa-regular fa-message text-[0.7rem]" />
+    <div className="relative bg-primary text-white text-center text-[0.72rem] font-medium py-2.5 px-4 overflow-hidden tracking-wide">
+      <span className="relative inline-flex items-center gap-[7px]">
+        <i className="fa-solid fa-sparkles text-[0.68rem] text-accent-light" />
         {settings.offerBarText}
       </span>
     </div>

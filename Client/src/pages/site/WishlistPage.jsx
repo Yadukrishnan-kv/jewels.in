@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useWishlist } from "../../context/WishlistContext.jsx";
 import { useCart } from "../../context/CartContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import { api, imageUrl } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
+import Reveal, { RevealGroup, RevealItem } from "../../components/site/Reveal.jsx";
 import { formatPrice } from "../../utils/currency.js";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 
@@ -40,39 +42,44 @@ function WishlistCard({ item, onRemove }) {
   }
 
   return (
-    <div className="relative bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.1)] hover:-translate-y-[5px] transition-all overflow-hidden">
-      <button
+    <div className="relative surface-card-hover overflow-hidden">
+      <motion.button
         onClick={() => onRemove(item.productId)}
+        whileTap={{ scale: 0.8 }}
         aria-label="Remove from wishlist"
-        className="absolute top-3 right-3 z-10 w-[34px] h-[34px] rounded-full bg-white/95 shadow-[0_2px_6px_rgba(0,0,0,0.1)] flex items-center justify-center text-[#c00002] transition-all hover:bg-[#c00002] hover:text-white hover:scale-110"
+        className="absolute top-3 right-3 z-10 w-[34px] h-[34px] rounded-full bg-white/95 shadow-soft flex items-center justify-center text-[#c00002] transition-all duration-300 hover:bg-[#c00002] hover:text-white hover:scale-110"
       >
         <i className="fa-solid fa-xmark" />
-      </button>
-      <Link to={`/product/${item.slug}`} className="block aspect-square bg-[#f5f2ed] flex items-center justify-center overflow-hidden">
-        <img src={imageUrl(item.image)} alt={item.name} className="w-4/5 h-4/5 object-contain transition-transform duration-300 hover:scale-105" />
+      </motion.button>
+      <Link to={`/product/${item.slug}`} className="block aspect-square bg-[#f5f2ed] overflow-hidden">
+        <img
+          src={imageUrl(item.image)}
+          alt={item.name}
+          className="w-full h-full object-contain p-4 transition-transform duration-500 ease-premium hover:scale-105"
+        />
       </Link>
       <div className="p-[15px] md:p-5">
         <Link
           to={`/product/${item.slug}`}
-          className="block text-[0.8rem] md:text-[0.9rem] font-semibold leading-[1.3] min-h-[2.75em] md:min-h-[2.9em] mb-2 hover:text-accent"
+          className="block text-[0.8rem] md:text-[0.9rem] font-medium leading-[1.3] min-h-[2.75em] md:min-h-[2.9em] mb-2 hover:text-accent transition-colors"
         >
           {item.name}
         </Link>
         <div className="flex items-center gap-2.5 flex-wrap mb-5">
-          <span className="text-[0.9rem] md:text-[1rem] font-bold text-accent">{formatPrice(item.price)}</span>
+          <span className="text-[0.9rem] md:text-[1rem] font-semibold text-accent">{formatPrice(item.price)}</span>
         </div>
         <div className="flex flex-col md:flex-row gap-2">
           <button
             onClick={handleAddToCart}
             disabled={adding}
-            className="flex-1 bg-accent text-white rounded-full py-2 px-3 text-[0.75rem] font-semibold transition-colors hover:bg-accent-light disabled:opacity-60"
+            className="flex-1 bg-accent text-white rounded-full py-2 px-3 text-[0.75rem] font-semibold transition-colors duration-300 hover:bg-accent-light disabled:opacity-60"
           >
             <i className={adding ? "fa-solid fa-spinner fa-spin mr-1.5" : "fa-solid fa-bag-shopping mr-1.5"} />
             Add to Cart
           </button>
           <Link
             to={`/product/${item.slug}`}
-            className="flex-1 text-center border border-border rounded-full py-2 px-3 text-[0.75rem] font-semibold transition-colors hover:border-accent hover:text-accent"
+            className="flex-1 text-center border border-border rounded-full py-2 px-3 text-[0.75rem] font-semibold transition-colors duration-300 hover:border-accent hover:text-accent"
           >
             View Details
           </Link>
@@ -90,55 +97,54 @@ export default function WishlistPage() {
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: "My Wishlist" }]} />
       <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
-        <div className="text-center mb-10">
-          <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] pb-4">
-            {settings.sectionTitles?.wishlistPageTitle || "My Wishlist"}
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
-          </h1>
-        </div>
+        <Reveal className="text-center mb-10">
+          <span className="eyebrow">Saved for later</span>
+          <h1 className="section-title mt-2 mb-0">{settings.sectionTitles?.wishlistPageTitle || "My Wishlist"}</h1>
+        </Reveal>
 
         {items.length === 0 ? (
-          <div className="text-center bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] py-16 md:py-20 px-5">
-            <i className="fa-regular fa-heart text-[60px] xs:text-[80px] text-border mb-5 block" />
+          <Reveal className="text-center surface-card py-16 md:py-20 px-5">
+            <div className="w-20 h-20 xs:w-24 xs:h-24 mx-auto mb-6 rounded-full bg-accent/[0.07] text-accent flex items-center justify-center text-3xl xs:text-4xl">
+              <i className="fa-regular fa-heart" />
+            </div>
             <h3 className="font-serif text-xl xs:text-2xl mb-3">Your wishlist is empty</h3>
-            <p className="text-[#888] mb-8 max-w-md mx-auto">
+            <p className="text-primary/45 mb-8 max-w-md mx-auto">
               You haven&apos;t added any items to your wishlist yet. Start exploring our collection and save your
               favorite items for later!
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <Link
-                to="/search"
-                className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-8 py-3.5 font-semibold hover:bg-accent-light transition-colors"
-              >
+              <Link to="/search" className="btn-accent">
                 <i className="fa-solid fa-bag-shopping" /> Start Shopping
               </Link>
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 border border-border rounded-full px-8 py-3.5 font-semibold hover:border-accent hover:text-accent transition-colors"
-              >
+              <Link to="/" className="btn-soft">
                 <i className="fa-solid fa-house" /> Back to Home
               </Link>
             </div>
-          </div>
+          </Reveal>
         ) : (
           <>
-            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-[30px] mb-10 md:mb-[50px]">
+            <RevealGroup
+              className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-[30px] mb-10 md:mb-[50px]"
+              stagger={0.06}
+            >
               {items.map((item) => (
-                <WishlistCard key={item.productId} item={item} onRemove={remove} />
+                <RevealItem key={item.productId}>
+                  <WishlistCard item={item} onRemove={remove} />
+                </RevealItem>
               ))}
-            </div>
+            </RevealGroup>
 
-            <div className="bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] p-6 md:p-7">
+            <Reveal className="surface-card p-6 md:p-7">
               <h3 className="font-serif text-[1.2rem] pb-3 mb-5 border-b border-border">Good to know</h3>
               <ul className="space-y-3">
                 {INFO_ITEMS.map((text) => (
-                  <li key={text} className="flex gap-2.5 text-[#777] text-[0.85rem]">
-                    <span className="text-accent font-bold shrink-0">✓</span>
+                  <li key={text} className="flex gap-2.5 text-primary/55 text-[0.85rem]">
+                    <i className="fa-solid fa-circle-check text-accent/70 shrink-0 mt-0.5" />
                     {text}
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           </>
         )}
       </div>

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 import { imageUrl } from "../../api/client.js";
+import Reveal from "./Reveal.jsx";
 
 const DEFAULT_SITE_NAME = "Store";
 
@@ -15,9 +16,18 @@ export default function Footer() {
   const featuredCategories = categories.slice(0, 5);
 
   return (
-    <footer className="bg-accent text-[#e0e0e0] pt-[60px] pb-24 md:pb-[30px] mt-10">
-      <div className="max-w-container mx-auto px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-        <div>
+    <footer className="relative bg-accent text-[#dcded9] pt-16 pb-28 md:pb-14 mt-16 overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-white/5 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-white/[0.04] blur-3xl"
+      />
+
+      <Reveal className="max-w-container mx-auto px-6 md:px-8 relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+        <div className="sm:col-span-2 md:col-span-1">
           <Link to="/" className="inline-flex items-center">
             {settings.logo ? (
               <img
@@ -26,10 +36,13 @@ export default function Footer() {
                 className="h-9 w-auto object-contain brightness-0 invert"
               />
             ) : (
-              <span className="font-serif font-semibold text-2xl text-white">{settings.siteName || DEFAULT_SITE_NAME}</span>
+              <span className="font-serif font-medium text-2xl text-white">{settings.siteName || DEFAULT_SITE_NAME}</span>
             )}
           </Link>
-          <div className="flex gap-4 mt-5">
+          <p className="mt-4 text-[0.85rem] leading-relaxed text-[#c7cac3]/90 max-w-xs">
+            {settings.tagline || "Thoughtfully designed pieces for everyday elegance."}
+          </p>
+          <div className="flex gap-3 mt-6">
             {SOCIAL_ICONS.map(
               ({ key, icon }) =>
                 settings.socialLinks?.[key] && (
@@ -38,7 +51,8 @@ export default function Footer() {
                     href={settings.socialLinks[key]}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-10 h-10 rounded-full border border-[#2f5a49] text-[#ddddcc] flex items-center justify-center transition-colors hover:border-white hover:text-white"
+                    aria-label={key}
+                    className="w-10 h-10 rounded-full border border-white/15 text-[#dcded9] flex items-center justify-center transition-all duration-300 ease-premium hover:border-white hover:text-white hover:bg-white/10 hover:-translate-y-0.5"
                   >
                     <i className={icon} />
                   </a>
@@ -48,47 +62,73 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-serif text-xl text-white tracking-wide mb-6">Quick Links</h4>
+          <h4 className="font-serif text-lg text-white tracking-wide mb-5">Quick Links</h4>
           <ul className="space-y-3">
-            <li>
-              <Link to="/contactus" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
-                Contact Us
-              </Link>
-            </li>
-            <li>
-              <Link to="/terms" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
-                Terms and condition
-              </Link>
-            </li>
-            <li>
-              <Link to="/shipping" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
-                Shipping Policy
-              </Link>
-            </li>
-            <li>
-              <Link to="/privacy" className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
-                Privacy Policy
-              </Link>
-            </li>
+            {[
+              { to: "/contactus", label: "Contact Us" },
+              { to: "/terms", label: "Terms and condition" },
+              { to: "/shipping", label: "Shipping Policy" },
+              { to: "/privacy", label: "Privacy Policy" },
+            ].map((l) => (
+              <li key={l.to}>
+                <Link
+                  to={l.to}
+                  className="text-[0.88rem] text-[#c7cac3] transition-all duration-200 hover:text-white hover:pl-1"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="font-serif text-xl text-white tracking-wide mb-6">Collections</h4>
+          <h4 className="font-serif text-lg text-white tracking-wide mb-5">Collections</h4>
           <ul className="space-y-3">
             {featuredCategories.map((c) => (
               <li key={c._id}>
-                <Link to={`/category/${c.slug}`} className="text-[0.9rem] text-[#c6c6b5] transition-colors hover:text-white">
+                <Link
+                  to={`/category/${c.slug}`}
+                  className="text-[0.88rem] text-[#c7cac3] transition-all duration-200 hover:text-white hover:pl-1"
+                >
                   {c.name}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
-      </div>
 
-      <div className="text-center pt-10 mt-10 border-t border-[#2f5a49] text-[0.8rem] text-[#b9c7bd]">
-        <p>© {new Date().getFullYear()} {settings.siteName || DEFAULT_SITE_NAME}</p>
+        <div>
+          <h4 className="font-serif text-lg text-white tracking-wide mb-5">Get in Touch</h4>
+          <ul className="space-y-3 text-[0.88rem] text-[#c7cac3]">
+            {settings.contactPhone && (
+              <li className="flex items-start gap-2.5">
+                <i className="fa-solid fa-phone mt-1 text-[0.75rem] text-white/70" />
+                <a href={`tel:${settings.contactPhone}`} className="hover:text-white transition-colors">
+                  {settings.contactPhone}
+                </a>
+              </li>
+            )}
+            {settings.contactEmail && (
+              <li className="flex items-start gap-2.5">
+                <i className="fa-solid fa-envelope mt-1 text-[0.75rem] text-white/70" />
+                <a href={`mailto:${settings.contactEmail}`} className="hover:text-white transition-colors break-all">
+                  {settings.contactEmail}
+                </a>
+              </li>
+            )}
+            {settings.address && (
+              <li className="flex items-start gap-2.5">
+                <i className="fa-solid fa-location-dot mt-1 text-[0.75rem] text-white/70" />
+                <span>{settings.address}</span>
+              </li>
+            )}
+          </ul>
+        </div>
+      </Reveal>
+
+      <div className="max-w-container mx-auto px-6 md:px-8 text-center pt-10 mt-10 border-t border-white/10 text-[0.8rem] text-[#aab2a5] relative">
+        <p>© {new Date().getFullYear()} {settings.siteName || DEFAULT_SITE_NAME} · All rights reserved</p>
       </div>
     </footer>
   );

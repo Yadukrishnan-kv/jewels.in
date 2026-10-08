@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs } from "swiper/modules";
+import { AnimatePresence, motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
@@ -11,6 +12,8 @@ import { useWishlist } from "../../context/WishlistContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
 import ProductGrid from "../../components/site/ProductGrid.jsx";
+import Reveal from "../../components/site/Reveal.jsx";
+import { PageSpinner } from "../../components/site/Skeletons.jsx";
 import { formatPrice } from "../../utils/currency.js";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 
@@ -47,10 +50,15 @@ export default function ProductDetail() {
   }, [variant]);
 
   if (data === false) {
-    return <div className="py-24 text-center text-primary/60">Product not found.</div>;
+    return (
+      <div className="py-28 text-center text-primary/60">
+        <i className="fa-regular fa-face-dizzy text-3xl mb-4 block text-primary/30" />
+        Product not found.
+      </div>
+    );
   }
   if (!data) {
-    return <div className="py-24 text-center text-primary/60">Loading...</div>;
+    return <PageSpinner label="Fetching product details..." />;
   }
 
   function handleAddToCart(andBuyNow) {
@@ -84,14 +92,14 @@ export default function ProductDetail() {
         ]}
       />
       <div className="max-w-container mx-auto px-3 md:px-8 pb-16">
-        <div className="flex flex-col md:flex-row gap-4 md:gap-12 bg-transparent md:bg-white rounded-none md:rounded-3xl py-3 px-0 md:p-10 shadow-none md:shadow-[0_10px_30px_rgba(0,0,0,0.05)] mb-6 md:mb-[60px]">
+        <Reveal className="flex flex-col md:flex-row gap-4 md:gap-12 bg-transparent md:bg-white rounded-none md:rounded-[32px] py-3 px-0 md:p-10 shadow-none md:shadow-card mb-6 md:mb-[60px]">
           {/* Gallery */}
           <div className="flex-1 md:min-w-[300px]">
             <Swiper
               modules={[Navigation, Thumbs]}
               navigation
               thumbs={{ swiper: thumbsSwiper }}
-              className="gallery-swiper rounded-none md:rounded-[20px] overflow-hidden bg-[#f5f2ed] aspect-square mb-4"
+              className="gallery-swiper rounded-none md:rounded-[24px] overflow-hidden bg-[#f5f2ed] aspect-square mb-4"
             >
               {(product.images?.length ? product.images : [""]).map((img, i) => (
                 <SwiperSlide key={i} className="!flex items-center justify-center bg-[#f5f2ed]">
@@ -117,7 +125,7 @@ export default function ProductDetail() {
                 {product.images.map((img, i) => (
                   <SwiperSlide
                     key={i}
-                    className="!w-[60px] !h-[60px] md:!w-20 md:!h-20 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent opacity-50 [&.swiper-slide-thumb-active]:opacity-100 [&.swiper-slide-thumb-active]:border-accent transition-all"
+                    className="!w-[60px] !h-[60px] md:!w-20 md:!h-20 rounded-xl overflow-hidden cursor-pointer border-2 border-transparent opacity-50 transition-all duration-300 [&.swiper-slide-thumb-active]:opacity-100 [&.swiper-slide-thumb-active]:border-accent"
                   >
                     <img src={imageUrl(img)} alt="" className="w-full h-full object-cover" />
                   </SwiperSlide>
@@ -136,7 +144,7 @@ export default function ProductDetail() {
                     ? navigator.share({ title: product.name, url: window.location.href })
                     : navigator.clipboard.writeText(window.location.href).then(() => showToast("Link copied!"))
                 }
-                className="w-[38px] h-[38px] shrink-0 rounded-full bg-[#f1f1f1] flex items-center justify-center hover:bg-[#e0e0e0] transition-colors"
+                className="w-[38px] h-[38px] shrink-0 rounded-full bg-secondary flex items-center justify-center transition-all duration-300 hover:bg-accent hover:text-white"
                 aria-label="Share"
               >
                 <i className="fa-solid fa-share-nodes text-sm" />
@@ -145,12 +153,12 @@ export default function ProductDetail() {
 
             {stockState && (
               <div
-                className={`inline-block mt-4 mb-5 px-3 py-[5px] rounded-full text-[0.75rem] font-semibold ${
+                className={`inline-block mt-4 mb-5 px-3.5 py-[6px] rounded-full text-[0.75rem] font-semibold ${
                   stockState === "out"
-                    ? "bg-[#fee2e2] text-[#991b1b]"
+                    ? "bg-red-50 text-red-700"
                     : stockState === "low"
-                    ? "bg-[#fed7aa] text-[#92400e]"
-                    : "bg-[#d1fae5] text-[#065f46]"
+                    ? "bg-amber-50 text-amber-700"
+                    : "bg-emerald-50 text-emerald-700"
                 }`}
               >
                 <i className="fa-solid fa-circle-exclamation mr-1.5" />
@@ -160,14 +168,14 @@ export default function ProductDetail() {
 
             {product.variants?.length > 1 && (
               <div className="mb-6">
-                <label className="block mb-[10px] font-medium text-[0.9rem] text-[#555]">Select Variant:</label>
+                <label className="block mb-[10px] font-medium text-[0.9rem] text-primary/65">Select Variant:</label>
                 <select
                   value={variantIdx}
                   onChange={(e) => {
                     setVariantIdx(Number(e.target.value));
                     setQty(1);
                   }}
-                  className="block w-full md:max-w-[300px] min-h-[52px] px-[18px] py-[13px] border border-border rounded-[14px] bg-white text-[#222] outline-none focus:border-accent focus:shadow-[0_0_0_3px_rgba(20,46,37,0.15)]"
+                  className="field md:max-w-[300px] min-h-[52px] rounded-[14px]"
                 >
                   {product.variants.map((v, i) => (
                     <option key={v._id} value={i}>
@@ -182,8 +190,8 @@ export default function ProductDetail() {
               <span className="font-serif text-[1.8rem] md:text-[2rem] font-bold text-accent">{formatPrice(price)}</span>
               {hasDiscount && (
                 <>
-                  <span className="text-[1rem] text-[#999] line-through">{formatPrice(variant.price)}</span>
-                  <span className="text-[0.75rem] font-semibold bg-[#e8e0d4] text-accent px-3 py-1 rounded-full">
+                  <span className="text-[1rem] text-primary/35 line-through">{formatPrice(variant.price)}</span>
+                  <span className="text-[0.75rem] font-semibold bg-accent/10 text-accent px-3 py-1 rounded-full">
                     Save {formatPrice(variant.price - variant.discountPrice)}
                   </span>
                 </>
@@ -193,11 +201,11 @@ export default function ProductDetail() {
             {stockState !== "out" && (
               <>
                 <div className="mb-6">
-                  <label className="block mb-[10px] font-medium text-[0.9rem] text-[#555]">Quantity:</label>
+                  <label className="block mb-[10px] font-medium text-[0.9rem] text-primary/65">Quantity:</label>
                   <div className="inline-flex items-center border border-border rounded-full bg-white">
                     <button
                       onClick={() => setQty((q) => Math.max(1, q - 1))}
-                      className="w-11 h-11 flex items-center justify-center text-lg hover:text-accent"
+                      className="w-11 h-11 flex items-center justify-center text-lg hover:text-accent transition-colors"
                     >
                       -
                     </button>
@@ -207,7 +215,7 @@ export default function ProductDetail() {
                         if (qty < variant.stock) setQty((q) => q + 1);
                         else showToast(`Only ${variant.stock} units available in stock!`, "warning");
                       }}
-                      className="w-11 h-11 flex items-center justify-center text-lg hover:text-accent"
+                      className="w-11 h-11 flex items-center justify-center text-lg hover:text-accent transition-colors"
                     >
                       +
                     </button>
@@ -218,15 +226,12 @@ export default function ProductDetail() {
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-4">
-                  <button
-                    onClick={() => handleAddToCart(false)}
-                    className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-[0.9rem] bg-accent text-white hover:bg-accent-light hover:-translate-y-0.5 transition-all"
-                  >
+                  <button onClick={() => handleAddToCart(false)} className="flex-1 btn-accent">
                     ADD TO CART
                   </button>
                   <button
                     onClick={() => handleAddToCart(true)}
-                    className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-[0.9rem] bg-primary text-white hover:bg-black hover:-translate-y-0.5 transition-all"
+                    className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-[0.9rem] bg-primary text-white transition-all duration-300 ease-premium hover:bg-black hover:-translate-y-0.5 hover:shadow-card"
                   >
                     BUY IT NOW
                   </button>
@@ -250,23 +255,26 @@ export default function ProductDetail() {
               href={`https://wa.me/?text=${encodeURIComponent(`Hi, I'm interested in ${product.name} (${window.location.href})`)}`}
               target="_blank"
               rel="noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-[0.9rem] bg-[#25D366] text-white hover:bg-[#128C7E] hover:-translate-y-0.5 transition-all"
+              className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-7 rounded-full font-semibold text-[0.9rem] bg-[#25D366] text-white transition-all duration-300 ease-premium hover:bg-[#128C7E] hover:-translate-y-0.5 hover:shadow-card"
             >
               <i className="fa-brands fa-whatsapp text-lg" /> CHAT WITH US
             </a>
           </div>
-        </div>
+        </Reveal>
 
         {(product.specs?.length > 0 || product.description) && (
-          <div className="bg-white rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] p-6 md:p-10 mb-[60px]">
+          <Reveal className="surface-card p-6 md:p-10 mb-[60px]">
             <h2 className="font-serif text-[22px] font-semibold tracking-[-0.5px] mb-4">Product Details</h2>
-            <div className="text-[0.95rem] leading-[1.7] text-[#444] space-y-4">
+            <div className="text-[0.95rem] leading-[1.7] text-primary/70 space-y-4">
               {product.specs.map((s, i) => (
-                <p key={i}>• {s}</p>
+                <p key={i} className="flex gap-2">
+                  <i className="fa-solid fa-circle-check text-accent/70 text-xs mt-1.5 shrink-0" />
+                  {s}
+                </p>
               ))}
               {product.description && <p>{product.description}</p>}
             </div>
-          </div>
+          </Reveal>
         )}
       </div>
 
@@ -277,22 +285,30 @@ export default function ProductDetail() {
         </div>
       )}
 
-      {zoomIndex !== null && (
-        <div
-          className="fixed inset-0 z-[300] bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setZoomIndex(null)}
-        >
-          <button className="absolute top-4 right-4 text-white text-3xl" onClick={() => setZoomIndex(null)}>
-            <i className="fa-solid fa-xmark" />
-          </button>
-          <img
-            src={imageUrl(product.images[zoomIndex])}
-            alt={product.name}
-            className="max-h-[90vh] max-w-full object-contain"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      )}
+      <AnimatePresence>
+        {zoomIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[300] bg-black/92 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setZoomIndex(null)}
+          >
+            <button className="absolute top-4 right-4 text-white text-3xl" onClick={() => setZoomIndex(null)}>
+              <i className="fa-solid fa-xmark" />
+            </button>
+            <motion.img
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              src={imageUrl(product.images[zoomIndex])}
+              alt={product.name}
+              className="max-h-[90vh] max-w-full object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

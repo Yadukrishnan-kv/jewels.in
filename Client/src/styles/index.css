@@ -25,7 +25,27 @@
   }
 }
 
+/* Storefront-only refinements — scoped so the admin panel's typography/scroll
+   behavior is unaffected by the public-site redesign. SiteLayout's root div
+   carries this class; AdminLayout does not. */
+.site-shell {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.site-shell ::selection {
+  background: rgb(var(--color-accent-rgb) / 0.18);
+}
+html:has(.site-shell) {
+  scroll-behavior: smooth;
+}
+
 @layer components {
+  /* ---------- Buttons ----------
+     NOTE: .icon-btn / .btn / .btn-primary / .btn-outline are shared with the admin
+     panel (Client/src/pages/admin, components/admin) and are kept byte-for-byte
+     identical to their original definitions so the admin UI is unaffected by the
+     storefront redesign. New premium variants below use distinct class names. */
   .icon-btn {
     @apply inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-primary transition-colors hover:text-accent relative;
   }
@@ -38,31 +58,76 @@
   .btn-outline {
     @apply btn border border-primary text-primary hover:bg-primary hover:text-white;
   }
+
+  /* ---------- Storefront-only premium button variants ---------- */
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 ease-premium active:scale-[0.97] disabled:opacity-60 disabled:pointer-events-none bg-accent text-white shadow-soft hover:bg-accent-light hover:shadow-glow hover:-translate-y-0.5;
+  }
+  .btn-soft {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 ease-premium active:scale-[0.97] disabled:opacity-60 disabled:pointer-events-none border border-primary/15 text-primary bg-white hover:border-accent hover:text-accent hover:-translate-y-0.5 hover:shadow-soft;
+  }
   .pill-button {
-    @apply inline-block bg-accent text-white px-5 py-2 rounded-full text-[0.8rem] font-medium hover:bg-accent-light transition-colors;
+    @apply inline-flex items-center gap-2 bg-accent text-white px-5 py-2.5 rounded-full text-[0.8rem] font-semibold tracking-wide hover:bg-accent-light transition-all duration-300 ease-premium hover:-translate-y-0.5 hover:shadow-soft;
+  }
+
+  /* ---------- Surfaces ---------- */
+  .surface-card {
+    @apply bg-white border border-border/70 rounded-[28px] shadow-card;
+  }
+  .surface-card-hover {
+    @apply surface-card transition-all duration-500 ease-premium hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  /* ---------- Inputs ---------- */
+  .field {
+    @apply w-full bg-white border border-border rounded-2xl px-5 py-3.5 text-[0.9rem] text-primary outline-none transition-all duration-300 ease-premium placeholder:text-primary/35 focus:border-accent focus:shadow-[0_0_0_4px_rgb(var(--color-accent-rgb)/0.1)];
+  }
+  .field-pill {
+    @apply field rounded-full;
+  }
+
+  /* ---------- Section heading system ---------- */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[0.7rem] font-semibold tracking-wider2 uppercase text-accent;
   }
   .section-title {
-    @apply font-serif text-center font-normal tracking-[3px] relative;
-    font-size: 1.8rem;
-    margin: 60px 0 40px;
-    color: theme("colors.primary");
+    @apply font-serif text-center font-normal relative text-primary;
+    font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.6rem);
+    letter-spacing: 0.01em;
+    margin: 0 0 44px;
   }
   .section-title::after {
     content: "";
     position: absolute;
-    width: 60px;
+    width: 56px;
     height: 2px;
-    background: theme("colors.accent");
-    bottom: -15px;
+    background: rgb(var(--color-accent-rgb));
+    bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
+    opacity: 0.6;
+  }
+  .section-subtitle {
+    @apply text-[0.95rem] text-primary/55 max-w-xl mx-auto -mt-8 mb-10 text-center;
+  }
+
+  /* ---------- Skeleton shimmer ---------- */
+  .skeleton {
+    @apply relative overflow-hidden bg-primary/[0.06] rounded-2xl;
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    animation: shimmer 1.6s infinite;
   }
 }
 
 @media (max-width: 768px) {
   .section-title {
-    font-size: 1.5rem;
-    margin: 40px 0 30px;
+    margin-bottom: 32px;
   }
 }
 
@@ -71,18 +136,27 @@
 .gallery-swiper .swiper-button-prev,
 .testimonial-swiper .swiper-button-next,
 .testimonial-swiper .swiper-button-prev {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.9);
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+}
+.gallery-swiper .swiper-button-next:hover,
+.gallery-swiper .swiper-button-prev:hover,
+.testimonial-swiper .swiper-button-next:hover,
+.testimonial-swiper .swiper-button-prev:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
 }
 .gallery-swiper .swiper-button-next::after,
 .gallery-swiper .swiper-button-prev::after,
 .testimonial-swiper .swiper-button-next::after,
 .testimonial-swiper .swiper-button-prev::after {
-  font-size: 16px;
-  color: #142e25;
+  font-size: 15px;
+  color: rgb(var(--color-accent-rgb));
 }
 .testimonial-swiper .swiper-button-next {
   right: 4px;
@@ -93,15 +167,19 @@
 
 /* Swiper pagination brand override */
 .swiper-pagination-bullet {
-  background: #ccc;
-  opacity: 1;
+  background: rgb(var(--color-primary-rgb));
+  opacity: 0.25;
+  transition: all 0.3s ease;
 }
 .swiper-pagination-bullet-active {
-  background: #1a1a1a;
+  background: rgb(var(--color-accent-rgb));
+  opacity: 1;
+  width: 20px;
+  border-radius: 999px;
 }
 .swiper-button-next,
 .swiper-button-prev {
-  color: #142e25 !important;
+  color: rgb(var(--color-accent-rgb)) !important;
 }
 
 .scrollbar-hide {
@@ -115,4 +193,9 @@
 @keyframes scrollText {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }

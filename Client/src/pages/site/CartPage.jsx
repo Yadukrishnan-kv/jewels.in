@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
 import { imageUrl } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
+import Reveal from "../../components/site/Reveal.jsx";
 import { formatPrice } from "../../utils/currency.js";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 
-const QTY_BTN = "w-8 h-8 rounded-full bg-[#f0ece6] flex items-center justify-center transition-colors hover:bg-accent hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#f0ece6] disabled:hover:text-primary";
+const QTY_BTN =
+  "w-8 h-8 rounded-full bg-secondary flex items-center justify-center transition-colors duration-300 hover:bg-accent hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-secondary disabled:hover:text-primary";
 
 export default function CartPage() {
   const { items, updateQty, removeItem, subtotal } = useCart();
@@ -18,22 +20,21 @@ export default function CartPage() {
         <h1 className="section-title">{settings.sectionTitles?.cartPageTitle || "Your Shopping Cart"}</h1>
 
         {items.length === 0 ? (
-          <div className="text-center bg-white border border-border rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] py-16 md:py-20 px-5">
-            <i className="fa-solid fa-bag-shopping text-[60px] xs:text-[80px] text-border mb-5 block" />
+          <Reveal className="text-center surface-card py-16 md:py-20 px-5">
+            <div className="w-20 h-20 xs:w-24 xs:h-24 mx-auto mb-6 rounded-full bg-accent/[0.07] text-accent flex items-center justify-center text-3xl xs:text-4xl">
+              <i className="fa-solid fa-bag-shopping" />
+            </div>
             <h3 className="font-serif text-xl xs:text-2xl mb-3">Your cart is empty</h3>
-            <p className="text-[#888] mb-8">Looks like you haven&apos;t added any items to your cart yet.</p>
-            <Link
-              to="/search"
-              className="inline-flex items-center gap-2 bg-accent text-white rounded-full px-8 py-3.5 font-semibold hover:bg-accent-light transition-colors"
-            >
+            <p className="text-primary/45 mb-8">Looks like you haven&apos;t added any items to your cart yet.</p>
+            <Link to="/search" className="btn-accent">
               <i className="fa-solid fa-arrow-right" /> Start Shopping
             </Link>
-          </div>
+          </Reveal>
         ) : (
           <div className="flex flex-col md:flex-row flex-wrap gap-10">
-            <div className="flex-[2] min-w-[300px]">
+            <Reveal direction="left" className="flex-[2] min-w-[300px]">
               {/* Desktop / tablet: full table, matches the original site */}
-              <div className="hidden md:block bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] overflow-x-auto">
+              <div className="hidden md:block surface-card overflow-x-auto">
                 <table className="w-full min-w-[600px] border-collapse">
                   <thead className="bg-accent text-white">
                     <tr>
@@ -46,7 +47,7 @@ export default function CartPage() {
                   </thead>
                   <tbody>
                     {items.map((item) => (
-                      <tr key={item.key} className="border-b border-border last:border-0">
+                      <tr key={item.key} className="border-b border-border last:border-0 transition-colors hover:bg-secondary/40">
                         <td className="p-5">
                           <div className="flex items-center gap-5">
                             <Link
@@ -56,10 +57,10 @@ export default function CartPage() {
                               <img src={imageUrl(item.image)} alt={item.name} className="w-full h-full object-contain" />
                             </Link>
                             <div>
-                              <Link to={`/product/${item.slug}`} className="font-semibold text-[1rem] hover:text-accent">
+                              <Link to={`/product/${item.slug}`} className="font-semibold text-[1rem] hover:text-accent transition-colors">
                                 {item.name}
                               </Link>
-                              <p className="text-[0.75rem] text-[#888]">{item.variantLabel}</p>
+                              <p className="text-[0.75rem] text-primary/40">{item.variantLabel}</p>
                             </div>
                           </div>
                         </td>
@@ -90,7 +91,7 @@ export default function CartPage() {
                           <button
                             onClick={() => removeItem(item.key)}
                             aria-label="Remove item"
-                            className="text-[#c00002] text-[1.1rem] transition-transform hover:text-[#ff0000] hover:scale-110"
+                            className="text-[#c00002] text-[1.1rem] transition-transform duration-200 hover:text-[#ff0000] hover:scale-110"
                           >
                             <i className="fa-solid fa-trash" />
                           </button>
@@ -104,7 +105,7 @@ export default function CartPage() {
               {/* Mobile: stacked cards — a table can't lay out legibly at phone widths */}
               <div className="md:hidden space-y-4">
                 {items.map((item) => (
-                  <div key={item.key} className="bg-white rounded-2xl border border-border shadow-[0_5px_20px_rgba(0,0,0,0.05)] p-4">
+                  <div key={item.key} className="surface-card p-4">
                     <div className="flex gap-3">
                       <Link
                         to={`/product/${item.slug}`}
@@ -114,18 +115,18 @@ export default function CartPage() {
                       </Link>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
-                          <Link to={`/product/${item.slug}`} className="font-semibold text-[0.95rem] leading-snug hover:text-accent">
+                          <Link to={`/product/${item.slug}`} className="font-semibold text-[0.95rem] leading-snug hover:text-accent transition-colors">
                             {item.name}
                           </Link>
                           <button
                             onClick={() => removeItem(item.key)}
                             aria-label="Remove item"
-                            className="shrink-0 text-[#c00002] text-[1rem] transition-transform hover:text-[#ff0000] hover:scale-110"
+                            className="shrink-0 text-[#c00002] text-[1rem] transition-transform duration-200 hover:text-[#ff0000] hover:scale-110"
                           >
                             <i className="fa-solid fa-trash" />
                           </button>
                         </div>
-                        <p className="text-[0.75rem] text-[#888]">{item.variantLabel}</p>
+                        <p className="text-[0.75rem] text-primary/40">{item.variantLabel}</p>
                         <span className="font-semibold text-accent text-[0.9rem]">{formatPrice(item.price)}</span>
                       </div>
                     </div>
@@ -156,36 +157,33 @@ export default function CartPage() {
               <div className="flex justify-between flex-wrap gap-4 mt-8">
                 <Link
                   to="/search"
-                  className="inline-flex items-center gap-2.5 bg-white text-accent font-semibold rounded-full px-6 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.05)] transition-all hover:gap-3.5"
+                  className="inline-flex items-center gap-2.5 bg-white text-accent font-semibold rounded-full px-6 py-3 shadow-soft transition-all duration-300 ease-premium hover:gap-3.5 hover:shadow-card"
                 >
                   <i className="fa-solid fa-arrow-left" /> Continue Shopping
                 </Link>
               </div>
-            </div>
+            </Reveal>
 
-            <div className="flex-1 min-w-[280px]">
-              <div className="bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] p-5 xs:p-[30px] md:sticky md:top-[140px]">
+            <Reveal direction="right" className="flex-1 min-w-[280px]">
+              <div className="surface-card p-5 xs:p-[30px] md:sticky md:top-[140px]">
                 <h3 className="font-serif text-[1.3rem] text-center mb-6">Order Summary</h3>
                 <div className="flex justify-between py-[15px] border-b border-border">
-                  <span className="text-[#777]">Subtotal</span>
+                  <span className="text-primary/55">Subtotal</span>
                   <span className="font-semibold">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between py-[15px] border-b border-border">
-                  <span className="text-[#777]">Shipping</span>
+                  <span className="text-primary/55">Shipping</span>
                   <span className="font-semibold text-accent">Calculated at checkout</span>
                 </div>
                 <div className="flex justify-between pt-5 font-bold text-[1.1rem]">
                   <span>Total</span>
                   <span className="text-accent text-[1.3rem]">{formatPrice(subtotal)}</span>
                 </div>
-                <Link
-                  to="/checkout"
-                  className="block text-center bg-accent text-white rounded-full py-4 font-semibold mt-[30px] transition-all hover:bg-accent-light hover:-translate-y-0.5"
-                >
+                <Link to="/checkout" className="btn-accent w-full justify-center mt-[30px]">
                   Proceed to Checkout
                 </Link>
               </div>
-            </div>
+            </Reveal>
           </div>
         )}
       </div>

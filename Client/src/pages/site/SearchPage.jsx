@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { api } from "../../api/client.js";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
 import ProductGrid from "../../components/site/ProductGrid.jsx";
+import Reveal from "../../components/site/Reveal.jsx";
+import { ProductGridSkeleton } from "../../components/site/Skeletons.jsx";
 import { getCurrencySymbol } from "../../utils/currency.js";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 
@@ -88,7 +91,7 @@ export default function SearchPage() {
         <div className="font-semibold text-[0.9rem] mb-[15px]">Price Range</div>
         <div className="flex flex-col gap-3">
           {PRICE_BUCKETS.map((b) => (
-            <label key={b.key} className="flex items-center gap-2.5 text-[0.85rem] text-[#666] cursor-pointer">
+            <label key={b.key} className="flex items-center gap-2.5 text-[0.85rem] text-primary/65 cursor-pointer">
               <input
                 type="radio"
                 name={`${idPrefix}price_range`}
@@ -97,7 +100,7 @@ export default function SearchPage() {
                 className="w-4 h-4 accent-accent"
               />
               <span className="flex-grow">{b.label}</span>
-              <span className="text-[#999] text-[0.75rem]">({result?.priceCounts?.[b.key] ?? 0})</span>
+              <span className="text-primary/35 text-[0.75rem]">({result?.priceCounts?.[b.key] ?? 0})</span>
             </label>
           ))}
           {priceRange && (
@@ -111,7 +114,7 @@ export default function SearchPage() {
         <div className="font-semibold text-[0.9rem] mb-[15px]">Discount</div>
         <div className="flex flex-col gap-3">
           {DISCOUNTS.map((d) => (
-            <label key={d} className="flex items-center gap-2.5 text-[0.85rem] text-[#666] cursor-pointer">
+            <label key={d} className="flex items-center gap-2.5 text-[0.85rem] text-primary/65 cursor-pointer">
               <input
                 type="radio"
                 name={`${idPrefix}discount`}
@@ -131,17 +134,20 @@ export default function SearchPage() {
       </div>
       <div>
         <div className="font-semibold text-[0.9rem] mb-[15px]">Sort By</div>
-        <select
-          value={sort}
-          onChange={(e) => updateParam("sort", e.target.value)}
-          className="w-full border border-border rounded-full px-4 py-3 text-[0.85rem] bg-white outline-none cursor-pointer"
-        >
-          {SORT_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            value={sort}
+            onChange={(e) => updateParam("sort", e.target.value)}
+            className="field-pill appearance-none cursor-pointer pr-10"
+          >
+            {SORT_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
+            ))}
+          </select>
+          <i className="fa-solid fa-chevron-down absolute right-5 top-1/2 -translate-y-1/2 text-[0.7rem] text-primary/40 pointer-events-none" />
+        </div>
       </div>
     </>
   );
@@ -150,93 +156,100 @@ export default function SearchPage() {
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: "All Products" }]} />
       <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
-        <div className="text-center mb-10">
-          <h1 className="relative inline-block font-serif text-2xl md:text-[1.8rem] font-normal tracking-[3px] pb-4 mb-[10px]">
-            {titles.searchPageTitle || "Our Collection"}
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[60px] h-[2px] bg-accent" />
-          </h1>
-          <p className="text-[#888] text-[0.9rem]">
+        <Reveal className="text-center mb-10">
+          <span className="eyebrow">Browse</span>
+          <h1 className="section-title mt-2 mb-5">{titles.searchPageTitle || "Our Collection"}</h1>
+          <p className="text-primary/45 text-[0.9rem] max-w-md mx-auto">
             {titles.searchPageSubtitle || "Discover our exquisite collection of handcrafted jewelry"}
           </p>
-        </div>
+        </Reveal>
 
         {search && (
-          <div className="text-center mb-10 px-6 py-6 bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)]">
+          <Reveal className="text-center mb-10 px-6 py-6 surface-card">
             <h3 className="font-serif text-[1.3rem] mb-2.5">Search Results</h3>
-            <p className="text-[#888]">
+            <p className="text-primary/45">
               {result ? result.total : "..."} results for{" "}
-              <span className="bg-[#e8e0d4] text-accent px-1.5 py-0.5 rounded-full font-semibold">&ldquo;{search}&rdquo;</span>
+              <span className="bg-accent/10 text-accent px-2 py-0.5 rounded-full font-semibold">&ldquo;{search}&rdquo;</span>
             </p>
-          </div>
+          </Reveal>
         )}
 
         <button
           onClick={() => setMobileFiltersOpen(true)}
-          className="lg:hidden w-full mb-5 bg-accent text-white rounded-full py-3.5 font-semibold flex items-center justify-center gap-2.5"
+          className="lg:hidden w-full mb-5 bg-accent text-white rounded-full py-3.5 font-semibold flex items-center justify-center gap-2.5 shadow-soft"
         >
           <i className="fa-solid fa-filter" /> Filters &amp; Sort
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-[30px]">
-          <aside className="hidden lg:block bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] p-7 h-fit sticky top-[140px]">
-            <div className="flex justify-between items-center mb-6 pb-[15px] border-b border-border">
+          <aside className="hidden lg:flex flex-col surface-card p-7 sticky top-[140px] max-h-[calc(100vh-160px)]">
+            <div className="flex justify-between items-center mb-6 pb-[15px] border-b border-border shrink-0">
               <h3 className="font-serif text-[1.2rem] font-medium">Filters</h3>
               <button onClick={clearAll} className="text-accent text-[0.8rem] hover:underline">
                 Clear All
               </button>
             </div>
-            <FiltersPanel />
+            <div className="overflow-y-auto pr-1 -mr-1">
+              <FiltersPanel />
+            </div>
           </aside>
 
-          <section className="bg-white rounded-3xl shadow-[0_5px_20px_rgba(0,0,0,0.05)] overflow-hidden">
-            <div className="flex md:flex-wrap gap-3 px-6 py-5 border-b border-border overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide">
-              {TAG_DEFS.map((t) => (
-                <button
-                  key={t.slug}
-                  onClick={() => updateParam("tag", t.slug)}
-                  className={`shrink-0 snap-start px-5 py-2 rounded-full text-[0.8rem] font-medium border transition-colors whitespace-nowrap ${
-                    tag === t.slug
-                      ? "bg-accent text-white border-accent"
-                      : "border-border text-primary hover:border-accent hover:text-accent"
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
+          <section className="surface-card overflow-hidden">
+            <div className="relative border-b border-border">
+              <div className="flex md:flex-wrap gap-3 px-6 py-5 md:pr-6 pr-10 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide">
+                {TAG_DEFS.map((t) => (
+                  <button
+                    key={t.slug}
+                    onClick={() => updateParam("tag", t.slug)}
+                    className={`shrink-0 snap-start px-5 py-2 rounded-full text-[0.8rem] font-medium border transition-all duration-300 ease-premium whitespace-nowrap ${
+                      tag === t.slug
+                        ? "bg-accent text-white border-accent shadow-soft"
+                        : "border-border text-primary/80 hover:border-accent hover:text-accent"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+              <div className="md:hidden pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white to-transparent" />
             </div>
-            {loading ? (
-              <div className="text-center py-16 text-primary/60">Loading products...</div>
-            ) : (
-              <ProductGrid products={result?.products} variant="shop" />
-            )}
+            {loading ? <ProductGridSkeleton variant="shop" /> : <ProductGrid products={result?.products} variant="shop" />}
           </section>
         </div>
       </div>
 
       {/* Mobile filter overlay */}
-      <div
-        className={`fixed inset-0 z-[170] lg:hidden transition-opacity ${
-          mobileFiltersOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="absolute inset-0 bg-black/80" onClick={() => setMobileFiltersOpen(false)} />
-        <div
-          className={`absolute top-0 left-0 h-full w-[85%] max-w-[320px] bg-white p-6 overflow-y-auto transition-transform ${
-            mobileFiltersOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <div className="flex justify-between items-center mb-[30px] pb-5 border-b border-border">
-            <h3 className="font-semibold text-lg">Filters &amp; Sort</h3>
-            <button onClick={() => setMobileFiltersOpen(false)} className="icon-btn text-2xl">
-              <i className="fa-solid fa-xmark" />
-            </button>
+      <AnimatePresence>
+        {mobileFiltersOpen && (
+          <div className="fixed inset-0 z-[170] lg:hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-primary/60 backdrop-blur-sm"
+              onClick={() => setMobileFiltersOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", stiffness: 340, damping: 36 }}
+              className="absolute top-0 left-0 h-full w-[85%] max-w-[320px] bg-white p-6 overflow-y-auto shadow-elevated"
+            >
+              <div className="flex justify-between items-center mb-[30px] pb-5 border-b border-border">
+                <h3 className="font-semibold text-lg">Filters &amp; Sort</h3>
+                <button onClick={() => setMobileFiltersOpen(false)} className="icon-btn text-2xl">
+                  <i className="fa-solid fa-xmark" />
+                </button>
+              </div>
+              <FiltersPanel idPrefix="m_" />
+              <button onClick={() => setMobileFiltersOpen(false)} className="btn-accent w-full justify-center mt-8">
+                Apply Filters
+              </button>
+            </motion.div>
           </div>
-          <FiltersPanel idPrefix="m_" />
-          <button onClick={() => setMobileFiltersOpen(false)} className="btn-primary w-full justify-center mt-8">
-            Apply Filters
-          </button>
-        </div>
-      </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
