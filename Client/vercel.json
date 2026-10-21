@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://jewels-in.onrender.com/api/:path*" },
+    { "source": "/uploads/:path*", "destination": "https://jewels-in.onrender.com/uploads/:path*" }
+  ]
+}
