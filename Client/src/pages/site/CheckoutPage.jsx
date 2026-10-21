@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
 import { api, imageUrl } from "../../api/client.js";
+import { useSiteData } from "../../context/SiteDataContext.jsx";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
 import Reveal from "../../components/site/Reveal.jsx";
 import { formatPrice } from "../../utils/currency.js";
@@ -19,6 +20,7 @@ function Field({ error, children }) {
 }
 
 export default function CheckoutPage() {
+  const { settings } = useSiteData();
   const { items, subtotal, clearCart } = useCart();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -61,13 +63,29 @@ export default function CheckoutPage() {
       };
       const { order, whatsappNumber } = await api.post("/orders", payload);
 
-      let text = `*New Order - ${order.orderNumber}*%0A%0AName: ${form.name}%0APhone: ${form.phone}%0AAddress: ${form.address}, ${form.city} ${form.state} ${form.pincode}%0A%0AItems:%0A`;
-      items.forEach((i) => {
-        text += `- ${i.name} (${i.variantLabel}) x${i.qty} = ${formatPrice(i.price * i.qty)}%0A`;
-      });
-      text += `%0ATotal: ${formatPrice(subtotal)}`;
+      const siteName = settings.siteName || "Store";
+      const itemLines = items
+        .map((i) => `• ${i.name}${i.variantLabel ? ` (${i.variantLabel})` : ""} ×${i.qty} — ${formatPrice(i.price * i.qty)}`)
+        .join("\n");
+      const text = [
+        `🛍️ *New Order from ${siteName}!*`,
+        `Order ID: *${order.orderNumber}*`,
+        ``,
+        `Hi, I'd like to confirm my order 💛`,
+        ``,
+        `👤 *Name:* ${form.name}`,
+        `📞 *Phone:* ${form.phone}`,
+        `📍 *Address:* ${form.address}, ${form.city} ${form.state} ${form.pincode}`,
+        ``,
+        `🧾 *Order Summary*`,
+        itemLines,
+        ``,
+        `💰 *Total: ${formatPrice(subtotal)}*`,
+        ``,
+        `Looking forward to receiving my order soon! ✨`,
+      ].join("\n");
 
-      window.open(`https://wa.me/${whatsappNumber}?text=${text}`, "_blank");
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank");
       clearCart();
       navigate(`/order-confirmation/${order.orderNumber}`);
     } catch (err) {
