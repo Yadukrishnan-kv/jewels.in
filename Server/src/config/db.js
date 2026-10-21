@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 let memoryServer = null;
 
 export async function connectDB() {
-  const uri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/hala-jewels";
+  const configuredUri = process.env.MONGODB_URI;
+  const uri = configuredUri || "mongodb://127.0.0.1:27017/hala-jewels";
 
   try {
     await mongoose.connect(uri, { serverSelectionTimeoutMS: 2500 });
@@ -11,6 +12,9 @@ export async function connectDB() {
     return;
   } catch (err) {
     console.warn(`[db] could not reach ${uri} (${err.message}).`);
+    if (configuredUri) {
+      throw new Error(`[db] MONGODB_URI is set but unreachable: ${err.message}`);
+    }
     console.warn("[db] falling back to an in-memory MongoDB instance for local development.");
   }
 
