@@ -1,4 +1,4 @@
 node_modules
 .env
-uploads/raw
+uploads/media
 *.log
