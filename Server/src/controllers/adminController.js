@@ -162,8 +162,25 @@ export async function deleteAdminUser(req, res) {
 }
 
 // ---- Dashboard ----
+const TREND_DAYS = 14;
+const LOW_STOCK_THRESHOLD = 5;
+
 export async function dashboardStats(req, res) {
-  const [productCount, categoryCount, orderCounts, recentOrders, revenueAgg] = await Promise.all([
+  const now = new Date();
+  const trendStart = new Date(now);
+  trendStart.setDate(trendStart.getDate() - (TREND_DAYS - 1));
+  trendStart.setHours(0, 0, 0, 0);
+
+  const [
+    productCount,
+    categoryCount,
+    orderCounts,
+    recentOrders,
+    revenueAgg,
+    revenueTrendAgg,
+    topProductsAgg,
+    activeProducts,
+  ] = await Promise.all([
     Product.countDocuments(),
     Category.countDocuments(),
     Order.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }]),
@@ -172,10 +189,64 @@ export async function dashboardStats(req, res) {
       { $match: { status: { $ne: "cancelled" } } },
       { $group: { _id: null, total: { $sum: "$total" } } },
     ]),
+    Order.aggregate([
+      { $match: { status: { $ne: "cancelled" }, createdAt: { $gte: trendStart } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          revenue: { $sum: "$total" },
+          orders: { $sum: 1 },
+        },
+      },
+    ]),
+    Order.aggregate([
+      { $match: { status: { $ne: "cancelled" } } },
+      { $unwind: "$items" },
+      {
+        $group: {
+          _id: "$items.product",
+          name: { $first: "$items.name" },
+          image: { $first: "$items.image" },
+          qty: { $sum: "$items.qty" },
+        },
+      },
+      { $sort: { qty: -1 } },
+      { $limit: 5 },
+    ]),
+    Product.find({ isActive: true }).select("name slug images variants"),
   ]);
 
   const ordersByStatus = { pending: 0, confirmed: 0, shipped: 0, delivered: 0, cancelled: 0 };
   orderCounts.forEach((o) => (ordersByStatus[o._id] = o.count));
+
+  const trendByDay = Object.fromEntries(revenueTrendAgg.map((r) => [r._id, r]));
+  const revenueTrend = [];
+  for (let i = TREND_DAYS - 1; i >= 0; i -= 1) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0, 10);
+    const found = trendByDay[key];
+    revenueTrend.push({ date: key, revenue: found?.revenue || 0, orders: found?.orders || 0 });
+  }
+
+  const lowStockProducts = activeProducts
+    .map((p) => ({
+      _id: p._id,
+      name: p.name,
+      slug: p.slug,
+      image: p.images?.[0] || "",
+      stock: (p.variants || []).reduce((sum, v) => sum + v.stock, 0),
+    }))
+    .filter((p) => p.stock <= LOW_STOCK_THRESHOLD)
+    .sort((a, b) => a.stock - b.stock)
+    .slice(0, 6);
+
+  const topProducts = topProductsAgg.map((t) => ({
+    productId: t._id,
+    name: t.name,
+    image: t.image,
+    qty: t.qty,
+  }));
 
   res.json({
     productCount,
@@ -184,7 +255,19 @@ export async function dashboardStats(req, res) {
     ordersByStatus,
     totalRevenue: revenueAgg[0]?.total || 0,
     recentOrders,
+    revenueTrend,
+    lowStockProducts,
+    topProducts,
   });
+}
+
+// ---- Notifications (sidebar badges) ----
+export async function getNotifications(req, res) {
+  const [pendingOrders, newInquiries] = await Promise.all([
+    Order.countDocuments({ status: "pending" }),
+    Inquiry.countDocuments({ status: "new" }),
+  ]);
+  res.json({ pendingOrders, newInquiries });
 }
 
 // ---- Upload ----

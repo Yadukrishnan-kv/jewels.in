@@ -23,6 +23,7 @@ router.get("/auth/me", requireAdmin, asyncHandler(auth.me));
 router.use(requireAdmin);
 
 router.get("/dashboard", asyncHandler(admin.dashboardStats));
+router.get("/notifications", asyncHandler(admin.getNotifications));
 router.post("/upload", upload.single("image"), asyncHandler(admin.uploadImage));
 
 // Products (custom controller for slug handling)

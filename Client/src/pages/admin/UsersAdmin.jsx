@@ -2,20 +2,42 @@ import { useEffect, useState } from "react";
 import { adminApi } from "../../api/client.js";
 import { useAdminAuth } from "../../context/AdminAuthContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
+import { useConfirm } from "../../components/admin/ConfirmDialog.jsx";
 import Modal from "../../components/admin/Modal.jsx";
+import PageHeader from "../../components/admin/PageHeader.jsx";
+import DataTable from "../../components/admin/DataTable.jsx";
+import Badge from "../../components/admin/Badge.jsx";
+import { Field, Input, Select } from "../../components/admin/FormControls.jsx";
 
 const EMPTY = { name: "", email: "", password: "", role: "staff" };
+
+function initialsOf(name = "") {
+  return (
+    name
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase())
+      .join("") || "?"
+  );
+}
 
 export default function UsersAdmin() {
   const { token, user: me } = useAdminAuth();
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
   function load() {
-    adminApi.get("/users", token).then(setUsers);
+    setLoading(true);
+    adminApi
+      .get("/users", token)
+      .then(setUsers)
+      .finally(() => setLoading(false));
   }
   useEffect(load, [token]);
 
@@ -46,80 +68,96 @@ export default function UsersAdmin() {
     }
   }
 
-  async function handleDelete(id) {
-    if (!confirm("Delete this admin user?")) return;
-    await adminApi.del(`/users/${id}`, token);
+  async function handleDelete(u) {
+    const ok = await confirm({ title: "Delete admin account?", message: `${u.name} will lose access immediately.`, confirmLabel: "Delete", danger: true });
+    if (!ok) return;
+    await adminApi.del(`/users/${u._id}`, token);
     showToast("Deleted");
     load();
   }
 
+  const columns = [
+    {
+      key: "name",
+      header: "Name",
+      render: (u) => (
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-accent/10 text-accent flex items-center justify-center text-xs font-semibold shrink-0">
+            {initialsOf(u.name)}
+          </div>
+          <span className="font-medium text-primary">{u.name}</span>
+          {u._id === me?.id && <span className="text-[0.65rem] text-primary/35">(you)</span>}
+        </div>
+      ),
+    },
+    { key: "email", header: "Email", render: (u) => <span className="text-primary/60">{u.email}</span> },
+    { key: "role", header: "Role", render: (u) => <Badge tone={u.role === "superadmin" ? "accent" : "neutral"}>{u.role}</Badge> },
+    { key: "status", header: "Status", render: (u) => <Badge tone={u.isActive ? "success" : "neutral"}>{u.isActive ? "Active" : "Disabled"}</Badge> },
+    {
+      key: "actions",
+      header: "",
+      headClassName: "text-right",
+      className: "text-right",
+      render: (u) => (
+        <div className="flex items-center justify-end gap-1">
+          {(isSuperadmin || u._id === me.id) && (
+            <button onClick={() => toggleActive(u)} className="admin-btn-ghost admin-btn-sm">
+              {u.isActive ? "Disable" : "Enable"}
+            </button>
+          )}
+          {isSuperadmin && u._id !== me.id && (
+            <button onClick={() => handleDelete(u)} className="admin-icon-btn hover:!text-red-600 hover:!bg-red-50" aria-label="Delete">
+              <i className="fa-solid fa-trash-can text-xs" />
+            </button>
+          )}
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold">Admin Users</h1>
-        {isSuperadmin && (
-          <button onClick={() => setModalOpen(true)} className="btn-primary">
-            <i className="fa-solid fa-plus" /> Add Admin
-          </button>
-        )}
-      </div>
+      <PageHeader
+        title="Admin Users"
+        subtitle={`${users.length} account${users.length === 1 ? "" : "s"} with admin access`}
+        actions={
+          isSuperadmin && (
+            <button onClick={() => setModalOpen(true)} className="admin-btn-primary">
+              <i className="fa-solid fa-plus" /> Add Admin
+            </button>
+          )
+        }
+      />
 
       {!isSuperadmin && (
-        <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
-          Only superadmins can create or delete admin accounts. You can still edit your own profile.
-        </p>
+        <div className="flex items-center gap-2.5 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-xl p-3.5 mb-4">
+          <i className="fa-solid fa-circle-info" />
+          Only superadmins can create or delete admin accounts. You can still manage your own profile.
+        </div>
       )}
 
-      <div className="bg-white border border-border rounded-2xl overflow-hidden overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-secondary text-left">
-            <tr>
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3">Role</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((u) => (
-              <tr key={u._id} className="border-t border-border">
-                <td className="px-4 py-2 font-medium">{u.name}</td>
-                <td className="px-4 py-2">{u.email}</td>
-                <td className="px-4 py-2 capitalize">{u.role}</td>
-                <td className="px-4 py-2">
-                  <span className={`text-xs px-2 py-1 rounded-full ${u.isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
-                    {u.isActive ? "Active" : "Disabled"}
-                  </span>
-                </td>
-                <td className="px-4 py-2 text-right whitespace-nowrap">
-                  {(isSuperadmin || u._id === me.id) && (
-                    <button onClick={() => toggleActive(u)} className="text-accent text-xs hover:underline mr-3">
-                      {u.isActive ? "Disable" : "Enable"}
-                    </button>
-                  )}
-                  {isSuperadmin && u._id !== me.id && (
-                    <button onClick={() => handleDelete(u._id)} className="text-red-600 text-xs hover:underline">
-                      Delete
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DataTable columns={columns} rows={users} loading={loading} pageSize={10} empty={{ icon: "fa-users-gear", title: "No admin users" }} />
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Add Admin User">
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Add Admin User" subtitle="Grant a teammate access to this dashboard">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input required placeholder="Name" value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} className="w-full border border-border rounded-lg px-4 py-2.5 text-sm" />
-          <input required type="email" placeholder="Email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} className="w-full border border-border rounded-lg px-4 py-2.5 text-sm" />
-          <input required type="password" placeholder="Password" value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))} className="w-full border border-border rounded-lg px-4 py-2.5 text-sm" />
-          <select value={form.role} onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))} className="w-full border border-border rounded-lg px-4 py-2.5 text-sm">
-            <option value="staff">Staff</option>
-            <option value="superadmin">Superadmin</option>
-          </select>
-          <button type="submit" disabled={saving} className="btn-primary w-full justify-center">{saving ? "Creating..." : "Create Admin"}</button>
+          <Field label="Name" required>
+            <Input required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+          </Field>
+          <Field label="Email" required>
+            <Input required type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
+          </Field>
+          <Field label="Password" required>
+            <Input required type="password" value={form.password} onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))} />
+          </Field>
+          <Field label="Role">
+            <Select value={form.role} onChange={(e) => setForm((f) => ({ ...f, role: e.target.value }))}>
+              <option value="staff">Staff</option>
+              <option value="superadmin">Superadmin</option>
+            </Select>
+          </Field>
+          <button type="submit" disabled={saving} className="admin-btn-primary w-full">
+            {saving ? "Creating..." : "Create Admin"}
+          </button>
         </form>
       </Modal>
     </div>

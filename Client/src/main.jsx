@@ -7,21 +7,24 @@ import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import { AdminAuthProvider } from "./context/AdminAuthContext.jsx";
 import { SiteDataProvider } from "./context/SiteDataContext.jsx";
+import { ConfirmProvider } from "./components/admin/ConfirmDialog.jsx";
 import "./styles/index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <ToastProvider>
-        <AdminAuthProvider>
-          <SiteDataProvider>
-            <CartProvider>
-              <WishlistProvider>
-                <App />
-              </WishlistProvider>
-            </CartProvider>
-          </SiteDataProvider>
-        </AdminAuthProvider>
+        <ConfirmProvider>
+          <AdminAuthProvider>
+            <SiteDataProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <App />
+                </WishlistProvider>
+              </CartProvider>
+            </SiteDataProvider>
+          </AdminAuthProvider>
+        </ConfirmProvider>
       </ToastProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -131,6 +131,63 @@ html:has(.site-shell) {
   }
 }
 
+/* =========================================================================
+   Admin panel design system — scoped to `.admin-*` class names so it can
+   never collide with the storefront's `.btn`/`.field`/etc. classes above.
+   Deliberately tighter radii + denser spacing than the storefront's pillowy
+   boutique look: this is a data tool, not a product page.
+   ========================================================================= */
+@layer components {
+  .admin-card {
+    @apply bg-white border border-border/70 rounded-2xl shadow-[0_1px_2px_rgba(20,20,20,0.04)];
+  }
+  .admin-card-hover {
+    @apply admin-card transition-all duration-200 hover:shadow-[0_8px_24px_-8px_rgba(20,20,20,0.12)] hover:-translate-y-0.5;
+  }
+
+  .admin-input {
+    @apply w-full bg-white border border-border rounded-xl px-3.5 py-2.5 text-sm text-primary outline-none transition-all duration-200 placeholder:text-primary/35 focus:border-accent focus:ring-4 focus:ring-accent/10 disabled:bg-secondary disabled:text-primary/40;
+  }
+  .admin-label {
+    @apply block text-[0.72rem] font-semibold uppercase tracking-wide text-primary/45 mb-1.5;
+  }
+
+  .admin-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl text-sm font-medium px-4 py-2.5 transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap;
+  }
+  .admin-btn-primary {
+    @apply admin-btn bg-primary text-white shadow-sm hover:bg-accent hover:shadow-md;
+  }
+  .admin-btn-ghost {
+    @apply admin-btn border border-border text-primary/70 bg-white hover:border-accent hover:text-accent;
+  }
+  .admin-btn-danger {
+    @apply admin-btn text-red-600 border border-red-200 bg-red-50 hover:bg-red-100;
+  }
+  .admin-btn-sm {
+    @apply !px-3 !py-1.5 !text-[0.8rem] !rounded-lg;
+  }
+  .admin-icon-btn {
+    @apply inline-flex items-center justify-center w-9 h-9 rounded-lg text-primary/60 hover:text-accent hover:bg-accent/[0.06] transition-colors duration-200;
+  }
+
+  .admin-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.72rem] font-semibold leading-none;
+  }
+
+  .admin-skeleton {
+    @apply relative overflow-hidden bg-primary/[0.06] rounded-lg;
+  }
+  .admin-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: shimmer 1.6s infinite;
+  }
+}
+
 /* Carousel nav arrows — circular buttons matching the site's product gallery */
 .gallery-swiper .swiper-button-next,
 .gallery-swiper .swiper-button-prev,
