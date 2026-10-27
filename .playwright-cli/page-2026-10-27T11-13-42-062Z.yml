@@ -1,0 +1,443 @@
+- generic [ref=e3]:
+  - generic [ref=e4]: DO CONNECT GET ACCESSORISED
+  - banner [ref=e8]:
+    - generic [ref=e9]:
+      - navigation [ref=e10]:
+        - generic [ref=e11]:
+          - button "Shop " [ref=e12] [cursor=pointer]:
+            - text: Shop
+            - generic [ref=e13]: 
+          - generic:
+            - generic:
+              - generic:
+                - link "01 Anklets ":
+                  - /url: /category/anklets
+                  - generic:
+                    - generic: "01"
+                    - generic: Anklets
+                  - generic: 
+                - link "02 Baby Bangles ":
+                  - /url: /category/baby-bangles
+                  - generic:
+                    - generic: "02"
+                    - generic: Baby Bangles
+                  - generic: 
+                - link "03 Bracelets ":
+                  - /url: /category/bracelets
+                  - generic:
+                    - generic: "03"
+                    - generic: Bracelets
+                  - generic: 
+                - link "04 Cuff Bangle ":
+                  - /url: /category/cuff-bangle
+                  - generic:
+                    - generic: "04"
+                    - generic: Cuff Bangle
+                  - generic: 
+                - link "05 Earcuffs ":
+                  - /url: /category/earcuffs
+                  - generic:
+                    - generic: "05"
+                    - generic: Earcuffs
+                  - generic: 
+                - link "06 Earings ":
+                  - /url: /category/earings
+                  - generic:
+                    - generic: "06"
+                    - generic: Earings
+                  - generic: 
+                - link "07 Handchain ":
+                  - /url: /category/handchain
+                  - generic:
+                    - generic: "07"
+                    - generic: Handchain
+                  - generic: 
+                - link "08 Hipchains ":
+                  - /url: /category/hipchains
+                  - generic:
+                    - generic: "08"
+                    - generic: Hipchains
+                  - generic: 
+                - link "09 Necklaces ":
+                  - /url: /category/necklaces
+                  - generic:
+                    - generic: "09"
+                    - generic: Necklaces
+                  - generic: 
+                - link "10 Normal Sized Bangles ":
+                  - /url: /category/normal-sized-bangles
+                  - generic:
+                    - generic: "10"
+                    - generic: Normal Sized Bangles
+                  - generic: 
+                - link "11 Nosepin ":
+                  - /url: /category/nosepin
+                  - generic:
+                    - generic: "11"
+                    - generic: Nosepin
+                  - generic: 
+                - link "12 Rings Premium ":
+                  - /url: /category/rings-premium
+                  - generic:
+                    - generic: "12"
+                    - generic: Rings Premium
+                  - generic: 
+                - link "13 Watches ":
+                  - /url: /category/watches
+                  - generic:
+                    - generic: "13"
+                    - generic: Watches
+                  - generic: 
+        - link "New Arrivals" [ref=e14] [cursor=pointer]:
+          - /url: /search
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e16] [cursor=pointer]:
+          - /url: /contactus
+        - link "Track" [ref=e17] [cursor=pointer]:
+          - /url: /track
+      - text: 
+      - link "The Halla" [ref=e81] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e20]:
+        - button "Search" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - link "Wishlist" [ref=e24] [cursor=pointer]:
+            - /url: /wishlist
+            - generic [ref=e25]: 
+          - link "Cart" [ref=e26] [cursor=pointer]:
+            - /url: /cart
+            - generic [ref=e27]: 
+  - main [ref=e28]:
+    - generic [ref=e587]:
+      - navigation [ref=e588]:
+        - link "Home" [ref=e589] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e590]: All Products
+      - generic [ref=e594]:
+        - generic [ref=e595]:
+          - generic [ref=e596]: Browse
+          - heading "“earrings”" [level=1] [ref=e597]
+          - paragraph [ref=e598]: Discover our exquisite collection of handcrafted jewelry
+        - paragraph [ref=e599]: 10 results
+      - generic [ref=e600]:
+        - generic [ref=e602]:
+          - button "All" [ref=e603] [cursor=pointer]
+          - button "Elegance in every drop" [ref=e604] [cursor=pointer]
+          - button "For Minimal Girlies" [ref=e605] [cursor=pointer]
+          - button "Luxe in Hala" [ref=e606] [cursor=pointer]
+          - button "Silver Collections" [ref=e607] [cursor=pointer]
+          - button "Soft. Sensual. Stunning." [ref=e608] [cursor=pointer]
+          - button "Under 199" [ref=e609] [cursor=pointer]
+          - button "Virals You searching for" [ref=e610] [cursor=pointer]
+        - text: 
+        - generic [ref=e611]:
+          - complementary [ref=e612]:
+            - generic [ref=e613]:
+              - heading "Filters" [level=3] [ref=e614]
+              - button "Clear All" [ref=e615] [cursor=pointer]
+            - generic [ref=e616]:
+              - generic [ref=e617]: Collection
+              - generic [ref=e618]:
+                - button "All " [ref=e619] [cursor=pointer]:
+                  - text: All
+                  - generic [ref=e620]: 
+                - button "Elegance in every drop" [ref=e621] [cursor=pointer]
+                - button "For Minimal Girlies" [ref=e622] [cursor=pointer]
+                - button "Luxe in Hala" [ref=e623] [cursor=pointer]
+                - button "Silver Collections" [ref=e624] [cursor=pointer]
+                - button "Soft. Sensual. Stunning." [ref=e625] [cursor=pointer]
+                - button "Under 199" [ref=e626] [cursor=pointer]
+                - button "Virals You searching for" [ref=e627] [cursor=pointer]
+            - generic [ref=e628]:
+              - generic [ref=e629]: Price Range
+              - generic [ref=e630]:
+                - generic [ref=e631] [cursor=pointer]:
+                  - radio "₹ 0 – ₹ 100 (0)" [ref=e632]
+                  - generic [ref=e633]: ₹ 0 – ₹ 100
+                  - generic [ref=e634]: (0)
+                - generic [ref=e635] [cursor=pointer]:
+                  - radio "₹ 101 – ₹ 200 (1)" [ref=e636]
+                  - generic [ref=e637]: ₹ 101 – ₹ 200
+                  - generic [ref=e638]: (1)
+                - generic [ref=e639] [cursor=pointer]:
+                  - radio "₹ 201 – ₹ 300 (2)" [ref=e640]
+                  - generic [ref=e641]: ₹ 201 – ₹ 300
+                  - generic [ref=e642]: (2)
+                - generic [ref=e643] [cursor=pointer]:
+                  - radio "₹ 301 – ₹ 400 (3)" [ref=e644]
+                  - generic [ref=e645]: ₹ 301 – ₹ 400
+                  - generic [ref=e646]: (3)
+                - generic [ref=e647] [cursor=pointer]:
+                  - radio "₹ 401 – ₹ 500 (1)" [ref=e648]
+                  - generic [ref=e649]: ₹ 401 – ₹ 500
+                  - generic [ref=e650]: (1)
+                - generic [ref=e651] [cursor=pointer]:
+                  - radio "Above ₹ 500 (3)" [ref=e652]
+                  - generic [ref=e653]: Above ₹ 500
+                  - generic [ref=e654]: (3)
+            - generic [ref=e655]:
+              - generic [ref=e656]: Discount
+              - generic [ref=e657]:
+                - generic [ref=e658] [cursor=pointer]:
+                  - radio "50% or more off" [ref=e659]
+                  - generic [ref=e660]: 50% or more off
+                - generic [ref=e661] [cursor=pointer]:
+                  - radio "30% or more off" [ref=e662]
+                  - generic [ref=e663]: 30% or more off
+                - generic [ref=e664] [cursor=pointer]:
+                  - radio "20% or more off" [ref=e665]
+                  - generic [ref=e666]: 20% or more off
+                - generic [ref=e667] [cursor=pointer]:
+                  - radio "10% or more off" [ref=e668]
+                  - generic [ref=e669]: 10% or more off
+            - generic [ref=e670]:
+              - generic [ref=e671]: Sort By
+              - generic [ref=e672]:
+                - combobox "Sort By" [ref=e673] [cursor=pointer]:
+                  - option "Featured" [selected]
+                  - 'option "Price: Low to High"'
+                  - 'option "Price: High to Low"'
+                  - option "Newest First"
+                - generic: 
+          - generic [ref=e675]:
+            - link "Aflah Earrings Add to wishlist Add to bag Aflah Earrings ₹ 199.00 ₹ 249.00" [ref=e677] [cursor=pointer]:
+              - /url: /product/aflah-earrings-50
+              - generic [ref=e678]:
+                - img "Aflah Earrings" [ref=e679]
+                - button "Add to wishlist" [ref=e680]:
+                  - generic [ref=e681]: 
+                - text: +
+                - button "Add to bag" [ref=e683]:
+                  - generic [ref=e684]: +
+                  - text: Add to bag
+              - generic [ref=e685]:
+                - heading "Aflah Earrings" [level=3] [ref=e686]
+                - generic [ref=e687]:
+                  - generic [ref=e688]: ₹ 199.00
+                  - generic [ref=e689]: ₹ 249.00
+            - link "Cross Earrings Add to wishlist Add to bag Cross Earrings ₹ 279.00" [ref=e691] [cursor=pointer]:
+              - /url: /product/cross-earrings-51
+              - generic [ref=e692]:
+                - img "Cross Earrings" [ref=e693]
+                - button "Add to wishlist" [ref=e694]:
+                  - generic [ref=e695]: 
+                - text: +
+                - button "Add to bag" [ref=e697]:
+                  - generic [ref=e698]: +
+                  - text: Add to bag
+              - generic [ref=e699]:
+                - heading "Cross Earrings" [level=3] [ref=e700]
+                - generic [ref=e701]: ₹ 279.00
+            - link "Limah Earrings BESTSELLER Add to wishlist Add to bag Limah Earrings ₹ 299.00" [ref=e704] [cursor=pointer]:
+              - /url: /product/limah-earrings-52
+              - generic [ref=e705]:
+                - img "Limah Earrings" [ref=e706]
+                - generic [ref=e707]: BESTSELLER
+                - button "Add to wishlist" [ref=e708]:
+                  - generic [ref=e709]: 
+                - text: +
+                - button "Add to bag" [ref=e711]:
+                  - generic [ref=e712]: +
+                  - text: Add to bag
+              - generic [ref=e713]:
+                - heading "Limah Earrings" [level=3] [ref=e714]
+                - generic [ref=e715]: ₹ 299.00
+            - link "Rosegold Butterfly Earrings Add to wishlist Add to bag Rosegold Butterfly Earrings ₹ 349.00" [ref=e718] [cursor=pointer]:
+              - /url: /product/rosegold-butterfly-earrings-53
+              - generic [ref=e719]:
+                - img "Rosegold Butterfly Earrings" [ref=e720]
+                - button "Add to wishlist" [ref=e721]:
+                  - generic [ref=e722]: 
+                - text: +
+                - button "Add to bag" [ref=e724]:
+                  - generic [ref=e725]: +
+                  - text: Add to bag
+              - generic [ref=e726]:
+                - heading "Rosegold Butterfly Earrings" [level=3] [ref=e727]
+                - generic [ref=e728]: ₹ 349.00
+            - link "Solh Earrings Add to wishlist Add to bag Solh Earrings ₹ 399.00" [ref=e731] [cursor=pointer]:
+              - /url: /product/solh-earrings-54
+              - generic [ref=e732]:
+                - img "Solh Earrings" [ref=e733]
+                - button "Add to wishlist" [ref=e734]:
+                  - generic [ref=e735]: 
+                - text: +
+                - button "Add to bag" [ref=e737]:
+                  - generic [ref=e738]: +
+                  - text: Add to bag
+              - generic [ref=e739]:
+                - heading "Solh Earrings" [level=3] [ref=e740]
+                - generic [ref=e741]: ₹ 399.00
+            - link "Twist Earrings Add to wishlist Add to bag Twist Earrings ₹ 359.00 ₹ 449.00" [ref=e744] [cursor=pointer]:
+              - /url: /product/twist-earrings-55
+              - generic [ref=e745]:
+                - img "Twist Earrings" [ref=e746]
+                - button "Add to wishlist" [ref=e747]:
+                  - generic [ref=e748]: 
+                - text: +
+                - button "Add to bag" [ref=e750]:
+                  - generic [ref=e751]: +
+                  - text: Add to bag
+              - generic [ref=e752]:
+                - heading "Twist Earrings" [level=3] [ref=e753]
+                - generic [ref=e754]:
+                  - generic [ref=e755]: ₹ 359.00
+                  - generic [ref=e756]: ₹ 449.00
+            - link "Zirah Earrings NEW Add to wishlist Add to bag Zirah Earrings ₹ 499.00" [ref=e758] [cursor=pointer]:
+              - /url: /product/zirah-earrings-56
+              - generic [ref=e759]:
+                - img "Zirah Earrings" [ref=e760]
+                - generic [ref=e761]: NEW
+                - button "Add to wishlist" [ref=e762]:
+                  - generic [ref=e763]: 
+                - text: +
+                - button "Add to bag" [ref=e765]:
+                  - generic [ref=e766]: +
+                  - text: Add to bag
+              - generic [ref=e767]:
+                - heading "Zirah Earrings" [level=3] [ref=e768]
+                - generic [ref=e769]: ₹ 499.00
+            - link "Pearl Drop Earrings Add to wishlist Add to bag Pearl Drop Earrings ₹ 599.00" [ref=e772] [cursor=pointer]:
+              - /url: /product/pearl-drop-earrings-57
+              - generic [ref=e773]:
+                - img "Pearl Drop Earrings" [ref=e774]
+                - button "Add to wishlist" [ref=e775]:
+                  - generic [ref=e776]: 
+                - text: +
+                - button "Add to bag" [ref=e778]:
+                  - generic [ref=e779]: +
+                  - text: Add to bag
+              - generic [ref=e780]:
+                - heading "Pearl Drop Earrings" [level=3] [ref=e781]
+                - generic [ref=e782]: ₹ 599.00
+            - link "Wafa Earrings Add to wishlist Add to bag Wafa Earrings ₹ 699.00" [ref=e785] [cursor=pointer]:
+              - /url: /product/wafa-earrings-58
+              - generic [ref=e786]:
+                - img "Wafa Earrings" [ref=e787]
+                - button "Add to wishlist" [ref=e788]:
+                  - generic [ref=e789]: 
+                - text: +
+                - button "Add to bag" [ref=e791]:
+                  - generic [ref=e792]: +
+                  - text: Add to bag
+              - generic [ref=e793]:
+                - heading "Wafa Earrings" [level=3] [ref=e794]
+                - generic [ref=e795]: ₹ 699.00
+            - link "Minimal Earrings Add to wishlist Add to bag Minimal Earrings ₹ 999.00" [ref=e798] [cursor=pointer]:
+              - /url: /product/minimal-earrings-59
+              - generic [ref=e799]:
+                - img "Minimal Earrings" [ref=e800]
+                - button "Add to wishlist" [ref=e801]:
+                  - generic [ref=e802]: 
+                - text: +
+                - button "Add to bag" [ref=e804]:
+                  - generic [ref=e805]: +
+                  - text: Add to bag
+              - generic [ref=e806]:
+                - heading "Minimal Earrings" [level=3] [ref=e807]
+                - generic [ref=e808]: ₹ 999.00
+  - contentinfo [ref=e36]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - text: Do connect
+        - paragraph [ref=e40]: DO CONNECT GET ACCESSORISED
+      - generic [ref=e41]:
+        - link "Shop the collection " [ref=e42] [cursor=pointer]:
+          - /url: /search
+          - text: Shop the collection
+          - generic [ref=e43]: 
+        - link " WhatsApp us" [ref=e44] [cursor=pointer]:
+          - /url: https://wa.me/910000000000
+          - generic [ref=e45]: 
+          - text: WhatsApp us
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - link "The Halla" [ref=e531] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=e50]: Handpicked, tarnish-resistant jewelry designed for everyday elegance.
+        - generic [ref=e532]:
+          - link "instagram" [ref=e533] [cursor=pointer]:
+            - /url: https://instagram.com/halajewells
+            - generic [ref=e534]: 
+          - link "facebook" [ref=e535] [cursor=pointer]:
+            - /url: https://facebook.com/
+            - generic [ref=e536]: 
+          - link "youtube" [ref=e537] [cursor=pointer]:
+            - /url: https://youtube.com/
+            - generic [ref=e538]: 
+      - generic [ref=e51]:
+        - heading "Collections" [level=4] [ref=e52]
+        - list [ref=e53]:
+          - listitem [ref=e539]:
+            - link "Anklets" [ref=e540] [cursor=pointer]:
+              - /url: /category/anklets
+          - listitem [ref=e541]:
+            - link "Baby Bangles" [ref=e542] [cursor=pointer]:
+              - /url: /category/baby-bangles
+          - listitem [ref=e543]:
+            - link "Bracelets" [ref=e544] [cursor=pointer]:
+              - /url: /category/bracelets
+          - listitem [ref=e545]:
+            - link "Cuff Bangle" [ref=e546] [cursor=pointer]:
+              - /url: /category/cuff-bangle
+          - listitem [ref=e547]:
+            - link "Earcuffs" [ref=e548] [cursor=pointer]:
+              - /url: /category/earcuffs
+          - listitem [ref=e549]:
+            - link "Earings" [ref=e550] [cursor=pointer]:
+              - /url: /category/earings
+          - listitem [ref=e54]:
+            - link "View all products" [ref=e55] [cursor=pointer]:
+              - /url: /search
+      - generic [ref=e56]:
+        - heading "Quick Links" [level=4] [ref=e57]
+        - list [ref=e58]:
+          - listitem [ref=e59]:
+            - link "Contact Us" [ref=e60] [cursor=pointer]:
+              - /url: /contactus
+          - listitem [ref=e61]:
+            - link "Track Order" [ref=e62] [cursor=pointer]:
+              - /url: /track
+          - listitem [ref=e63]:
+            - link "Shipping Policy" [ref=e64] [cursor=pointer]:
+              - /url: /shipping
+          - listitem [ref=e65]:
+            - link "Terms & Conditions" [ref=e66] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=e67]:
+            - link "Privacy Policy" [ref=e68] [cursor=pointer]:
+              - /url: /privacy
+      - generic [ref=e69]:
+        - heading "Get in Touch" [level=4] [ref=e70]
+        - list [ref=e551]:
+          - listitem [ref=e552]:
+            - generic [ref=e553]: 
+            - link "+91 00000 00000" [ref=e554] [cursor=pointer]:
+              - /url: tel:+91 00000 00000
+          - listitem [ref=e555]:
+            - generic [ref=e556]: 
+            - link "hello@halajewels.in" [ref=e557] [cursor=pointer]:
+              - /url: mailto:hello@halajewels.in
+          - listitem [ref=e558]:
+            - generic [ref=e559]: 
+            - generic [ref=e560]: Ground Floor, Example Building, Near Old Bus Stand, Calicut, Kerala
+    - generic [ref=e72]:
+      - paragraph [ref=e73]: © 2026 The Halla · All rights reserved
+      - paragraph [ref=e561]:
+        - text: Designed By
+        - link "Codiqo.in" [ref=e562] [cursor=pointer]:
+          - /url: https://codiqo.in
+      - generic [ref=e563]:
+        - link "Terms" [ref=e564] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy" [ref=e565] [cursor=pointer]:
+          - /url: /privacy
+        - link "Shipping" [ref=e566] [cursor=pointer]:
+          - /url: /shipping
+  - link "Chat on WhatsApp" [ref=e78] [cursor=pointer]:
+    - /url: https://wa.me/910000000000
+    - generic [ref=e79]: 
+    - generic [ref=e80]: Chat with us
+  - text:     

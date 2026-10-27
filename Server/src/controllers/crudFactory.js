@@ -1,12 +1,14 @@
 import { asyncHandler } from "../middleware/asyncHandler.js";
 
+const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 // Generic CRUD controller factory for simple admin-managed content models.
 export function crudFactory(Model, { populate, searchFields = [], defaultSort = { createdAt: -1 } } = {}) {
   return {
     list: asyncHandler(async (req, res) => {
       const filter = {};
       if (req.query.search && searchFields.length) {
-        filter.$or = searchFields.map((f) => ({ [f]: { $regex: req.query.search, $options: "i" } }));
+        filter.$or = searchFields.map((f) => ({ [f]: { $regex: escapeRegex(req.query.search), $options: "i" } }));
       }
       let q = Model.find(filter).sort(defaultSort);
       if (populate) q = q.populate(populate);

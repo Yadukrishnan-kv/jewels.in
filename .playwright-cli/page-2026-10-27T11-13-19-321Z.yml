@@ -1,0 +1,624 @@
+- generic [ref=e3]:
+  - generic [ref=e4]: DO CONNECT GET ACCESSORISED
+  - banner [ref=e8]:
+    - generic [ref=e9]:
+      - navigation [ref=e10]:
+        - generic [ref=e11]:
+          - button "Shop " [ref=e12] [cursor=pointer]:
+            - text: Shop
+            - generic [ref=e13]: 
+          - generic:
+            - generic:
+              - generic:
+                - link "01 Anklets ":
+                  - /url: /category/anklets
+                  - generic:
+                    - generic: "01"
+                    - generic: Anklets
+                  - generic: 
+                - link "02 Baby Bangles ":
+                  - /url: /category/baby-bangles
+                  - generic:
+                    - generic: "02"
+                    - generic: Baby Bangles
+                  - generic: 
+                - link "03 Bracelets ":
+                  - /url: /category/bracelets
+                  - generic:
+                    - generic: "03"
+                    - generic: Bracelets
+                  - generic: 
+                - link "04 Cuff Bangle ":
+                  - /url: /category/cuff-bangle
+                  - generic:
+                    - generic: "04"
+                    - generic: Cuff Bangle
+                  - generic: 
+                - link "05 Earcuffs ":
+                  - /url: /category/earcuffs
+                  - generic:
+                    - generic: "05"
+                    - generic: Earcuffs
+                  - generic: 
+                - link "06 Earings ":
+                  - /url: /category/earings
+                  - generic:
+                    - generic: "06"
+                    - generic: Earings
+                  - generic: 
+                - link "07 Handchain ":
+                  - /url: /category/handchain
+                  - generic:
+                    - generic: "07"
+                    - generic: Handchain
+                  - generic: 
+                - link "08 Hipchains ":
+                  - /url: /category/hipchains
+                  - generic:
+                    - generic: "08"
+                    - generic: Hipchains
+                  - generic: 
+                - link "09 Necklaces ":
+                  - /url: /category/necklaces
+                  - generic:
+                    - generic: "09"
+                    - generic: Necklaces
+                  - generic: 
+                - link "10 Normal Sized Bangles ":
+                  - /url: /category/normal-sized-bangles
+                  - generic:
+                    - generic: "10"
+                    - generic: Normal Sized Bangles
+                  - generic: 
+                - link "11 Nosepin ":
+                  - /url: /category/nosepin
+                  - generic:
+                    - generic: "11"
+                    - generic: Nosepin
+                  - generic: 
+                - link "12 Rings Premium ":
+                  - /url: /category/rings-premium
+                  - generic:
+                    - generic: "12"
+                    - generic: Rings Premium
+                  - generic: 
+                - link "13 Watches ":
+                  - /url: /category/watches
+                  - generic:
+                    - generic: "13"
+                    - generic: Watches
+                  - generic: 
+        - link "New Arrivals" [ref=e14] [cursor=pointer]:
+          - /url: /search
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e16] [cursor=pointer]:
+          - /url: /contactus
+        - link "Track" [ref=e17] [cursor=pointer]:
+          - /url: /track
+      - text: 
+      - link "The Halla" [ref=e81] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e20]:
+        - button "Search" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - link "Wishlist" [ref=e24] [cursor=pointer]:
+            - /url: /wishlist
+            - generic [ref=e25]: 
+          - link "Cart" [ref=e26] [cursor=pointer]:
+            - /url: /cart
+            - generic [ref=e27]: 
+  - generic [ref=e570]:
+    - generic [ref=e571]:
+      - generic [ref=e572]: Search the store
+      - button "Close search" [ref=e573] [cursor=pointer]:
+        - generic [ref=e574]: 
+    - generic [ref=e575]:
+      - generic [ref=e576]: 
+      - textbox "What are you looking for?" [active] [ref=e577]
+    - generic [ref=e578]:
+      - generic [ref=e579]: "Popular:"
+      - link "Anklets" [ref=e580] [cursor=pointer]:
+        - /url: /category/anklets
+      - link "Baby Bangles" [ref=e581] [cursor=pointer]:
+        - /url: /category/baby-bangles
+      - link "Bracelets" [ref=e582] [cursor=pointer]:
+        - /url: /category/bracelets
+      - link "Cuff Bangle" [ref=e583] [cursor=pointer]:
+        - /url: /category/cuff-bangle
+      - link "Earcuffs" [ref=e584] [cursor=pointer]:
+        - /url: /category/earcuffs
+      - link "Earings" [ref=e585] [cursor=pointer]:
+        - /url: /category/earings
+  - main [ref=e28]:
+    - generic [ref=e82]:
+      - img "Discover Our New Launches!" [ref=e84]
+      - generic [ref=e86]:
+        - generic [ref=e87]: Anklets
+        - generic [ref=e90]: Baby Bangles
+        - generic [ref=e93]: Bracelets
+        - generic [ref=e96]: Cuff Bangle
+        - generic [ref=e99]: Earcuffs
+        - generic [ref=e102]: Earings
+        - generic [ref=e105]: Handchain
+        - generic [ref=e108]: Hipchains
+        - generic [ref=e111]: Necklaces
+        - generic [ref=e114]: Normal Sized Bangles
+        - generic [ref=e117]: Nosepin
+        - generic [ref=e120]: Rings Premium
+        - generic [ref=e123]: Watches
+        - generic [ref=e126]: Anklets
+        - generic [ref=e129]: Baby Bangles
+        - generic [ref=e132]: Bracelets
+        - generic [ref=e135]: Cuff Bangle
+        - generic [ref=e138]: Earcuffs
+        - generic [ref=e141]: Earings
+        - generic [ref=e144]: Handchain
+        - generic [ref=e147]: Hipchains
+        - generic [ref=e150]: Necklaces
+        - generic [ref=e153]: Normal Sized Bangles
+        - generic [ref=e156]: Nosepin
+        - generic [ref=e159]: Rings Premium
+        - generic [ref=e162]: Watches
+      - generic [ref=e165]:
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - generic [ref=e168]: Shop by category
+            - heading "Collections" [level=2] [ref=e169]
+          - link "View all " [ref=e170] [cursor=pointer]:
+            - /url: /search
+            - text: View all
+            - generic [ref=e171]: 
+        - generic [ref=e172]:
+          - link "Anklets 01 Anklets " [ref=e174] [cursor=pointer]:
+            - /url: /category/anklets
+            - generic [ref=e175]:
+              - img "Anklets" [ref=e176]
+              - generic [ref=e177]: "01"
+            - generic [ref=e178]:
+              - paragraph [ref=e179]: Anklets
+              - generic [ref=e180]: 
+          - link "Baby Bangles 02 Baby Bangles " [ref=e182] [cursor=pointer]:
+            - /url: /category/baby-bangles
+            - generic [ref=e183]:
+              - img "Baby Bangles" [ref=e184]
+              - generic [ref=e185]: "02"
+            - generic [ref=e186]:
+              - paragraph [ref=e187]: Baby Bangles
+              - generic [ref=e188]: 
+          - link "Bracelets 03 Bracelets " [ref=e190] [cursor=pointer]:
+            - /url: /category/bracelets
+            - generic [ref=e191]:
+              - img "Bracelets" [ref=e192]
+              - generic [ref=e193]: "03"
+            - generic [ref=e194]:
+              - paragraph [ref=e195]: Bracelets
+              - generic [ref=e196]: 
+          - link "Cuff Bangle 04 Cuff Bangle " [ref=e198] [cursor=pointer]:
+            - /url: /category/cuff-bangle
+            - generic [ref=e199]:
+              - img "Cuff Bangle" [ref=e200]
+              - generic [ref=e201]: "04"
+            - generic [ref=e202]:
+              - paragraph [ref=e203]: Cuff Bangle
+              - generic [ref=e204]: 
+          - link "Earcuffs 05 Earcuffs " [ref=e206] [cursor=pointer]:
+            - /url: /category/earcuffs
+            - generic [ref=e207]:
+              - img "Earcuffs" [ref=e208]
+              - generic [ref=e209]: "05"
+            - generic [ref=e210]:
+              - paragraph [ref=e211]: Earcuffs
+              - generic [ref=e212]: 
+          - link "Earings 06 Earings " [ref=e214] [cursor=pointer]:
+            - /url: /category/earings
+            - generic [ref=e215]:
+              - img "Earings" [ref=e216]
+              - generic [ref=e217]: "06"
+            - generic [ref=e218]:
+              - paragraph [ref=e219]: Earings
+              - generic [ref=e220]: 
+          - link "Handchain 07 Handchain " [ref=e222] [cursor=pointer]:
+            - /url: /category/handchain
+            - generic [ref=e223]:
+              - img "Handchain" [ref=e224]
+              - generic [ref=e225]: "07"
+            - generic [ref=e226]:
+              - paragraph [ref=e227]: Handchain
+              - generic [ref=e228]: 
+          - link "Hipchains 08 Hipchains " [ref=e230] [cursor=pointer]:
+            - /url: /category/hipchains
+            - generic [ref=e231]:
+              - img "Hipchains" [ref=e232]
+              - generic [ref=e233]: "08"
+            - generic [ref=e234]:
+              - paragraph [ref=e235]: Hipchains
+              - generic [ref=e236]: 
+          - link "Necklaces 09 Necklaces " [ref=e238] [cursor=pointer]:
+            - /url: /category/necklaces
+            - generic [ref=e239]:
+              - img "Necklaces" [ref=e240]
+              - generic [ref=e241]: "09"
+            - generic [ref=e242]:
+              - paragraph [ref=e243]: Necklaces
+              - generic [ref=e244]: 
+          - link "Normal Sized Bangles 10 Normal Sized Bangles " [ref=e246] [cursor=pointer]:
+            - /url: /category/normal-sized-bangles
+            - generic [ref=e247]:
+              - img "Normal Sized Bangles" [ref=e248]
+              - generic [ref=e249]: "10"
+            - generic [ref=e250]:
+              - paragraph [ref=e251]: Normal Sized Bangles
+              - generic [ref=e252]: 
+          - link "Nosepin 11 Nosepin " [ref=e254] [cursor=pointer]:
+            - /url: /category/nosepin
+            - generic [ref=e255]:
+              - img "Nosepin" [ref=e256]
+              - generic [ref=e257]: "11"
+            - generic [ref=e258]:
+              - paragraph [ref=e259]: Nosepin
+              - generic [ref=e260]: 
+          - link "Rings Premium 12 Rings Premium " [ref=e262] [cursor=pointer]:
+            - /url: /category/rings-premium
+            - generic [ref=e263]:
+              - img "Rings Premium" [ref=e264]
+              - generic [ref=e265]: "12"
+            - generic [ref=e266]:
+              - paragraph [ref=e267]: Rings Premium
+              - generic [ref=e268]: 
+          - link "Watches 13 Watches " [ref=e270] [cursor=pointer]:
+            - /url: /category/watches
+            - generic [ref=e271]:
+              - img "Watches" [ref=e272]
+              - generic [ref=e273]: "13"
+            - generic [ref=e274]:
+              - paragraph [ref=e275]: Watches
+              - generic [ref=e276]: 
+      - generic [ref=e277]:
+        - generic [ref=e278]:
+          - generic [ref=e279]:
+            - generic [ref=e280]: Trending now
+            - heading "Virals You searching for" [level=2] [ref=e281]
+          - link "View all " [ref=e282] [cursor=pointer]:
+            - /url: /search
+            - text: View all
+            - generic [ref=e283]: 
+        - generic [ref=e285]:
+          - link "Viral Tulip Bracelet NEW Add to wishlist Add to bag Viral Tulip Bracelet ₹ 299.00" [ref=e287] [cursor=pointer]:
+            - /url: /product/viral-tulip-bracelet
+            - generic [ref=e288]:
+              - img "Viral Tulip Bracelet" [ref=e289]
+              - generic [ref=e290]: NEW
+              - button "Add to wishlist" [ref=e291]:
+                - generic [ref=e292]: 
+              - text: +
+              - button "Add to bag" [ref=e294]:
+                - generic [ref=e295]: +
+                - text: Add to bag
+            - generic [ref=e296]:
+              - heading "Viral Tulip Bracelet" [level=3] [ref=e297]
+              - generic [ref=e298]: ₹ 299.00
+          - link "Pink Tulip Anklet NEW Add to wishlist Add to bag Pink Tulip Anklet ₹ 299.00" [ref=e301] [cursor=pointer]:
+            - /url: /product/pink-tulip-anklet
+            - generic [ref=e302]:
+              - img "Pink Tulip Anklet" [ref=e303]
+              - generic [ref=e304]: NEW
+              - button "Add to wishlist" [ref=e305]:
+                - generic [ref=e306]: 
+              - text: +
+              - button "Add to bag" [ref=e308]:
+                - generic [ref=e309]: +
+                - text: Add to bag
+            - generic [ref=e310]:
+              - heading "Pink Tulip Anklet" [level=3] [ref=e311]
+              - generic [ref=e312]: ₹ 299.00
+          - link "Lavender-Pink Tulip Anklet NEW Add to wishlist Add to bag Lavender-Pink Tulip Anklet ₹ 299.00" [ref=e315] [cursor=pointer]:
+            - /url: /product/lavender-pink-tulip-anklet
+            - generic [ref=e316]:
+              - img "Lavender-Pink Tulip Anklet" [ref=e317]
+              - generic [ref=e318]: NEW
+              - button "Add to wishlist" [ref=e319]:
+                - generic [ref=e320]: 
+              - text: +
+              - button "Add to bag" [ref=e322]:
+                - generic [ref=e323]: +
+                - text: Add to bag
+            - generic [ref=e324]:
+              - heading "Lavender-Pink Tulip Anklet" [level=3] [ref=e325]
+              - generic [ref=e326]: ₹ 299.00
+      - generic [ref=e328]:
+        - generic [ref=e329]:
+          - img "Luxe in Hala" [ref=e330]
+          - generic [ref=e332]:
+            - heading "Luxe in Hala" [level=3] [ref=e333]
+            - link "Shop now " [ref=e334] [cursor=pointer]:
+              - /url: /search?tag=luxe-in-hala
+              - text: Shop now
+              - generic [ref=e335]: 
+        - generic [ref=e336]:
+          - generic [ref=e337]:
+            - img "Silver Collections" [ref=e338]
+            - generic [ref=e340]:
+              - heading "Silver Collections" [level=3] [ref=e341]
+              - link "Shop now " [ref=e342] [cursor=pointer]:
+                - /url: /search?tag=silver-collections
+                - text: Shop now
+                - generic [ref=e343]: 
+          - generic [ref=e344]:
+            - img "Under 199" [ref=e345]
+            - generic [ref=e347]:
+              - heading "Under 199" [level=3] [ref=e348]
+              - link "Shop now " [ref=e349] [cursor=pointer]:
+                - /url: /search?tag=under-199
+                - text: Shop now
+                - generic [ref=e350]: 
+      - generic [ref=e351]:
+        - generic [ref=e352]:
+          - generic [ref=e353]:
+            - generic [ref=e354]: Fresh drops
+            - heading "For Minimal Girlies" [level=2] [ref=e355]
+          - link "View all " [ref=e356] [cursor=pointer]:
+            - /url: /search
+            - text: View all
+            - generic [ref=e357]: 
+        - generic [ref=e358]:
+          - link "Lavender-Pink Tulip Anklet NEW Add to wishlist Add to bag Lavender-Pink Tulip Anklet ₹ 299.00" [ref=e360] [cursor=pointer]:
+            - /url: /product/lavender-pink-tulip-anklet
+            - generic [ref=e361]:
+              - img "Lavender-Pink Tulip Anklet" [ref=e362]
+              - generic [ref=e363]: NEW
+              - button "Add to wishlist" [ref=e364]:
+                - generic [ref=e365]: 
+              - text: +
+              - button "Add to bag" [ref=e367]:
+                - generic [ref=e368]: +
+                - text: Add to bag
+            - generic [ref=e369]:
+              - heading "Lavender-Pink Tulip Anklet" [level=3] [ref=e370]
+              - generic [ref=e371]: ₹ 299.00
+          - link "Pink Tulip Anklet NEW Add to wishlist Add to bag Pink Tulip Anklet ₹ 299.00" [ref=e374] [cursor=pointer]:
+            - /url: /product/pink-tulip-anklet
+            - generic [ref=e375]:
+              - img "Pink Tulip Anklet" [ref=e376]
+              - generic [ref=e377]: NEW
+              - button "Add to wishlist" [ref=e378]:
+                - generic [ref=e379]: 
+              - text: +
+              - button "Add to bag" [ref=e381]:
+                - generic [ref=e382]: +
+                - text: Add to bag
+            - generic [ref=e383]:
+              - heading "Pink Tulip Anklet" [level=3] [ref=e384]
+              - generic [ref=e385]: ₹ 299.00
+          - link "Viral Tulip Bracelet NEW Add to wishlist Add to bag Viral Tulip Bracelet ₹ 299.00" [ref=e388] [cursor=pointer]:
+            - /url: /product/viral-tulip-bracelet
+            - generic [ref=e389]:
+              - img "Viral Tulip Bracelet" [ref=e390]
+              - generic [ref=e391]: NEW
+              - button "Add to wishlist" [ref=e392]:
+                - generic [ref=e393]: 
+              - text: +
+              - button "Add to bag" [ref=e395]:
+                - generic [ref=e396]: +
+                - text: Add to bag
+            - generic [ref=e397]:
+              - heading "Viral Tulip Bracelet" [level=3] [ref=e398]
+              - generic [ref=e399]: ₹ 299.00
+          - link "Rosegold Butterfly Ring Add to wishlist Add to bag Rosegold Butterfly Ring ₹ 349.00" [ref=e402] [cursor=pointer]:
+            - /url: /product/rosegold-butterfly-ring-113
+            - generic [ref=e403]:
+              - img "Rosegold Butterfly Ring" [ref=e404]
+              - button "Add to wishlist" [ref=e405]:
+                - generic [ref=e406]: 
+              - text: +
+              - button "Add to bag" [ref=e408]:
+                - generic [ref=e409]: +
+                - text: Add to bag
+            - generic [ref=e410]:
+              - heading "Rosegold Butterfly Ring" [level=3] [ref=e411]
+              - generic [ref=e412]: ₹ 349.00
+          - link "Solh Ring Add to wishlist Add to bag Solh Ring ₹ 399.00" [ref=e415] [cursor=pointer]:
+            - /url: /product/solh-ring-114
+            - generic [ref=e416]:
+              - img "Solh Ring" [ref=e417]
+              - button "Add to wishlist" [ref=e418]:
+                - generic [ref=e419]: 
+              - text: +
+              - button "Add to bag" [ref=e421]:
+                - generic [ref=e422]: +
+                - text: Add to bag
+            - generic [ref=e423]:
+              - heading "Solh Ring" [level=3] [ref=e424]
+              - generic [ref=e425]: ₹ 399.00
+          - link "Limah Ring NEW Add to wishlist Add to bag Limah Ring ₹ 299.00" [ref=e428] [cursor=pointer]:
+            - /url: /product/limah-ring-112
+            - generic [ref=e429]:
+              - img "Limah Ring" [ref=e430]
+              - generic [ref=e431]: NEW
+              - button "Add to wishlist" [ref=e432]:
+                - generic [ref=e433]: 
+              - text: +
+              - button "Add to bag" [ref=e435]:
+                - generic [ref=e436]: +
+                - text: Add to bag
+            - generic [ref=e437]:
+              - heading "Limah Ring" [level=3] [ref=e438]
+              - generic [ref=e439]: ₹ 299.00
+          - link "Aflah Ring Add to wishlist Add to bag Aflah Ring ₹ 199.00 ₹ 249.00" [ref=e442] [cursor=pointer]:
+            - /url: /product/aflah-ring-110
+            - generic [ref=e443]:
+              - img "Aflah Ring" [ref=e444]
+              - button "Add to wishlist" [ref=e445]:
+                - generic [ref=e446]: 
+              - text: +
+              - button "Add to bag" [ref=e448]:
+                - generic [ref=e449]: +
+                - text: Add to bag
+            - generic [ref=e450]:
+              - heading "Aflah Ring" [level=3] [ref=e451]
+              - generic [ref=e452]:
+                - generic [ref=e453]: ₹ 199.00
+                - generic [ref=e454]: ₹ 249.00
+          - link "Zirah Ring Add to wishlist Add to bag Zirah Ring ₹ 499.00" [ref=e456] [cursor=pointer]:
+            - /url: /product/zirah-ring-116
+            - generic [ref=e457]:
+              - img "Zirah Ring" [ref=e458]
+              - button "Add to wishlist" [ref=e459]:
+                - generic [ref=e460]: 
+              - text: +
+              - button "Add to bag" [ref=e462]:
+                - generic [ref=e463]: +
+                - text: Add to bag
+            - generic [ref=e464]:
+              - heading "Zirah Ring" [level=3] [ref=e465]
+              - generic [ref=e466]: ₹ 499.00
+      - generic [ref=e468]:
+        - generic [ref=e469]:
+          - img "Elegance in every drop" [ref=e470]
+          - generic [ref=e472]:
+            - heading "Elegance in every drop" [level=3] [ref=e473]
+            - link "Discover More " [ref=e474] [cursor=pointer]:
+              - /url: /search?tag=elegance-in-every-drop
+              - text: Discover More
+              - generic [ref=e475]: 
+        - generic [ref=e476]:
+          - img "Soft. Sensual. Stunning." [ref=e477]
+          - generic [ref=e479]:
+            - heading "Soft. Sensual. Stunning." [level=3] [ref=e480]
+            - link "Unlock Your Style " [ref=e481] [cursor=pointer]:
+              - /url: /search?tag=soft-sensual-stunning
+              - text: Unlock Your Style
+              - generic [ref=e482]: 
+      - generic [ref=e483]:
+        - generic [ref=e485]:
+          - generic [ref=e486]: Loved by our customers
+          - heading "Our DMs Say It All" [level=2] [ref=e487]
+        - generic [ref=e488]:
+          - generic [ref=e489]:
+            - img "Customer testimonial" [ref=e505]
+            - img "Customer testimonial" [ref=e493]
+            - img "Customer testimonial" [ref=e497]
+            - img "Customer testimonial" [ref=e501]
+          - generic [ref=e506] [cursor=pointer]: prev
+          - generic [ref=e507] [cursor=pointer]: next
+          - generic [ref=e508]:
+            - generic [ref=e509] [cursor=pointer]
+            - generic [ref=e510] [cursor=pointer]
+            - generic [ref=e511] [cursor=pointer]
+            - generic [ref=e512] [cursor=pointer]
+        - link " Visit our Instagram" [ref=e514] [cursor=pointer]:
+          - /url: https://instagram.com/halajewells
+          - generic [ref=e515]: 
+          - text: Visit our Instagram
+      - generic [ref=e516]:
+        - generic [ref=e518]:
+          - generic [ref=e519]: As seen on
+          - heading "Slaying in the Style" [level=2] [ref=e520]
+        - generic [ref=e521]:
+          - img "Slaying in the Style" [ref=e524]
+          - img "Slaying in the Style" [ref=e527]
+          - img "Slaying in the Style" [ref=e530]
+  - contentinfo [ref=e36]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - text: Do connect
+        - paragraph [ref=e40]: DO CONNECT GET ACCESSORISED
+      - generic [ref=e41]:
+        - link "Shop the collection " [ref=e42] [cursor=pointer]:
+          - /url: /search
+          - text: Shop the collection
+          - generic [ref=e43]: 
+        - link " WhatsApp us" [ref=e44] [cursor=pointer]:
+          - /url: https://wa.me/910000000000
+          - generic [ref=e45]: 
+          - text: WhatsApp us
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - link "The Halla" [ref=e531] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=e50]: Handpicked, tarnish-resistant jewelry designed for everyday elegance.
+        - generic [ref=e532]:
+          - link "instagram" [ref=e533] [cursor=pointer]:
+            - /url: https://instagram.com/halajewells
+            - generic [ref=e534]: 
+          - link "facebook" [ref=e535] [cursor=pointer]:
+            - /url: https://facebook.com/
+            - generic [ref=e536]: 
+          - link "youtube" [ref=e537] [cursor=pointer]:
+            - /url: https://youtube.com/
+            - generic [ref=e538]: 
+      - generic [ref=e51]:
+        - heading "Collections" [level=4] [ref=e52]
+        - list [ref=e53]:
+          - listitem [ref=e539]:
+            - link "Anklets" [ref=e540] [cursor=pointer]:
+              - /url: /category/anklets
+          - listitem [ref=e541]:
+            - link "Baby Bangles" [ref=e542] [cursor=pointer]:
+              - /url: /category/baby-bangles
+          - listitem [ref=e543]:
+            - link "Bracelets" [ref=e544] [cursor=pointer]:
+              - /url: /category/bracelets
+          - listitem [ref=e545]:
+            - link "Cuff Bangle" [ref=e546] [cursor=pointer]:
+              - /url: /category/cuff-bangle
+          - listitem [ref=e547]:
+            - link "Earcuffs" [ref=e548] [cursor=pointer]:
+              - /url: /category/earcuffs
+          - listitem [ref=e549]:
+            - link "Earings" [ref=e550] [cursor=pointer]:
+              - /url: /category/earings
+          - listitem [ref=e54]:
+            - link "View all products" [ref=e55] [cursor=pointer]:
+              - /url: /search
+      - generic [ref=e56]:
+        - heading "Quick Links" [level=4] [ref=e57]
+        - list [ref=e58]:
+          - listitem [ref=e59]:
+            - link "Contact Us" [ref=e60] [cursor=pointer]:
+              - /url: /contactus
+          - listitem [ref=e61]:
+            - link "Track Order" [ref=e62] [cursor=pointer]:
+              - /url: /track
+          - listitem [ref=e63]:
+            - link "Shipping Policy" [ref=e64] [cursor=pointer]:
+              - /url: /shipping
+          - listitem [ref=e65]:
+            - link "Terms & Conditions" [ref=e66] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=e67]:
+            - link "Privacy Policy" [ref=e68] [cursor=pointer]:
+              - /url: /privacy
+      - generic [ref=e69]:
+        - heading "Get in Touch" [level=4] [ref=e70]
+        - list [ref=e551]:
+          - listitem [ref=e552]:
+            - generic [ref=e553]: 
+            - link "+91 00000 00000" [ref=e554] [cursor=pointer]:
+              - /url: tel:+91 00000 00000
+          - listitem [ref=e555]:
+            - generic [ref=e556]: 
+            - link "hello@halajewels.in" [ref=e557] [cursor=pointer]:
+              - /url: mailto:hello@halajewels.in
+          - listitem [ref=e558]:
+            - generic [ref=e559]: 
+            - generic [ref=e560]: Ground Floor, Example Building, Near Old Bus Stand, Calicut, Kerala
+    - generic [ref=e72]:
+      - paragraph [ref=e73]: © 2026 The Halla · All rights reserved
+      - paragraph [ref=e561]:
+        - text: Designed By
+        - link "Codiqo.in" [ref=e562] [cursor=pointer]:
+          - /url: https://codiqo.in
+      - generic [ref=e563]:
+        - link "Terms" [ref=e564] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy" [ref=e565] [cursor=pointer]:
+          - /url: /privacy
+        - link "Shipping" [ref=e566] [cursor=pointer]:
+          - /url: /shipping
+  - link "Chat on WhatsApp" [ref=e78] [cursor=pointer]:
+    - /url: https://wa.me/910000000000
+    - generic [ref=e79]: 
+    - generic [ref=e80]: Chat with us
+  - text:     

@@ -1,0 +1,101 @@
+- generic [ref=e3]:
+  - generic [ref=e4]: DO CONNECT GET ACCESSORISED
+  - banner [ref=e8]:
+    - generic [ref=e9]:
+      - navigation [ref=e10]:
+        - generic [ref=e11]:
+          - button "Shop " [ref=e12] [cursor=pointer]:
+            - text: Shop
+            - generic [ref=e13]: 
+          - generic:
+            - generic:
+              - generic:
+                - link "Browse all products":
+                  - /url: /search
+        - link "New Arrivals" [ref=e14] [cursor=pointer]:
+          - /url: /search
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e16] [cursor=pointer]:
+          - /url: /contactus
+        - link "Track" [ref=e17] [cursor=pointer]:
+          - /url: /track
+      - text: 
+      - link "Store" [ref=e18] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e20]:
+        - button "Search" [ref=e21] [cursor=pointer]:
+          - generic [ref=e22]: 
+        - generic [ref=e23]:
+          - link "Wishlist" [ref=e24] [cursor=pointer]:
+            - /url: /wishlist
+            - generic [ref=e25]: 
+          - link "Cart" [ref=e26] [cursor=pointer]:
+            - /url: /cart
+            - generic [ref=e27]: 
+  - main [ref=e28]:
+    - generic [ref=e30]:
+      - generic [ref=e31]: 
+      - paragraph [ref=e35]: Curating your collection...
+  - contentinfo [ref=e36]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - text: Do connect
+        - paragraph [ref=e40]: DO CONNECT GET ACCESSORISED
+      - generic [ref=e41]:
+        - link "Shop the collection " [ref=e42] [cursor=pointer]:
+          - /url: /search
+          - text: Shop the collection
+          - generic [ref=e43]: 
+        - link " WhatsApp us" [ref=e44] [cursor=pointer]:
+          - /url: https://wa.me/910000000000
+          - generic [ref=e45]: 
+          - text: WhatsApp us
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - link "Store" [ref=e48] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=e50]: Handpicked, tarnish-resistant jewelry designed for everyday elegance.
+      - generic [ref=e51]:
+        - heading "Collections" [level=4] [ref=e52]
+        - list [ref=e53]:
+          - listitem [ref=e54]:
+            - link "View all products" [ref=e55] [cursor=pointer]:
+              - /url: /search
+      - generic [ref=e56]:
+        - heading "Quick Links" [level=4] [ref=e57]
+        - list [ref=e58]:
+          - listitem [ref=e59]:
+            - link "Contact Us" [ref=e60] [cursor=pointer]:
+              - /url: /contactus
+          - listitem [ref=e61]:
+            - link "Track Order" [ref=e62] [cursor=pointer]:
+              - /url: /track
+          - listitem [ref=e63]:
+            - link "Shipping Policy" [ref=e64] [cursor=pointer]:
+              - /url: /shipping
+          - listitem [ref=e65]:
+            - link "Terms & Conditions" [ref=e66] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=e67]:
+            - link "Privacy Policy" [ref=e68] [cursor=pointer]:
+              - /url: /privacy
+      - generic [ref=e69]:
+        - heading "Get in Touch" [level=4] [ref=e70]
+        - list
+    - generic [ref=e72]:
+      - paragraph [ref=e73]: © 2026 Store · All rights reserved
+      - generic [ref=e74]:
+        - link "Terms" [ref=e75] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy" [ref=e76] [cursor=pointer]:
+          - /url: /privacy
+        - link "Shipping" [ref=e77] [cursor=pointer]:
+          - /url: /shipping
+    - generic [aria-hidden]:
+      - paragraph: Store
+  - link "Chat on WhatsApp" [ref=e78] [cursor=pointer]:
+    - /url: https://wa.me/910000000000
+    - generic [ref=e79]: 
+    - generic [ref=e80]: Chat with us
+  - text:     

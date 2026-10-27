@@ -86,6 +86,8 @@ const SORTS = {
   newest: { createdAt: -1 },
 };
 
+const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 export async function getProducts(req, res) {
   const { category, tag, search, sort = "featured", price_min, price_max, discount, page = 1 } = req.query;
 
@@ -100,7 +102,7 @@ export async function getProducts(req, res) {
     if (tagDoc) filter.tags = tagDoc._id;
   }
   if (search) {
-    filter.name = { $regex: search, $options: "i" };
+    filter.name = { $regex: escapeRegex(search), $options: "i" };
   }
 
   let products = await Product.find(filter).populate("category", "name slug");

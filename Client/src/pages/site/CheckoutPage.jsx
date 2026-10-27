@@ -10,11 +10,40 @@ import { formatPrice } from "../../utils/currency.js";
 
 const EMPTY_FORM = { name: "", phone: "", email: "", address: "", city: "", state: "", pincode: "" };
 
-function Field({ error, children }) {
+function Field({ label, error, children, className = "" }) {
   return (
-    <div>
+    <div className={className}>
+      <label className="field-label">{label}</label>
       {children}
-      {error && <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1"><i className="fa-solid fa-circle-exclamation" />{error}</p>}
+      {error && (
+        <p className="text-xs text-red-600 mt-1.5 flex items-center gap-1.5">
+          <i className="fa-solid fa-circle-exclamation text-[0.65rem]" />
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function StepIndex({ current }) {
+  const steps = ["Contact", "Delivery", "Confirm"];
+  return (
+    <div className="flex items-center gap-3 md:gap-5">
+      {steps.map((s, i) => (
+        <div key={s} className="flex items-center gap-3 md:gap-5">
+          <span className="flex items-center gap-2.5">
+            <span
+              className={`w-6 h-6 flex items-center justify-center micro tabular-nums ${
+                i <= current ? "bg-accent text-white" : "bg-primary/10 text-primary/40"
+              }`}
+            >
+              {i + 1}
+            </span>
+            <span className={`micro hidden sm:inline ${i <= current ? "text-primary" : "text-primary/35"}`}>{s}</span>
+          </span>
+          {i < steps.length - 1 && <span className="w-6 md:w-12 h-px bg-border/70" />}
+        </div>
+      ))}
     </div>
   );
 }
@@ -97,11 +126,14 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-container mx-auto px-4 md:px-8 py-28 text-center">
-        <i className="fa-solid fa-cart-arrow-down text-3xl mb-4 block text-primary/25" />
-        <p className="text-primary/55 mb-6">Your cart is empty — add something before checking out.</p>
+      <div className="max-w-container mx-auto px-5 md:px-8 py-28 text-center">
+        <div className="w-16 h-16 mx-auto mb-6 border border-border/70 text-primary/25 flex items-center justify-center text-xl">
+          <i className="fa-solid fa-cart-arrow-down" />
+        </div>
+        <p className="micro text-primary/35 mb-3">Nothing to check out</p>
+        <p className="text-primary/55 mb-8">Your cart is empty — add something before checking out.</p>
         <Link to="/search" className="btn-accent">
-          Start Shopping
+          Start shopping
         </Link>
       </div>
     );
@@ -110,55 +142,77 @@ export default function CheckoutPage() {
   return (
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: "Cart", to: "/cart" }, { label: "Checkout" }]} />
-      <div className="max-w-container mx-auto px-4 md:px-8 pb-16">
-        <h1 className="section-title">Checkout</h1>
-        <div className="flex flex-col lg:flex-row gap-8">
-          <Reveal direction="left" as="form" onSubmit={handleSubmit} className="flex-[2] surface-card p-6 md:p-8 space-y-5">
-            <h3 className="font-serif text-lg font-medium flex items-center gap-2">
-              <i className="fa-solid fa-truck text-accent text-sm" /> Delivery Details
-            </h3>
-            <Field error={errors.name}>
-              <input
-                placeholder="Your Full Name"
-                value={form.name}
-                onChange={(e) => set("name", e.target.value)}
-                className="w-full field"
-              />
-            </Field>
-            <div className="grid grid-cols-2 gap-4">
-              <Field error={errors.phone}>
+
+      <div className="border-y border-border/60 bg-white/50">
+        <div className="max-w-container mx-auto px-5 md:px-8 py-10 md:py-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <span className="eyebrow">Almost there</span>
+            <h1 className="section-title mt-4">Checkout</h1>
+          </div>
+          <StepIndex current={1} />
+        </div>
+      </div>
+
+      <div className="max-w-container mx-auto px-5 md:px-8 py-10 md:py-14">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-14">
+          <Reveal direction="left" as="form" onSubmit={handleSubmit} className="flex-[1.9] surface-card p-6 md:p-10">
+            {/* Contact */}
+            <div className="flex items-center gap-3 pb-5 mb-7 border-b border-border/60">
+              <span className="micro text-accent tabular-nums">01</span>
+              <h3 className="micro text-primary">Contact details</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <Field label="Full name" error={errors.name}>
                 <input
-                  placeholder="Phone Number"
+                  placeholder="Your full name"
+                  value={form.name}
+                  onChange={(e) => set("name", e.target.value)}
+                  className="field"
+                />
+              </Field>
+              <Field label="Phone number" error={errors.phone}>
+                <input
+                  placeholder="10-digit mobile number"
                   value={form.phone}
                   onChange={(e) => set("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
                   className="field"
                 />
               </Field>
-              <input
-                placeholder="Email (optional)"
-                type="email"
-                value={form.email}
-                onChange={(e) => set("email", e.target.value)}
-                className="field"
-              />
+              <Field label="Email (optional)" className="md:col-span-2">
+                <input
+                  placeholder="you@example.com"
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => set("email", e.target.value)}
+                  className="field"
+                />
+              </Field>
             </div>
-            <Field error={errors.address}>
-              <textarea
-                placeholder="Full Address"
-                rows={3}
-                value={form.address}
-                onChange={(e) => set("address", e.target.value)}
-                className="field resize-none"
-              />
-            </Field>
-            <div className="grid grid-cols-3 gap-4">
-              <Field error={errors.city}>
+
+            {/* Delivery */}
+            <div className="flex items-center gap-3 pb-5 mb-7 mt-10 border-b border-border/60">
+              <span className="micro text-accent tabular-nums">02</span>
+              <h3 className="micro text-primary">Delivery address</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <Field label="Full address" error={errors.address} className="md:col-span-3">
+                <textarea
+                  placeholder="House / street / landmark"
+                  rows={3}
+                  value={form.address}
+                  onChange={(e) => set("address", e.target.value)}
+                  className="field resize-none"
+                />
+              </Field>
+              <Field label="City" error={errors.city}>
                 <input placeholder="City" value={form.city} onChange={(e) => set("city", e.target.value)} className="field" />
               </Field>
-              <input placeholder="State" value={form.state} onChange={(e) => set("state", e.target.value)} className="field" />
-              <Field error={errors.pincode}>
+              <Field label="State">
+                <input placeholder="State" value={form.state} onChange={(e) => set("state", e.target.value)} className="field" />
+              </Field>
+              <Field label="Pincode" error={errors.pincode}>
                 <input
-                  placeholder="Pincode"
+                  placeholder="6-digit pincode"
                   value={form.pincode}
                   onChange={(e) => set("pincode", e.target.value.replace(/\D/g, "").slice(0, 6))}
                   className="field"
@@ -166,9 +220,14 @@ export default function CheckoutPage() {
               </Field>
             </div>
 
-            <div className="bg-secondary rounded-2xl p-4 text-sm text-primary/70 flex gap-3 items-start">
-              <i className="fa-brands fa-whatsapp text-[#25D366] text-lg mt-0.5" />
-              <p>
+            {/* Confirm */}
+            <div className="flex items-center gap-3 pb-5 mb-5 mt-10 border-b border-border/60">
+              <span className="micro text-accent tabular-nums">03</span>
+              <h3 className="micro text-primary">Confirm order</h3>
+            </div>
+            <div className="flex gap-3.5 items-start bg-secondary/70 border border-border/60 p-4 mb-7">
+              <i className="fa-brands fa-whatsapp text-[#128C7E] text-lg mt-0.5" />
+              <p className="text-[0.85rem] leading-relaxed text-primary/65">
                 We don&apos;t take payment on the website. After you place your order, a WhatsApp chat opens with your
                 order summary pre-filled — our team confirms payment (COD or UPI) and delivery there.
               </p>
@@ -180,29 +239,35 @@ export default function CheckoutPage() {
                   <i className="fa-solid fa-spinner fa-spin" /> Placing order...
                 </>
               ) : (
-                "Place Order via WhatsApp"
+                <>
+                  Place order via WhatsApp <i className="fa-solid fa-arrow-right text-[0.6rem]" />
+                </>
               )}
             </button>
           </Reveal>
 
-          <Reveal direction="right" className="flex-1">
-            <div className="surface-card p-5 md:p-6 sticky top-24">
-              <h3 className="font-serif text-lg font-medium mb-4">Order Summary</h3>
-              <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+          <Reveal direction="right" className="flex-1 min-w-[280px]">
+            <div className="surface-card p-6 md:p-7 lg:sticky lg:top-[92px]">
+              <h3 className="micro text-primary pb-4 border-b border-primary/15">Your order</h3>
+              <div className="space-y-4 py-5 max-h-80 overflow-y-auto pr-1">
                 {items.map((i) => (
-                  <div key={i.key} className="flex gap-3 items-center text-sm">
-                    <img src={imageUrl(i.image)} className="w-12 h-12 rounded-xl object-cover bg-secondary" alt="" />
-                    <div className="flex-1 min-w-0">
-                      <p className="truncate">{i.name}</p>
-                      <p className="text-xs text-primary/50">Qty {i.qty}</p>
+                  <div key={i.key} className="flex gap-3.5 items-center text-sm">
+                    <div className="w-14 h-14 shrink-0 bg-[#ebe6dc] overflow-hidden">
+                      <img src={imageUrl(i.image)} className="w-full h-full object-cover" alt="" />
                     </div>
-                    <span className="font-medium">{formatPrice(i.price * i.qty)}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="truncate text-[0.85rem] font-medium">{i.name}</p>
+                      <p className="micro text-primary/40 mt-0.5">
+                        {i.variantLabel} · Qty {i.qty}
+                      </p>
+                    </div>
+                    <span className="text-[0.85rem] font-semibold tabular-nums">{formatPrice(i.price * i.qty)}</span>
                   </div>
                 ))}
               </div>
-              <div className="flex justify-between py-3 mt-3 border-t border-border font-semibold">
-                <span>Total</span>
-                <span className="text-accent">{formatPrice(subtotal)}</span>
+              <div className="flex justify-between items-baseline py-4 border-t border-border/60">
+                <span className="micro text-primary/55">Total</span>
+                <span className="text-[1.25rem] font-semibold tabular-nums">{formatPrice(subtotal)}</span>
               </div>
             </div>
           </Reveal>

@@ -5,10 +5,11 @@ export default function OfferBar() {
   if (!settings.offerBarEnabled || !settings.offerBarText) return null;
 
   return (
-    <div className="relative bg-primary text-white text-center text-[0.72rem] font-medium py-2.5 px-4 overflow-hidden tracking-wide">
-      <span className="relative inline-flex items-center gap-[7px]">
-        <i className="fa-solid fa-sparkles text-[0.68rem] text-accent-light" />
+    <div className="bg-primary text-secondary/90 text-center py-2.5 px-4 overflow-hidden">
+      <span className="micro inline-flex items-center gap-3 tracking-micro">
+        <span className="w-1 h-1 bg-accent-light rotate-45" aria-hidden />
         {settings.offerBarText}
+        <span className="w-1 h-1 bg-accent-light rotate-45" aria-hidden />
       </span>
     </div>
   );

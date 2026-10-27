@@ -42,46 +42,57 @@ function WishlistCard({ item, onRemove }) {
   }
 
   return (
-    <div className="relative surface-card-hover overflow-hidden">
-      <motion.button
-        onClick={() => onRemove(item.productId)}
-        whileTap={{ scale: 0.8 }}
-        aria-label="Remove from wishlist"
-        className="absolute top-3 right-3 z-10 w-[34px] h-[34px] rounded-full bg-white/95 shadow-soft flex items-center justify-center text-[#c00002] transition-all duration-300 hover:bg-[#c00002] hover:text-white hover:scale-110"
-      >
-        <i className="fa-solid fa-xmark" />
-      </motion.button>
-      <Link to={`/product/${item.slug}`} className="block aspect-square bg-[#f5f2ed] overflow-hidden">
-        <img
-          src={imageUrl(item.image)}
-          alt={item.name}
-          className="w-full h-full object-contain p-4 transition-transform duration-500 ease-premium hover:scale-105"
-        />
-      </Link>
-      <div className="p-[15px] md:p-5">
-        <Link
-          to={`/product/${item.slug}`}
-          className="block text-[0.8rem] md:text-[0.9rem] font-medium leading-[1.3] min-h-[2.75em] md:min-h-[2.9em] mb-2 hover:text-accent transition-colors"
-        >
-          {item.name}
+    <div className="group">
+      <div className="relative aspect-[3/4] overflow-hidden bg-[#ebe6dc]">
+        <Link to={`/product/${item.slug}`} className="block w-full h-full">
+          <img
+            src={imageUrl(item.image)}
+            alt={item.name}
+            onError={(e) => (e.currentTarget.src = "https://placehold.co/600x800/ebe6dc/1a1a1a?text=No+Image")}
+            className="w-full h-full object-cover md:grayscale-[18%] transition-all duration-700 ease-premium group-hover:scale-[1.05] group-hover:grayscale-0"
+          />
         </Link>
-        <div className="flex items-center gap-2.5 flex-wrap mb-5">
-          <span className="text-[0.9rem] md:text-[1rem] font-semibold text-accent">{formatPrice(item.price)}</span>
-        </div>
-        <div className="flex flex-col md:flex-row gap-2">
+        <motion.button
+          onClick={() => onRemove(item.productId)}
+          whileTap={{ scale: 0.85 }}
+          aria-label="Remove from wishlist"
+          className="absolute top-2 right-2 w-9 h-9 rounded-[2px] bg-white/90 backdrop-blur flex items-center justify-center text-primary/60 hover:text-[#c00002] transition-colors duration-300"
+        >
+          <i className="fa-solid fa-xmark text-[0.85rem]" />
+        </motion.button>
+        <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-[420ms] ease-premium hidden md:block">
           <button
             onClick={handleAddToCart}
             disabled={adding}
-            className="flex-1 bg-accent text-white rounded-full py-2 px-3 text-[0.75rem] font-semibold transition-colors duration-300 hover:bg-accent-light disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-2 bg-white/95 backdrop-blur border-t border-primary/10 micro text-primary py-3.5 hover:bg-primary hover:text-white transition-colors duration-300 disabled:opacity-60"
           >
-            <i className={adding ? "fa-solid fa-spinner fa-spin mr-1.5" : "fa-solid fa-bag-shopping mr-1.5"} />
-            Add to Cart
+            <i className={adding ? "fa-solid fa-spinner fa-spin text-[0.7rem]" : "fa-solid fa-plus text-[0.65rem]"} />
+            {adding ? "Adding" : "Move to bag"}
+          </button>
+        </div>
+      </div>
+      <div className="pt-4">
+        <Link
+          to={`/product/${item.slug}`}
+          className="block text-[0.85rem] font-medium leading-snug min-h-[2.6em] hover:text-accent transition-colors line-clamp-2"
+        >
+          {item.name}
+        </Link>
+        <span className="block text-[0.9rem] font-semibold tabular-nums mt-1.5">{formatPrice(item.price)}</span>
+        <div className="flex gap-2 mt-3">
+          <button
+            onClick={handleAddToCart}
+            disabled={adding}
+            className="flex-1 flex items-center justify-center gap-2 micro border border-primary/20 py-2.5 hover:bg-primary hover:text-secondary transition-colors duration-300 disabled:opacity-50"
+          >
+            <i className={adding ? "fa-solid fa-spinner fa-spin" : "fa-solid fa-bag-shopping"} />
+            Add to bag
           </button>
           <Link
             to={`/product/${item.slug}`}
-            className="flex-1 text-center border border-border rounded-full py-2 px-3 text-[0.75rem] font-semibold transition-colors duration-300 hover:border-accent hover:text-accent"
+            className="flex-1 flex items-center justify-center gap-2 micro border border-border/70 bg-white py-2.5 text-primary/60 hover:border-primary/40 transition-colors duration-300"
           >
-            View Details
+            View
           </Link>
         </div>
       </div>
@@ -96,35 +107,46 @@ export default function WishlistPage() {
   return (
     <div>
       <Breadcrumb items={[{ label: "Home", to: "/" }, { label: "My Wishlist" }]} />
-      <div className="max-w-container mx-auto px-6 lg:px-8 pb-16">
-        <Reveal className="text-center mb-10">
-          <span className="eyebrow">Saved for later</span>
-          <h1 className="section-title mt-2 mb-0">{settings.sectionTitles?.wishlistPageTitle || "My Wishlist"}</h1>
-        </Reveal>
 
+      <div className="border-y border-border/60 bg-white/50">
+        <div className="max-w-container mx-auto px-5 md:px-8 py-10 md:py-14 flex items-end justify-between gap-5">
+          <div>
+            <span className="eyebrow">Saved for later</span>
+            <h1 className="section-title mt-4">{settings.sectionTitles?.wishlistPageTitle || "My Wishlist"}</h1>
+          </div>
+          {items.length > 0 && (
+            <p className="micro text-primary/40 tabular-nums shrink-0 pb-2">
+              {items.length} saved
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div className="max-w-container mx-auto px-5 md:px-8 py-10 md:py-14">
         {items.length === 0 ? (
-          <Reveal className="text-center surface-card py-16 md:py-20 px-5">
-            <div className="w-20 h-20 xs:w-24 xs:h-24 mx-auto mb-6 rounded-full bg-accent/[0.07] text-accent flex items-center justify-center text-3xl xs:text-4xl">
+          <Reveal className="text-center border border-border/60 bg-white py-16 md:py-24 px-6 max-w-xl mx-auto">
+            <div className="w-16 h-16 mx-auto mb-6 border border-border/70 text-primary/25 flex items-center justify-center text-xl">
               <i className="fa-regular fa-heart" />
             </div>
-            <h3 className="font-serif text-xl xs:text-2xl mb-3">Your wishlist is empty</h3>
-            <p className="text-primary/45 mb-8 max-w-md mx-auto">
+            <p className="micro text-primary/35 mb-3">Nothing saved</p>
+            <h3 className="font-serif text-2xl mb-3">Your wishlist is empty</h3>
+            <p className="text-[0.9rem] text-primary/50 mb-8 max-w-md mx-auto">
               You haven&apos;t added any items to your wishlist yet. Start exploring our collection and save your
-              favorite items for later!
+              favorite items for later.
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="flex gap-3 justify-center flex-wrap">
               <Link to="/search" className="btn-accent">
-                <i className="fa-solid fa-bag-shopping" /> Start Shopping
+                Start shopping
               </Link>
               <Link to="/" className="btn-soft">
-                <i className="fa-solid fa-house" /> Back to Home
+                Back to home
               </Link>
             </div>
           </Reveal>
         ) : (
           <>
             <RevealGroup
-              className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-[30px] mb-10 md:mb-[50px]"
+              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14"
               stagger={0.06}
             >
               {items.map((item) => (
@@ -134,12 +156,12 @@ export default function WishlistPage() {
               ))}
             </RevealGroup>
 
-            <Reveal className="surface-card p-6 md:p-7">
-              <h3 className="font-serif text-[1.2rem] pb-3 mb-5 border-b border-border">Good to know</h3>
-              <ul className="space-y-3">
+            <Reveal className="mt-14 md:mt-20 border-t border-border/60 pt-10 max-w-2xl">
+              <h3 className="micro text-primary/40 mb-5">Good to know</h3>
+              <ul className="space-y-3.5">
                 {INFO_ITEMS.map((text) => (
-                  <li key={text} className="flex gap-2.5 text-primary/55 text-[0.85rem]">
-                    <i className="fa-solid fa-circle-check text-accent/70 shrink-0 mt-0.5" />
+                  <li key={text} className="flex gap-3 text-primary/60 text-[0.88rem]">
+                    <i className="fa-solid fa-check text-accent/60 text-[0.65rem] mt-1.5 shrink-0" />
                     {text}
                   </li>
                 ))}

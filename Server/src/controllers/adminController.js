@@ -21,7 +21,8 @@ async function uniqueSlug(base, Model, excludeId) {
 export async function listProducts(req, res) {
   const filter = {};
   if (req.query.category) filter.category = req.query.category;
-  if (req.query.search) filter.name = { $regex: req.query.search, $options: "i" };
+  if (req.query.search)
+    filter.name = { $regex: String(req.query.search).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), $options: "i" };
   const products = await Product.find(filter).populate("category", "name slug").sort({ createdAt: -1 });
   res.json(products);
 }

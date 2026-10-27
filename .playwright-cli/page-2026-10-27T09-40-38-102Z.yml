@@ -1,0 +1,95 @@
+- generic [ref=f2e3]:
+  - generic [ref=f2e4]: DO CONNECT GET ACCESSORISED
+  - banner [ref=f2e8]:
+    - generic [ref=f2e9]:
+      - text: 
+      - button "Open menu" [ref=f2e10] [cursor=pointer]:
+        - generic [ref=f2e11]: 
+      - link "Store" [ref=f2e12] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f2e14]:
+        - button "Search" [ref=f2e15] [cursor=pointer]:
+          - generic [ref=f2e16]: 
+        - link "Wishlist" [ref=f2e17] [cursor=pointer]:
+          - /url: /wishlist
+          - generic [ref=f2e18]: 
+        - link "Cart" [ref=f2e19] [cursor=pointer]:
+          - /url: /cart
+          - generic [ref=f2e20]: 
+  - main [ref=f2e21]:
+    - generic [ref=f2e23]:
+      - generic [ref=f2e24]: 
+      - paragraph [ref=f2e28]: Fetching product details...
+  - contentinfo [ref=f2e29]:
+    - generic [ref=f2e31]:
+      - generic [ref=f2e32]:
+        - text: Do connect
+        - paragraph [ref=f2e33]: DO CONNECT GET ACCESSORISED
+      - generic [ref=f2e34]:
+        - link "Shop the collection " [ref=f2e35] [cursor=pointer]:
+          - /url: /search
+          - text: Shop the collection
+          - generic [ref=f2e36]: 
+        - link " WhatsApp us" [ref=f2e37] [cursor=pointer]:
+          - /url: https://wa.me/910000000000
+          - generic [ref=f2e38]: 
+          - text: WhatsApp us
+    - generic [ref=f2e39]:
+      - generic [ref=f2e40]:
+        - link "Store" [ref=f2e41] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=f2e43]: Handpicked, tarnish-resistant jewelry designed for everyday elegance.
+      - generic [ref=f2e44]:
+        - heading "Collections" [level=4] [ref=f2e45]
+        - list [ref=f2e46]:
+          - listitem [ref=f2e47]:
+            - link "View all products" [ref=f2e48] [cursor=pointer]:
+              - /url: /search
+      - generic [ref=f2e49]:
+        - heading "Quick Links" [level=4] [ref=f2e50]
+        - list [ref=f2e51]:
+          - listitem [ref=f2e52]:
+            - link "Contact Us" [ref=f2e53] [cursor=pointer]:
+              - /url: /contactus
+          - listitem [ref=f2e54]:
+            - link "Track Order" [ref=f2e55] [cursor=pointer]:
+              - /url: /track
+          - listitem [ref=f2e56]:
+            - link "Shipping Policy" [ref=f2e57] [cursor=pointer]:
+              - /url: /shipping
+          - listitem [ref=f2e58]:
+            - link "Terms & Conditions" [ref=f2e59] [cursor=pointer]:
+              - /url: /terms
+          - listitem [ref=f2e60]:
+            - link "Privacy Policy" [ref=f2e61] [cursor=pointer]:
+              - /url: /privacy
+      - generic [ref=f2e62]:
+        - heading "Get in Touch" [level=4] [ref=f2e63]
+        - list
+    - generic [ref=f2e65]:
+      - paragraph [ref=f2e66]: © 2026 Store · All rights reserved
+      - generic [ref=f2e67]:
+        - link "Terms" [ref=f2e68] [cursor=pointer]:
+          - /url: /terms
+        - link "Privacy" [ref=f2e69] [cursor=pointer]:
+          - /url: /privacy
+        - link "Shipping" [ref=f2e70] [cursor=pointer]:
+          - /url: /shipping
+    - generic [aria-hidden]:
+      - paragraph: Store
+  - link "Chat on WhatsApp" [ref=f2e71] [cursor=pointer]:
+    - /url: https://wa.me/910000000000
+    - generic [ref=f2e72]: 
+  - navigation [ref=f2e73]:
+    - link " Home" [ref=f2e74] [cursor=pointer]:
+      - /url: /
+      - generic [ref=f2e75]: 
+      - text: Home
+    - link " Search" [ref=f2e76] [cursor=pointer]:
+      - /url: /search
+      - generic [ref=f2e77]: 
+      - text: Search
+    - link " Track" [ref=f2e78] [cursor=pointer]:
+      - /url: /track
+      - generic [ref=f2e79]: 
+      - text: Track

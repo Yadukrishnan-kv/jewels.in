@@ -1,25 +1,26 @@
 import ProductCard from "./ProductCard.jsx";
 import { RevealGroup, RevealItem } from "./Reveal.jsx";
 
+const GRID = {
+  home: "grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-12",
+  shop: "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14",
+  listing: "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-12",
+};
+
 export default function ProductGrid({ products, emptyMessage = "No products found.", variant = "listing" }) {
   if (!products || products.length === 0) {
     return (
-      <div className="col-span-full text-center py-20 px-5">
-        <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-accent/[0.08] text-accent flex items-center justify-center text-2xl">
+      <div className="col-span-full border border-border/60 bg-white/50 py-20 px-6 text-center">
+        <div className="w-14 h-14 mx-auto mb-5 border border-border/70 text-primary/30 flex items-center justify-center">
           <i className="fa-regular fa-face-frown" />
         </div>
-        <p className="font-serif text-lg text-primary/50">{emptyMessage}</p>
+        <p className="micro text-primary/40 mb-2">Nothing here yet</p>
+        <p className="font-serif text-lg text-primary/60">{emptyMessage}</p>
       </div>
     );
   }
-  const gridClasses =
-    variant === "home"
-      ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 xs:gap-4 md:gap-[30px]"
-      : variant === "shop"
-      ? "grid grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-3 xs:gap-4 md:gap-6 p-3 xs:p-4 md:p-6"
-      : "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 xs:gap-4 md:gap-5 lg:gap-6 p-px xs:p-5 md:p-6 lg:p-[30px]";
   return (
-    <RevealGroup className={gridClasses} stagger={0.05} amount={0.1}>
+    <RevealGroup className={GRID[variant] || GRID.listing} stagger={0.05} amount={0.08}>
       {products.map((p) => (
         <RevealItem key={p._id}>
           <ProductCard product={p} />

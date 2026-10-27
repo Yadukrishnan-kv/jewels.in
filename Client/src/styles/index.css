@@ -5,8 +5,7 @@
 :root {
   /* Brand theme colors, as "R G B" triplets for Tailwind's rgb(var(...) / <alpha-value>)
      opacity support. Overridden at runtime from SiteSettings.themeColors — see
-     src/utils/theme.js — so a reseller can rebrand without a rebuild. These defaults
-     match the original site's palette exactly. */
+     src/utils/theme.js — so a reseller can rebrand without a rebuild. */
   --color-primary-rgb: 26 26 26;
   --color-secondary-rgb: 239 237 233;
   --color-accent-rgb: 20 46 37;
@@ -20,8 +19,11 @@
   }
   body {
     @apply bg-secondary text-primary font-sans;
-    line-height: 1.4;
+    line-height: 1.5;
     overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
   }
 }
 
@@ -29,9 +31,10 @@
    behavior is unaffected by the public-site redesign. SiteLayout's root div
    carries this class; AdminLayout does not. */
 .site-shell {
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
 }
 .site-shell ::selection {
   background: rgb(var(--color-accent-rgb) / 0.18);
@@ -45,7 +48,7 @@ html:has(.site-shell) {
      NOTE: .icon-btn / .btn / .btn-primary / .btn-outline are shared with the admin
      panel (Client/src/pages/admin, components/admin) and are kept byte-for-byte
      identical to their original definitions so the admin UI is unaffected by the
-     storefront redesign. New premium variants below use distinct class names. */
+     storefront redesign. Storefront-only variants live below. */
   .icon-btn {
     @apply inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-primary transition-colors hover:text-accent relative;
   }
@@ -59,61 +62,76 @@ html:has(.site-shell) {
     @apply btn border border-primary text-primary hover:bg-primary hover:text-white;
   }
 
-  /* ---------- Storefront-only premium button variants ---------- */
+  /* ---------- Storefront buttons: sharp, micro-tracked, enterprise ---------- */
   .btn-accent {
-    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 ease-premium active:scale-[0.97] disabled:opacity-60 disabled:pointer-events-none bg-accent text-white shadow-soft hover:bg-accent-light hover:shadow-glow hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[2px] text-[0.7rem] font-semibold uppercase tracking-micro transition-all duration-300 ease-premium active:scale-[0.99] disabled:opacity-55 disabled:pointer-events-none bg-accent text-white hover:bg-accent-light hover:shadow-glow;
   }
   .btn-soft {
-    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-all duration-300 ease-premium active:scale-[0.97] disabled:opacity-60 disabled:pointer-events-none border border-primary/15 text-primary bg-white hover:border-accent hover:text-accent hover:-translate-y-0.5 hover:shadow-soft;
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[2px] text-[0.7rem] font-semibold uppercase tracking-micro transition-all duration-300 ease-premium active:scale-[0.99] disabled:opacity-55 disabled:pointer-events-none border border-primary/25 text-primary bg-transparent hover:bg-primary hover:text-white hover:border-primary;
+  }
+  .btn-ink {
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-[2px] text-[0.7rem] font-semibold uppercase tracking-micro transition-all duration-300 ease-premium active:scale-[0.99] bg-primary text-white hover:bg-black hover:shadow-card;
   }
   .pill-button {
-    @apply inline-flex items-center gap-2 bg-accent text-white px-5 py-2.5 rounded-full text-[0.8rem] font-semibold tracking-wide hover:bg-accent-light transition-all duration-300 ease-premium hover:-translate-y-0.5 hover:shadow-soft;
+    @apply inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-[2px] text-[0.66rem] font-semibold uppercase tracking-micro hover:bg-accent-light transition-all duration-300 ease-premium hover:shadow-glow;
   }
 
   /* ---------- Surfaces ---------- */
   .surface-card {
-    @apply bg-white border border-border/70 rounded-[28px] shadow-card;
+    @apply bg-white border border-border/60 rounded-[3px];
   }
   .surface-card-hover {
-    @apply surface-card transition-all duration-500 ease-premium hover:shadow-card-hover hover:-translate-y-1;
+    @apply surface-card transition-all duration-500 ease-premium hover:border-primary/25 hover:shadow-card;
   }
 
   /* ---------- Inputs ---------- */
   .field {
-    @apply w-full bg-white border border-border rounded-2xl px-5 py-3.5 text-[0.9rem] text-primary outline-none transition-all duration-300 ease-premium placeholder:text-primary/35 focus:border-accent focus:shadow-[0_0_0_4px_rgb(var(--color-accent-rgb)/0.1)];
+    @apply w-full bg-white border border-border/70 rounded-[2px] px-4 py-3.5 text-[0.9rem] text-primary outline-none transition-all duration-300 ease-premium placeholder:text-primary/30 focus:border-accent focus:shadow-[0_0_0_3px_rgb(var(--color-accent-rgb)/0.1)];
+  }
+  .field:focus-visible {
+    outline: none;
+  }
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .field-label {
+    @apply block text-[0.66rem] font-semibold uppercase tracking-micro text-primary/45 mb-2;
   }
   .field-pill {
-    @apply field rounded-full;
+    @apply field;
   }
 
-  /* ---------- Section heading system ---------- */
+  /* ---------- Editorial section system ---------- */
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[0.7rem] font-semibold tracking-wider2 uppercase text-accent;
+    @apply inline-flex items-center gap-3 text-[0.66rem] font-semibold uppercase tracking-micro text-accent;
   }
   .section-title {
-    @apply font-serif text-center font-normal relative text-primary;
-    font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.6rem);
-    letter-spacing: 0.01em;
-    margin: 0 0 44px;
-  }
-  .section-title::after {
-    content: "";
-    position: absolute;
-    width: 56px;
-    height: 2px;
-    background: rgb(var(--color-accent-rgb));
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.6;
+    @apply font-serif font-normal text-primary;
+    font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3.1rem);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
   }
   .section-subtitle {
-    @apply text-[0.95rem] text-primary/55 max-w-xl mx-auto -mt-8 mb-10 text-center;
+    @apply text-[0.95rem] text-primary/55 max-w-xl leading-relaxed;
+  }
+  .micro {
+    @apply text-[0.66rem] font-semibold uppercase tracking-micro;
+  }
+  .link-underline {
+    @apply relative inline-block transition-colors hover:text-accent;
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute left-0 -bottom-0.5 h-px w-0 bg-current transition-all duration-500 ease-premium;
+  }
+  .link-underline:hover::after {
+    @apply w-full;
   }
 
   /* ---------- Skeleton shimmer ---------- */
   .skeleton {
-    @apply relative overflow-hidden bg-primary/[0.06] rounded-2xl;
+    @apply relative overflow-hidden bg-primary/[0.06] rounded-[2px];
   }
   .skeleton::after {
     content: "";
@@ -125,17 +143,11 @@ html:has(.site-shell) {
   }
 }
 
-@media (max-width: 768px) {
-  .section-title {
-    margin-bottom: 32px;
-  }
-}
-
 /* =========================================================================
    Admin panel design system — scoped to `.admin-*` class names so it can
    never collide with the storefront's `.btn`/`.field`/etc. classes above.
-   Deliberately tighter radii + denser spacing than the storefront's pillowy
-   boutique look: this is a data tool, not a product page.
+   Deliberately tighter radii + denser spacing than the storefront: this is a
+   data tool, not a product page.
    ========================================================================= */
 @layer components {
   .admin-card {
@@ -188,32 +200,40 @@ html:has(.site-shell) {
   }
 }
 
-/* Carousel nav arrows — circular buttons matching the site's product gallery */
+/* Carousel nav arrows — sharp-edged, hairline, matching the new geometry */
 .gallery-swiper .swiper-button-next,
 .gallery-swiper .swiper-button-prev,
 .testimonial-swiper .swiper-button-next,
-.testimonial-swiper .swiper-button-prev {
-  width: 42px;
-  height: 42px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(6px);
-  border-radius: 50%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+.testimonial-swiper .swiper-button-prev,
+.reel-swiper .swiper-button-next,
+.reel-swiper .swiper-button-prev {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgb(var(--color-border-rgb) / 0.8);
+  border-radius: 2px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background 0.25s ease;
 }
 .gallery-swiper .swiper-button-next:hover,
 .gallery-swiper .swiper-button-prev:hover,
 .testimonial-swiper .swiper-button-next:hover,
-.testimonial-swiper .swiper-button-prev:hover {
-  transform: scale(1.08);
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+.testimonial-swiper .swiper-button-prev:hover,
+.reel-swiper .swiper-button-next:hover,
+.reel-swiper .swiper-button-prev:hover {
+  transform: scale(1.05);
+  background: #fff;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.14);
 }
 .gallery-swiper .swiper-button-next::after,
 .gallery-swiper .swiper-button-prev::after,
 .testimonial-swiper .swiper-button-next::after,
-.testimonial-swiper .swiper-button-prev::after {
-  font-size: 15px;
-  color: rgb(var(--color-accent-rgb));
+.testimonial-swiper .swiper-button-prev::after,
+.reel-swiper .swiper-button-next::after,
+.reel-swiper .swiper-button-prev::after {
+  font-size: 14px;
+  color: rgb(var(--color-primary-rgb));
 }
 .testimonial-swiper .swiper-button-next {
   right: 4px;
@@ -221,18 +241,25 @@ html:has(.site-shell) {
 .testimonial-swiper .swiper-button-prev {
   left: 4px;
 }
+.reel-swiper .swiper-button-next {
+  right: 4px;
+}
+.reel-swiper .swiper-button-prev {
+  left: 4px;
+}
 
 /* Swiper pagination brand override */
 .swiper-pagination-bullet {
   background: rgb(var(--color-primary-rgb));
-  opacity: 0.25;
+  opacity: 0.2;
+  border-radius: 2px;
   transition: all 0.3s ease;
 }
 .swiper-pagination-bullet-active {
   background: rgb(var(--color-accent-rgb));
   opacity: 1;
-  width: 20px;
-  border-radius: 999px;
+  width: 22px;
+  border-radius: 2px;
 }
 .swiper-button-next,
 .swiper-button-prev {
@@ -246,6 +273,25 @@ html:has(.site-shell) {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Prose styling for CMS-driven static pages (about / terms / shipping / privacy) */
+.site-prose {
+  @apply text-[0.98rem] leading-[1.75] text-primary/75;
+}
+.site-prose > *:first-child {
+  margin-top: 0;
+}
+.site-prose p { @apply mb-5; }
+.site-prose h1 { @apply font-serif text-accent text-[1.7rem] my-8 leading-tight; }
+.site-prose h2 { @apply font-serif text-accent text-[1.35rem] my-8 leading-snug; }
+.site-prose h3 { @apply font-serif text-accent text-[1.1rem] my-6; }
+.site-prose ul { @apply mb-5 pl-5 list-disc; }
+.site-prose ol { @apply mb-5 pl-5 list-decimal; }
+.site-prose li { @apply mb-2 pl-1; }
+.site-prose li::marker { @apply text-accent/60; }
+.site-prose strong { @apply text-primary font-semibold; }
+.site-prose a { @apply text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors; }
+.site-prose blockquote { @apply border-l-2 border-accent/40 pl-5 my-6 italic text-primary/65; }
 
 @keyframes scrollText {
   0% { transform: translateX(100%); }
