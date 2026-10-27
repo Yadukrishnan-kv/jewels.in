@@ -102,6 +102,7 @@ export default function Home() {
   }
 
   const titles = data.settings?.sectionTitles || {};
+  const instagramUrl = data.settings?.socialLinks?.instagram;
   const hero = bannersOf(data.banners, "hero")[0];
   const promoLarge = bannersOf(data.banners, "promo-large")[0];
   const promoSmall = bannersOf(data.banners, "promo-small");
@@ -273,7 +274,12 @@ export default function Home() {
             ))}
           </Swiper>
           <Reveal className="mt-6">
-            <a href="https://instagram.com/halajewells" target="_blank" rel="noreferrer" className="btn-soft">
+            <a
+              href={instagramUrl || "https://instagram.com/halajewells"}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-soft"
+            >
               <i className="fa-brands fa-instagram" /> Visit our Instagram
             </a>
           </Reveal>
