@@ -6,6 +6,7 @@ import SiteSettings from "../models/SiteSettings.js";
 import AdminUser from "../models/AdminUser.js";
 import Inquiry from "../models/Inquiry.js";
 import { slugify } from "../utils/slugify.js";
+import { uploadBuffer } from "../config/cloudinary.js";
 
 async function uniqueSlug(base, Model, excludeId) {
   let slug = slugify(base);
@@ -272,7 +273,8 @@ export async function getNotifications(req, res) {
 }
 
 // ---- Upload ----
-export function uploadImage(req, res) {
+export async function uploadImage(req, res) {
   if (!req.file) return res.status(400).json({ message: "No file uploaded" });
-  res.json({ url: `/uploads/media/${req.file.filename}` });
+  const result = await uploadBuffer(req.file.buffer);
+  res.json({ url: result.secure_url });
 }
