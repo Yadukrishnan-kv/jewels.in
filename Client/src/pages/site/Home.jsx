@@ -148,7 +148,7 @@ export default function Home() {
           title={titles.collectionsTitle || "Collections"}
           href="/search"
         />
-        <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-10 md:gap-y-14" stagger={0.06}>
+        <RevealGroup className="grid grid-cols-2 md:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-10 md:gap-y-14" stagger={0.06} mount>
           {data.categories.map((c, i) => (
             <RevealItem key={c._id}>
               <Link to={`/category/${c.slug}`} className="group block">

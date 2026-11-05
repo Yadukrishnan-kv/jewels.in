@@ -37,22 +37,31 @@ export async function getCategories(req, res) {
   res.json(categories);
 }
 
+async function getActiveCategoryIds() {
+  const cats = await Category.find({ isActive: true }).select("_id");
+  return cats.map((c) => c._id);
+}
+
 export async function getTags(req, res) {
   const tags = await Tag.find().sort({ name: 1 });
   res.json(tags);
 }
 
 export async function getHomepage(req, res) {
+  const activeCategoryIds = await getActiveCategoryIds();
+
   const [categories, banners, testimonials, reels, viralProducts, settings] = await Promise.all([
     Category.find({ isActive: true, showOnHome: true }).sort({ sortOrder: 1 }),
     Banner.find({ isActive: true }).sort({ sortOrder: 1 }),
     Testimonial.find({ isActive: true }).sort({ sortOrder: 1 }),
     Reel.find({ isActive: true }).sort({ sortOrder: 1 }),
-    Product.find({ isActive: true, isViral: true }).populate("category", "name slug").limit(8),
+    Product.find({ isActive: true, isViral: true, category: { $in: activeCategoryIds } })
+      .populate("category", "name slug")
+      .limit(8),
     SiteSettings.findOne({ key: "main" }),
   ]);
 
-  const minimalGirlies = await Product.find({ isActive: true })
+  const minimalGirlies = await Product.find({ isActive: true, category: { $in: activeCategoryIds } })
     .populate("category", "name slug")
     .sort({ createdAt: -1 })
     .limit(8);
@@ -91,11 +100,12 @@ const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export async function getProducts(req, res) {
   const { category, tag, search, sort = "featured", price_min, price_max, discount, page = 1 } = req.query;
 
-  const filter = { isActive: true };
+  const activeCategoryIds = await getActiveCategoryIds();
+  const filter = { isActive: true, category: { $in: activeCategoryIds } };
   if (category) {
-    const cat = await Category.findOne({ slug: category });
+    const cat = await Category.findOne({ slug: category, isActive: true });
     if (cat) filter.category = cat._id;
-    else filter.category = null; // no match
+    else filter.category = null; // inactive or unknown category -> no match
   }
   if (tag) {
     const tagDoc = await Tag.findOne({ slug: tag });
@@ -165,6 +175,11 @@ export async function getProducts(req, res) {
 export async function getProductBySlug(req, res) {
   const product = await Product.findOne({ slug: req.params.slug, isActive: true }).populate("category", "name slug");
   if (!product) return res.status(404).json({ message: "Product not found" });
+
+  if (product.category) {
+    const categoryActive = await Category.exists({ _id: product.category._id, isActive: true });
+    if (!categoryActive) return res.status(404).json({ message: "Product not found" });
+  }
 
   const related = await Product.find({
     category: product.category?._id,
