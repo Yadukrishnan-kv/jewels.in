@@ -1,30 +1,50 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "./ToastContext.jsx";
+import { useAuth } from "./AuthContext.jsx";
+import { userApi } from "../api/client.js";
 
 const WishlistContext = createContext(null);
-const STORAGE_KEY = "hala_wishlist_v1";
-
-function load() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
 
 export function WishlistProvider({ children }) {
-  const [items, setItems] = useState(load);
+  const { token } = useAuth();
+  const [items, setItems] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  }, [items]);
+    if (!token) {
+      setItems([]);
+      setLoaded(false);
+      return;
+    }
+    let active = true;
+    userApi
+      .get("/wishlist", token)
+      .then((data) => active && setItems(data?.items || []))
+      .catch(() => active && setItems([]))
+      .finally(() => active && setLoaded(true));
+    return () => {
+      active = false;
+    };
+  }, [token]);
+
+  useEffect(() => {
+    if (!token || !loaded) return;
+    userApi.put("/wishlist", { items }, token).catch(() => {});
+  }, [items, token, loaded]);
+
+  const requireLogin = useCallback(() => {
+    showToast("Please login to save items to your wishlist", "error");
+    navigate("/login");
+  }, [showToast, navigate]);
 
   const isWishlisted = useCallback((productId) => items.some((i) => i.productId === productId), [items]);
 
   const toggle = useCallback(
     (product) => {
+      if (!token) return requireLogin();
       setItems((prev) => {
         const exists = prev.find((i) => i.productId === product._id);
         if (exists) {
@@ -44,21 +64,22 @@ export function WishlistProvider({ children }) {
         ];
       });
     },
-    [showToast]
+    [token, requireLogin, showToast]
   );
 
   const remove = useCallback(
     (productId) => {
+      if (!token) return requireLogin();
       setItems((prev) => prev.filter((i) => i.productId !== productId));
       showToast("Item removed from wishlist!");
     },
-    [showToast]
+    [token, requireLogin, showToast]
   );
 
   const count = useMemo(() => items.length, [items]);
 
   return (
-    <WishlistContext.Provider value={{ items, toggle, remove, isWishlisted, count }}>
+    <WishlistContext.Provider value={{ items, loaded, toggle, remove, isWishlisted, count }}>
       {children}
     </WishlistContext.Provider>
   );

@@ -13,6 +13,10 @@ import ContactUs from "./pages/site/ContactUs.jsx";
 import AboutUs from "./pages/site/AboutUs.jsx";
 import StaticPage from "./pages/site/StaticPage.jsx";
 import NotFound from "./pages/site/NotFound.jsx";
+import LoginPage from "./pages/site/LoginPage.jsx";
+import SignupPage from "./pages/site/SignupPage.jsx";
+import AccountPage from "./pages/site/AccountPage.jsx";
+import RequireAuth from "./components/site/RequireAuth.jsx";
 
 import AdminLayout from "./components/admin/AdminLayout.jsx";
 import ProtectedRoute from "./components/admin/ProtectedRoute.jsx";
@@ -36,11 +40,49 @@ export default function App() {
         <Route path="/category/:slug" element={<CategoryPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/product/:slug" element={<ProductDetail />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route
+          path="/cart"
+          element={
+            <RequireAuth>
+              <CartPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/wishlist"
+          element={
+            <RequireAuth>
+              <WishlistPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <RequireAuth>
+              <CheckoutPage />
+            </RequireAuth>
+          }
+        />
         <Route path="/order-confirmation/:orderNumber" element={<OrderConfirmation />} />
-        <Route path="/track" element={<TrackOrder />} />
+        <Route
+          path="/track"
+          element={
+            <RequireAuth>
+              <TrackOrder />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <RequireAuth>
+              <AccountPage />
+            </RequireAuth>
+          }
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/terms" element={<StaticPage slug="terms" />} />

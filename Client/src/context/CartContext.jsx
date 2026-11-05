@@ -1,29 +1,49 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "./ToastContext.jsx";
+import { useAuth } from "./AuthContext.jsx";
+import { userApi } from "../api/client.js";
 
 const CartContext = createContext(null);
-const STORAGE_KEY = "hala_cart_v1";
-
-function loadCart() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState(loadCart);
+  const { token } = useAuth();
+  const [items, setItems] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  }, [items]);
+    if (!token) {
+      setItems([]);
+      setLoaded(false);
+      return;
+    }
+    let active = true;
+    userApi
+      .get("/cart", token)
+      .then((data) => active && setItems(data?.items || []))
+      .catch(() => active && setItems([]))
+      .finally(() => active && setLoaded(true));
+    return () => {
+      active = false;
+    };
+  }, [token]);
+
+  useEffect(() => {
+    if (!token || !loaded) return;
+    userApi.put("/cart", { items }, token).catch(() => {});
+  }, [items, token, loaded]);
+
+  const requireLogin = useCallback(() => {
+    showToast("Please login to add items to your cart", "error");
+    navigate("/login");
+  }, [showToast, navigate]);
 
   // key = productId + variantId, keeps distinct variants as separate lines
   const addItem = useCallback(
     (product, variant, qty = 1) => {
+      if (!token) return requireLogin();
       let outcome = "added";
       setItems((prev) => {
         const key = `${product._id}_${variant._id}`;
@@ -56,23 +76,28 @@ export function CartProvider({ children }) {
       if (outcome === "maxed") showToast(`Only ${variant.stock} units available in stock!`, "warning");
       else showToast(`${product.name} added to cart`);
     },
-    [showToast]
+    [token, requireLogin, showToast]
   );
 
-  const updateQty = useCallback((key, qty) => {
-    setItems((prev) =>
-      prev
-        .map((i) => (i.key === key ? { ...i, qty: Math.max(1, Math.min(qty, i.stock)) } : i))
-        .filter(Boolean)
-    );
-  }, []);
+  const updateQty = useCallback(
+    (key, qty) => {
+      if (!token) return requireLogin();
+      setItems((prev) =>
+        prev
+          .map((i) => (i.key === key ? { ...i, qty: Math.max(1, Math.min(qty, i.stock)) } : i))
+          .filter(Boolean)
+      );
+    },
+    [token, requireLogin]
+  );
 
   const removeItem = useCallback(
     (key) => {
+      if (!token) return requireLogin();
       setItems((prev) => prev.filter((i) => i.key !== key));
       showToast("Item removed from cart");
     },
-    [showToast]
+    [token, requireLogin, showToast]
   );
 
   const clearCart = useCallback(() => setItems([]), []);
@@ -80,7 +105,7 @@ export function CartProvider({ children }) {
   const subtotal = useMemo(() => items.reduce((sum, i) => sum + i.price * i.qty, 0), [items]);
   const count = useMemo(() => items.reduce((sum, i) => sum + i.qty, 0), [items]);
 
-  const value = { items, addItem, updateQty, removeItem, clearCart, subtotal, count };
+  const value = { items, loaded, addItem, updateQty, removeItem, clearCart, subtotal, count };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

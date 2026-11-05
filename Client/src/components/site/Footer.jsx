@@ -13,7 +13,7 @@ const SOCIAL_ICONS = [
 
 const QUICK_LINKS = [
   { to: "/contactus", label: "Contact Us" },
-  { to: "/track", label: "Track Order" },
+  { to: "/track", label: "My Orders" },
   { to: "/shipping", label: "Shipping Policy" },
   { to: "/terms", label: "Terms & Conditions" },
   { to: "/privacy", label: "Privacy Policy" },

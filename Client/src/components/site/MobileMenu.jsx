@@ -7,7 +7,7 @@ const NAV_LINKS = [
   { label: "New Arrivals", to: "/search" },
   { label: "About Us", to: "/about" },
   { label: "Contact", to: "/contactus" },
-  { label: "Track Order", to: "/track" },
+  { label: "My Orders", to: "/track" },
 ];
 
 const SOCIALS = [

@@ -5,6 +5,9 @@ import path from "node:path";
 import { connectDB } from "./config/db.js";
 import publicRoutes from "./routes/publicRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { runSeedIfEmpty } from "./seed/seed.js";
 
@@ -18,6 +21,9 @@ app.use("/uploads", express.static(path.resolve("uploads")));
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 app.use("/api", publicRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

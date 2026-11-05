@@ -20,7 +20,7 @@ export default function ProductGrid({ products, emptyMessage = "No products foun
     );
   }
   return (
-    <RevealGroup className={GRID[variant] || GRID.listing} stagger={0.05} amount={0.08}>
+    <RevealGroup className={GRID[variant] || GRID.listing} stagger={0.05} mount>
       {products.map((p) => (
         <RevealItem key={p._id}>
           <ProductCard product={p} />

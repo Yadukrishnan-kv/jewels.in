@@ -51,8 +51,8 @@ export default function OrderConfirmation() {
           </ul>
 
           <div className="flex gap-3 justify-center flex-wrap mt-10">
-            <Link to={`/track?orderNumber=${orderNumber}`} className="btn-accent">
-              Track this order
+            <Link to="/track" className="btn-accent">
+              View my orders
             </Link>
             <Link to="/" className="btn-soft">
               Back to home

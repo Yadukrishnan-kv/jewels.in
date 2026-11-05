@@ -38,15 +38,10 @@ export default function Reveal({
 }
 
 /** Stagger container — wrap a list of Reveal-less children, each a motion item, to cascade in. */
-export function RevealGroup({ children, className = "", stagger = 0.08, once = true, amount = 0.2 }) {
+export function RevealGroup({ children, className = "", stagger = 0.08, once = true, amount = 0.2, mount = false }) {
+  const trigger = mount ? { animate: "show" } : { whileInView: "show", viewport: { once, amount } };
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once, amount }}
-      transition={{ staggerChildren: stagger }}
-      className={className}
-    >
+    <motion.div initial="hidden" {...trigger} transition={{ staggerChildren: stagger }} className={className}>
       {children}
     </motion.div>
   );

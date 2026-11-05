@@ -196,6 +196,7 @@ export async function createOrder(req, res) {
 
   const order = await Order.create({
     orderNumber: generateOrderNumber(),
+    user: req.user._id,
     customer,
     items,
     subtotal,
@@ -215,6 +216,11 @@ export async function trackOrder(req, res) {
   if (!order) return res.status(404).json({ message: "No order found with that number and phone" });
 
   res.json(order);
+}
+
+export async function myOrders(req, res) {
+  const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+  res.json(orders);
 }
 
 export async function submitInquiry(req, res) {

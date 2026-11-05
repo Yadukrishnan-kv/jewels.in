@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext.jsx";
 import { useToast } from "../../context/ToastContext.jsx";
-import { api, imageUrl } from "../../api/client.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { userApi, imageUrl } from "../../api/client.js";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 import Breadcrumb from "../../components/site/Breadcrumb.jsx";
 import Reveal from "../../components/site/Reveal.jsx";
@@ -52,8 +53,14 @@ export default function CheckoutPage() {
   const { settings } = useSiteData();
   const { items, subtotal, clearCart } = useCart();
   const { showToast } = useToast();
+  const { user, token } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm] = useState(() => ({
+    ...EMPTY_FORM,
+    name: user?.name || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+  }));
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -90,7 +97,7 @@ export default function CheckoutPage() {
           qty: i.qty,
         })),
       };
-      const { order, whatsappNumber } = await api.post("/orders", payload);
+      const { order, whatsappNumber } = await userApi.post("/orders", payload, token);
 
       const siteName = settings.siteName || "Store";
       const itemLines = items

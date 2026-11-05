@@ -33,6 +33,13 @@ export const api = {
   del: (path) => request(path, { method: "DELETE" }),
 };
 
+export const userApi = {
+  get: (path, token) => request(path, { token }),
+  post: (path, body, token) => request(path, { method: "POST", body, token }),
+  put: (path, body, token) => request(path, { method: "PUT", body, token }),
+  del: (path, token) => request(path, { method: "DELETE", token }),
+};
+
 export const adminApi = {
   get: (path, token) => request(`/admin${path}`, { token }),
   post: (path, body, token) => request(`/admin${path}`, { method: "POST", body, token }),

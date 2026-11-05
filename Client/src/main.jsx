@@ -6,6 +6,7 @@ import { CartProvider } from "./context/CartContext.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import { AdminAuthProvider } from "./context/AdminAuthContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 import { SiteDataProvider } from "./context/SiteDataContext.jsx";
 import { ConfirmProvider } from "./components/admin/ConfirmDialog.jsx";
 import "./styles/index.css";
@@ -16,13 +17,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ToastProvider>
         <ConfirmProvider>
           <AdminAuthProvider>
-            <SiteDataProvider>
-              <CartProvider>
-                <WishlistProvider>
-                  <App />
-                </WishlistProvider>
-              </CartProvider>
-            </SiteDataProvider>
+            <AuthProvider>
+              <SiteDataProvider>
+                <CartProvider>
+                  <WishlistProvider>
+                    <App />
+                  </WishlistProvider>
+                </CartProvider>
+              </SiteDataProvider>
+            </AuthProvider>
           </AdminAuthProvider>
         </ConfirmProvider>
       </ToastProvider>

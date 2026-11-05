@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useSiteData } from "../../context/SiteDataContext.jsx";
 import { useCart } from "../../context/CartContext.jsx";
 import { useWishlist } from "../../context/WishlistContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 import { imageUrl } from "../../api/client.js";
 import MobileMenu from "./MobileMenu.jsx";
 import SearchPanel from "./SearchPanel.jsx";
@@ -12,7 +13,7 @@ const STATIC_LINKS = [
   { label: "New Arrivals", to: "/search" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contactus" },
-  { label: "Track", to: "/track" },
+  { label: "My Orders", to: "/track" },
 ];
 
 function CountBadge({ count }) {
@@ -52,6 +53,7 @@ export default function Header() {
   const { categories, settings } = useSiteData();
   const { count: cartCount } = useCart();
   const { count: wishCount } = useWishlist();
+  const { user } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -169,6 +171,13 @@ export default function Header() {
               <Link to="/cart" className="icon-btn text-[0.95rem] w-10 h-10" aria-label="Cart">
                 <i className="fa-solid fa-bag-shopping transition-transform duration-300 hover:scale-110" />
                 <CountBadge count={cartCount} />
+              </Link>
+              <Link
+                to={user ? "/account" : "/login"}
+                className="icon-btn text-[0.95rem] w-10 h-10"
+                aria-label={user ? "My account" : "Login"}
+              >
+                <i className="fa-regular fa-user transition-transform duration-300 hover:scale-110" />
               </Link>
             </div>
           </div>
